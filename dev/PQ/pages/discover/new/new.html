@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+		<title>新手任务</title>
+		<script src="/PQ/static/js/flexible.js"></script>
+		<script src="/PQ/static/js/mui.js"></script>
+		<link href="/PQ/static/css/mui.min.css" rel="stylesheet">
+		<link href="/PQ/static/js/layui/css/layui.css" rel="stylesheet">
+	</head>
+	<body class="layer-mask">
+		<div id="new" class="header-content" v-cloak>
+			<header class="header-nav mui-bar mui-bar-nav">
+				<a class="header-right-icon mui-pull-left" @tap="back">
+					<img class="header-icon" src="/PQ/static/img/discover/back.png" alt="">
+				</a>
+				<h1 class="mui-title">
+					新手任务
+				</h1>
+				<a class="header-right-icon mui-pull-right" @tap="showService">
+					<img class="header-icon" src="/PQ/static/img/custom.png" alt="">
+				</a>
+			</header>
+
+			<div class="new-head">
+				<img src="/PQ/static/img/discover/gift_bg.png" alt="">
+			</div>
+ 
+			<div class="new-box">
+				<div class="new-title">
+					<span>新手大礼包</span>
+				</div>
+				<div v-if="i.activeStatus == '020'" v-for="(i,k) in activityList" class="new-item" :key="k">
+					<div>
+						<img :src="'/PQ/static/img/discover/gift'+(k+1)+'.png'" alt="">
+						<span>{{i.activityName}}</span>
+					</div>
+					<label @tap="goComplete(i)" :class="i.complatedStatus == '010'?'not':i.received == '010' ? 'not':''">{{i.complatedStatus == '010'?'去完成':i.complatedStatus == '030'?'无法完成':i.received == '010'?'去领取':'已完成'}}</label>
+				</div>
+			</div>
+			<div id="wxLayer" class="layer-box">
+				<div class="layer-header">请任意选择一种添加微信</div>
+				<div class="layer-content">
+					<div class="wx-add">
+						<span class="title">1、扫描二维码</span>
+						<img :src="wxPic">
+						<span class="notice">*请截屏后在微信中扫描二维码</span>
+						<span class="title">2、复制微信号</span>
+						<input :value="wxUrl" id="wxUrl" readonly="readonly">
+						<label @tap="openWX" class="open-wx">复制并打开微信</label>
+					</div>
+				</div>
+				<div class="layer-btn">
+					<span @tap="hideWX">取消</span>
+				</div>
+			</div>
+			<div id="customLayer" class="layer-box">
+				<div @tap="customService(i)" class="custom-item" v-for="(i,k) in customContact">
+					<img :src="i.imgUrl">
+					<span>{{i.customerName}}</span>
+				</div>
+			</div>
+		</div>
+		<script src="/PQ/static/js/jquery-1.11.3.js"></script>
+		<!-- 压缩版vue -->
+		<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+		<!-- 开发版vue -->
+		<script src="/PQ/static/js/vue.js"></script>
+		<!-- 引入vux -->
+		<script src="/PQ/static/js/vuex.js"></script>
+		<!-- 引入axios -->
+		<script src="/PQ/static/js/axios.min.js"></script>
+		<script src="/PQ/static/js/layui/layui.js"></script>
+		<!-- <script src="/PQ/WPJS/newWP.js"></script> -->
+
+		<script>
+			mui.init();
+		</script>
+	<script type="text/javascript" src="/PQ/WPJS/newWP.js?88fa20424cec03a75413"></script></body>
+</html>

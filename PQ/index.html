@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+        <title></title>
+		<script src="/PQ/static/js/flexible.js"></script>
+		<script src="/PQ/static/js/mui.js"></script>
+		<link href="/PQ/static/css/mui.min.css" rel="stylesheet"/>
+        <script>
+            window.location.href='/PQ/pages/home/home.html';
+            if(localStorage.getItem('isFirst')&&localStorage.getItem('isFirst') == 0){
+            }else{
+
+            }
+        </script>
+    </head>
+<body>
+    <div id="app">
+        <div id="slide" class="mui-slider" >
+            <div class="mui-slider-group">
+                <!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+                <!-- <div class="mui-slider-item mui-slider-item-duplicate">
+                    <img :src="imgHttp+bannerList[bannerList.length-1].imgUrl">
+                </div> -->
+                <!-- 第一张 -->
+                <div @tap="goToHome" class="mui-slider-item" v-for="(item,index) in bannerList" :key="index">
+                    <img :src="imgHttp+item.imgUrl">
+                </div>
+                <!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+                <!-- <div class="mui-slider-item mui-slider-item-duplicate">
+                    <img :src="imgHttp+bannerList[0].imgUrl">
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <!-- 压缩版vue -->
+    <!-- <script src="/PQ/static/js/vue.min.js"></script> -->
+    <!-- 开发版vue -->
+    <script src="/PQ/static/js/vue.js"></script>
+    <!-- 引入axios -->
+    <script src="/PQ/static/js/axios.min.js"></script>
+    <script src="/PQ/static/js/mui.min.js"></script>
+</body>
+</html>

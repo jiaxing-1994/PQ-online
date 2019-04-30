@@ -1,0 +1,371 @@
+@import '../../../css/common.scss';
+#conditionOrder{
+	height: 100%;
+	background: $itemColor;
+	#condition-header{
+		.mui-title{
+			@include font-dpr(18px);
+		}
+	}
+	.top-tap{
+		display: flex;
+		background: $mainColor;
+		border-bottom: solid px2rem(1px) $itemColor;
+		@include font-dpr(16px);
+		.tap-item{
+			flex: 1;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: px2rem(80px);
+			color: $grayFontColor;
+		}
+		.tap-item-active{
+			color:$defaultFontColor;
+			position: relative;
+		}
+		.tap-item-active:after{
+			content:'';
+			position: absolute;
+			bottom: 0;
+			left: 50%;
+			transform: translateX(-50%);
+			height:px2rem(6px);
+			width: px2rem(36px);
+			background: $activeColor;
+		}
+	}
+	.list-box{
+		display: flex;
+		@include font-dpr(14px);
+		height: px2rem(60px);
+		align-items: center;
+		span{
+			display: inline-block;
+			text-align: left;
+			// white-space: nowrap;
+		}
+	}
+	.list-title{
+		background: $mainColor;
+		color: $fontGrayColor;
+		align-items: center;
+		border-bottom: solid px2rem(1px) $itemColor;
+	}
+	.condition-item{
+		max-height: calc(100% - #{px2rem(80px)} - #{px2rem(80px)});
+		.title-scroll{
+			top: px2rem(181px);
+			height: px2rem(60px);
+			background: $mainColor;
+			.mui-scroll{
+				width: initial;
+				padding: $padding;
+			}
+		}
+		.list-scroll{
+			top: px2rem(241px);
+			height: calc(100% - #{px2rem(100px)} - #{px2rem(80px)} - #{px2rem(60px)} - #{px2rem(240px)});
+			.mui-scroll{
+				width: initial;
+			}
+			.list-item{
+				padding: $padding;
+				height: px2rem(80px);
+				background: $mainColor;
+				border-bottom: solid px2rem(1px) $itemColor;
+				color:$defaultFontColor;
+			}
+			.list-item-active{
+				background: $orderSelectColor;
+			}
+			.option-item{
+				height: px2rem(80px);
+				background: $itemColor;
+				display: flex;
+				position: relative;
+				.option-wrap{
+					width: 100%;
+					height: 100%;
+					display: flex;
+					justify-content: center;
+					padding:px2rem(10px) px2rem(50px);
+					span{
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						background: $mainColor;
+						height: 100%;
+						width: px2rem(130px);
+						border-radius: px2rem(10px);
+						margin:0 px2rem(5px);
+						
+					}
+				}
+			}
+		}
+		.list-item1{
+			width: px2rem(132px);
+		}
+		.list-item2{
+			width: px2rem(112px);
+		}
+		.list-item3{
+			width: px2rem(143px);
+		}
+		.list-item4{
+			width: px2rem(260px);
+		}
+		.list-item5{
+			width: px2rem(188px);
+		}
+		.list-item6{
+			width: px2rem(180px);
+		}
+		.list-item7{
+			width: px2rem(108px);
+		}
+		.list-item8{
+			width: px2rem(150px);
+			@include font-dpr(12px);
+		}
+		.list-item-time{
+			@include font-dpr(14px);
+		}
+	}
+	
+	.condition-item2{
+		height: calc(100% - #{px2rem(80px)});
+		.list-scroll{
+			height: calc(100% - #{px2rem(100px)} - #{px2rem(80px)} - #{px2rem(80px)});
+		}
+		.list-item1{
+			width: px2rem(132px);
+		}
+		.list-item2{
+			width: px2rem(112px);
+		}
+		.list-item3{
+			width: px2rem(112px);
+		}
+		.list-item4{
+			width: px2rem(143px);
+		}
+		.list-item5{
+			width: px2rem(80px);
+		}
+		.list-item6{
+			width: px2rem(260px);
+		}
+		.list-item7{
+			width: px2rem(188px);
+		}
+		.list-item8{
+			width: px2rem(108px);
+		}
+		.list-item9{
+			width: px2rem(135px);
+			@include font-dpr(12px);
+		}
+		.list-item-time{
+			@include font-dpr(14px);
+		}
+	}
+	.condition-info{
+		position: fixed;
+		bottom: 0;
+		height: px2rem(240px);
+		width: 100%;
+		display: flex;
+		padding: $padding;
+		justify-content: flex-start;
+		align-items: center;
+		@include font-dpr(13px);
+		.info-title{
+			color:$noticeColor;
+		}
+		.info-item{
+			color:$grayFontColor;
+		}
+	}
+}
+
+.mui-popover{
+	z-index: 19891023;
+	border-radius: 0;
+	height: px2rem(600px);
+	background-color: $itemColor!important;
+	.mui-scroll-wrapper{
+		height: 100%;
+		margin: 0;
+	}
+	.popover-item{
+		background: $itemColor;
+		height: px2rem(80px);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: $defaultFontColor;
+		border-bottom:solid px2rem(1px) $mainColor;
+	}
+}
+.mui-backdrop{
+	z-index: 19891022;
+}
+.mui-poppicker{
+	z-index: 19891023;
+}
+#modifyConditionLayer{
+	.layer-tab-item{
+		height: 100%;
+	}
+}
+.conditionLayer{
+	.tab-item{
+		height: px2rem(80px)!important;
+		.item-flex{
+			padding: px2rem(5px) px2rem(10px);
+			.option-box{
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: px2rem(100px);
+				height: 90%;
+				background: $itemColor!important;
+				border-radius: 5px;
+				position: relative;
+				text-align: center;
+				margin-right: px2rem(10px)!important;
+				select{
+					background: inherit;
+					width: 100%;
+					text-align: center;
+					text-align-last: center;
+				}
+				select:after {
+					content: '';
+					width: 100%;
+					display: inline-block;
+				}
+			}
+			.triangle{
+				position: relative;
+			}
+			.triangle::before{
+				content:'';
+				position: absolute;
+				bottom: 0;
+				right: 0;
+				border: solid px2rem(10px) rgba(0,0,0,0);
+				border-top-color: $fontGrayColor;
+				transform: rotate(-45deg);
+			}
+			.no-background{
+				background: none!important;
+			}
+			input{
+				@include font-dpr(14px);
+			}
+		}
+		.item-between{
+			justify-content: flex-start!important;
+		}
+	}
+}
+.layer-box{
+	.layer-tabs{
+		display: block;
+		padding: 0 0;
+		height: calc(100% - #{px2rem(100px)});
+		.layer-header-tab{
+			color: $fontGrayColor;
+			height: px2rem(100px);
+			display: flex;
+			align-items: stretch;
+			border-bottom: solid px2rem(1px) $itemColor;
+			@include font-dpr(16px);
+			font-weight: bold;
+			span{
+				flex: 1;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+		}
+		.layer-header-tab-active{
+			color:$defaultFontColor;
+			position: relative;
+		}
+		.layer-header-tab-active::before{
+			content:'';
+			position: absolute;
+			bottom: px2rem(10px);
+			width: px2rem(35px);
+			height: px2rem(6px);
+			background: $activeColor;
+		}
+		.layer-tab-item{
+			height: calc(100% - #{px2rem(100px)});
+			.tab-item{
+				display: flex;
+				height: 33.3333333333%;
+				border-bottom: solid px2rem(1px) $itemColor;
+				.border-right{
+					width: px2rem(90px);
+					border-right: solid px2rem(1px) $itemColor;
+				}
+				.item-flex{
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+				.no-border{
+					border-bottom:none;
+				}
+				.item-flex-right{
+					display: flex;
+					justify-content: space-around;
+				}
+				.item-flex-1{
+					flex: 1;
+				}
+				.item-flex-2{
+					flex: 2;
+				}
+				.item-flex-3{
+					flex:3;
+				}
+				.item-flex-4{
+					flex:4;
+				}
+				.item-flex-5{
+					flex: 5;
+				}
+				.input-wrap{
+					width: px2rem(150px);
+					height: 90%;
+					background: #1b1b26!important;
+					border-radius: 2.7174px;
+					border: px2rem(1px) solid #14151d!important;
+					margin: 0!important;
+					@include font-dpr(14px);
+					text-align: center; 
+					padding-top: 0;
+					padding-bottom: 0;
+				}
+				.margin-right{
+					margin-right:px2rem(20px)!important;
+				}
+				.price-box{
+					justify-content: space-around!important;
+					.option-box{
+						margin: 0!important;
+					}
+					.price-box-value{
+						width: px2rem(134px);
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,84 @@
+@import '../../../css/common.scss';
+
+#guide{
+	height: 100%;
+	background: $itemColor;
+	#main{
+		position: relative;
+		.mui-scroll-wrapper{
+			top: px2rem(100px);
+		}
+		.guide-title{
+			background: $mainColor;
+			height: px2rem(100px);
+			border-bottom: solid px2rem(1px) $itemColor;
+			display: flex;
+			align-items: center;
+			position: relative;
+			padding: $padding;
+			@include font-dpr(15px);
+		}
+		.title-blue{
+			width: px2rem(6px);
+			height: px2rem(20px);
+			background: $activeColor;
+			margin-right: px2rem(10px);
+		}
+		.step-wrap{
+			height: px2rem(160px);
+			background: $mainColor;
+			padding: $padding;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			@include font-dpr(12px);
+			color: $defaultFontColor;
+			margin-bottom: px2rem(20px);
+			img{
+				width: 100%;
+				margin-bottom: px2rem(20px);
+			}
+			.step-text{
+				display: flex;
+				justify-content: space-around;
+			}
+		}
+		.guide-content{
+			padding: $padding;
+			background: $mainColor;
+			padding-top: px2rem(60px);
+			.guide-item{
+				margin-bottom: px2rem(60px);
+				display: flex;
+				flex-direction: column;
+				@include font-dpr(14px);
+				img{
+					width: 100%;
+				}
+				.item-title{
+					font-weight: bold;
+					@include font-dpr(16px);
+					margin-bottom: px2rem(30px);
+				}
+				.item-text{
+					margin-bottom: px2rem(20px);
+				}
+			}
+			.tips{
+				color: $fontGrayColor;
+				@include font-dpr(13px);
+				text-align: center;
+			}
+			.btn{
+				width: 100%;
+				height: px2rem(80px);
+				@include font-dpr(18px);
+				color: $lightFontColor;
+				background: $activeColor;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+		}
+	}
+}

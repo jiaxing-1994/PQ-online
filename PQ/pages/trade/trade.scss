@@ -1,0 +1,75 @@
+@import '../../css/common.scss';
+#trade{
+	height: 100%;
+	background: $itemColor;
+	.header-nav{
+		border-bottom: none;
+	}
+	.step-wrap{
+		height: px2rem(160px);
+		background: $mainColor;
+		padding: $padding;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		@include font-dpr(12px);
+		color: $defaultFontColor;
+		margin-bottom: px2rem(20px);
+		img{
+			width: 100%;
+			margin-bottom: px2rem(20px);
+		}
+		.step-text{
+			display: flex;
+			justify-content: space-around;
+		}
+	}
+	.info-list{
+		background: $mainColor;
+		padding: $padding;
+		padding-top: px2rem(15px);
+		padding-bottom: px2rem(15px); 
+		.info-item{
+			display: flex;
+			padding: px2rem(15px) 0;
+			img{
+				width: px2rem(100px);
+				height: px2rem(100px);
+				margin-right: px2rem(30px);
+			}
+			.info-text{
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				.info-text-title{
+					color: $defaultFontColor;
+					font-weight: bold;
+					@include font-dpr(16px);
+					height: 50%;
+				}
+				.info-text-decs{
+					color: $grayFontColor;
+					@include font-dpr(14px);
+				}
+			}
+		}
+	}
+	.option-btn{
+		padding: px2rem(30px);
+		.btn-item{
+			widows: 100%;
+			height: px2rem(80px);
+			line-height: px2rem(80px);
+			text-align: center;
+			@include font-dpr(18px);
+			background: $mainColor;
+			color: $defaultFontColor;
+			
+		}
+		.btn-item-blue{
+			color: $mainColor;
+			background: $activeColor;
+			margin-bottom: px2rem(30px);
+		}
+	}
+}

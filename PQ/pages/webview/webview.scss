@@ -1,0 +1,14 @@
+@import '../../css/common.scss';
+#webview{
+	height: 100%;
+	.online-customer{
+		height: 100%;
+		width: 100%;
+	}
+	#iframeBox{
+		margin: 0;
+		padding: 0;
+		height: 100%;
+		width: 100%;
+	}
+}

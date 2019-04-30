@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <title>我的</title>
+    <script src="/PQ/static/js/flexible.js"></script>
+    <script src="/PQ/static/js/mui.js"></script>
+    <link href="/PQ/static/css/mui.min.css" rel="stylesheet">
+    <link href="/PQ/static/js/layui/css/layui.css">
+</head>
+<body class="layer-mask">
+<div id="my" v-cloak>
+    <header class="header-nav mui-bar mui-bar-nav">
+        <h1 class="mui-title">我的</h1>
+        <a class="header-right-icon mui-pull-right" @tap="showService">
+            <img class="header-icon" src="/PQ/static/img/custom.png" alt="">
+        </a>
+    </header>
+    <div id="my-content" class="both-content">
+        <div class="mui-scroll-wrapper">
+            <div class="mui-scroll">
+                <div class="my-head">
+                    <div>
+                        <img :src="userInfo.photoUrl" alt="">
+                        <p v-if="isLogin">
+                            <label>欢迎您</label>
+                            <label>{{userInfo.mobile.substr(0, 3)}}****{{ userInfo.mobile.substr(7, 11)}}</label>
+                        </p>
+                        <p v-else>
+                            <label class="not-login">您尚未登录，无法使用更多功能</label>
+                        </p>
+                        <img @tap="sign" class="login-sign" v-if="isLogin && (userInfo.signIn == '010')" src="/PQ/static/img/my/sign.png" alt="">
+                        <img v-if="isLogin && (userInfo.signIn == '020')" class="login-sign" src="/PQ/static/img/my/signed.png" alt="">
+                    </div>
+                </div>
+                <div class="my-info">
+                    <p>账户余额&nbsp;&nbsp;<img @tap="showBalanceNote" src="/PQ/static/img/discover/help_y.png" alt=""></p>
+                    <p v-if="isSuccess"><label>{{userInfo.balance}}</label><span>元</span></p>
+					<u @tap="getUserInfo" v-else>获取失败，点击重新获取</u>
+                </div>
+                <div v-if="isLogin" class="my-btn">
+                    <div @tap="goPage('/PQ/pages/my/cash/cash.html')">提现/出金</div>
+                    <div @tap="goPage('/PQ/pages/my/recharge/recharge.html')">充值/入金</div>
+                </div>
+                <div v-else class="my-btn">
+                    <div @tap="btnCallback(1)">登录</div>
+                    <div @tap="btnCallback(2)">开户</div>
+                </div>
+                <div class="my-action">
+                    <div @tap="goPage('/PQ/pages/quato/capitalRecord/capitalRecord.html')" v-if="isLogin" class="action-item">
+                        <div>
+                            <img src="/PQ/static/img/my/money.png" alt="">
+                            <span>资金明细</span>
+                        </div>
+                        <div>
+                            <img src="/PQ/static/img/forward.png" alt="">
+                        </div>
+                    </div>
+                    <div v-if="isLogin" class="action-item" @tap="goPage('/PQ/pages/quato/history/history.html')">
+                        <div>
+                            <img src="/PQ/static/img/my/record.png" alt="">
+                            <span>历史成交</span>
+                        </div>
+                        <div>
+                            <img src="/PQ/static/img/forward.png" alt="">
+                        </div>
+                    </div>
+                    <div v-if="isLogin" class="action-item" @tap="goPage('/PQ/pages/my/red/red.html')">
+                        <div>
+                            <img src="/PQ/static/img/my/red.png" alt="">
+                            <span>我的红包</span>
+                        </div>
+                        <div>
+                            <img src="/PQ/static/img/forward.png" alt="">
+                        </div>
+                    </div>
+                    <div v-if="isLogin" class="action-item" @tap="goPage('/PQ/pages/discover/new/new.html')">
+                        <div>
+                            <img src="/PQ/static/img/my/gift.png" alt="">
+                            <span>领红包任务</span>
+                        </div>
+                        <div>
+                            <img src="/PQ/static/img/forward.png" alt="">
+                        </div>
+                    </div>
+                    <div v-if="isLogin" class="action-item" @tap="bankPage">
+                        <div>
+                            <img src="/PQ/static/img/my/bank.png" alt="">
+                            <span>绑定银行卡</span>
+                        </div>
+                        <div>
+                            <label>{{userInfo.isAuth == '020'?'已实名':'需实名'}}</label>
+                            <img src="/PQ/static/img/forward.png" alt="">
+                        </div>
+                    </div>
+                    <div v-if="isLogin" class="action-item" @tap="goPage('/PQ/pages/my/setting/setting.html')">
+                        <div>
+                            <img src="/PQ/static/img/my/safe.png" alt="">
+                            <span>安全设置</span>
+                        </div>
+                        <div>
+                            <img src="/PQ/static/img/forward.png" alt="">
+                        </div>
+                    </div>
+                    <div class="action-item">
+                        <div>
+                            <img src="/PQ/static/img/my/version.png" alt="">
+                            <span>版本号</span>
+                        </div>
+                        <div>
+                            <label>V1.20</label>
+                            <img src="/PQ/static/img/forward.png" alt="">
+                        </div>
+                    </div>
+                    <div v-if="isLogin" @tap="btnCallback(3)" class="login-out">退出登录</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="customBalance" class="layer-box">
+        <img @tap="hideDialog" class="close-icon" src="/PQ/static/img/layerClose.png">
+        <div class="layer-header">说明</div>
+        <div class="layer-content">
+            账户余额：当前账户除去持仓所占用的保证金和盈亏外的资金，相当于您的可用现金，可用于新开仓或提现。
+        </div>
+        <div class="layer-btn">
+            <span @tap="hideDialog">知道了</span>
+        </div>
+    </div>
+    <div id="wxLayer" class="layer-box">
+        <div class="layer-header">请任意选择一种添加微信</div>
+        <div class="layer-content">
+            <div class="wx-add">
+                <span class="title">1、扫描二维码</span>
+                <img :src="wxPic">
+                <span class="notice">*请截屏后在微信中扫描二维码</span>
+                <span class="title">2、复制微信号</span>
+                <input :value="wxUrl" id="wxUrl" readonly="readonly">
+                <label @tap="openWX" class="open-wx">复制并打开微信</label>
+            </div>
+        </div>
+        <div class="layer-btn">
+            <span @tap="hideWX">取消</span>
+        </div>
+    </div>
+    <div id="customLayer" class="layer-box">
+        <div @tap="customService(i)" class="custom-item" v-for="(i,k) in customContact">
+            <img :src="i.imgUrl">
+            <span>{{i.customerName}}</span>
+        </div>
+    </div>
+    <nav class="bottom-tab-nav mui-bar mui-bar-tab">
+        <a id="defaultTab" class="mui-tab-item" style="padding: 0 !important;" href="/PQ/pages/home/home.html">
+            <img class="tab-icon" src="/PQ/static/img/tab/01.png" alt="">
+            <span class="mui-tab-label">首页</span>
+        </a>
+        <a class="mui-tab-item" href="/PQ/pages/quato/quato.html">
+            <img class="tab-icon" src="/PQ/static/img/tab/02.png" alt="">
+            <span class="mui-tab-label">行情</span>
+        </a>
+        <a class="mui-tab-item" href="/PQ/pages/trade/trade.html">
+            <img class="tab-icon" src="/PQ/static/img/tab/03.png" alt="">
+            <span class="mui-tab-label">交易</span>
+        </a>
+        <a class="mui-tab-item" href="/PQ/pages/discover/discover.html">
+            <img class="tab-icon" src="/PQ/static/img/tab/04.png" alt="">
+            <span class="mui-tab-label">发现</span>
+        </a>
+        <a class="mui-tab-item mui-active1">
+            <img class="tab-icon" src="/PQ/static/img/tab/05y.png" alt="">
+            <span class="mui-tab-label">我的</span>
+        </a>
+    </nav>
+</div>
+<!-- jquery -->
+<script src="/PQ/static/js/jquery-1.11.3.js"></script>
+<!-- 压缩版vue -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+<!-- 开发版vue -->
+<script src="/PQ/static/js/vue.js"></script>
+<!-- 引入vux -->
+<script src="/PQ/static/js/vuex.js"></script>
+<!-- 引入axios -->
+<script src="/PQ/static/js/axios.min.js"></script>
+<script src="/PQ/js/moment.js"></script>
+<!-- layui -->
+<script src="/PQ/static/js/layui/layui.js"></script>
+<!-- <script src="/PQ/WPJS/myWP.js"></script> -->
+<script type="text/javascript" src="/PQ/WPJS/myWP.js?88fa20424cec03a75413"></script></body>
+</html>

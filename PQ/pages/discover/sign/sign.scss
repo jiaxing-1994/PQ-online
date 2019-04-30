@@ -1,0 +1,318 @@
+@import "../../../css/common.scss";
+
+#sign {
+  .sign-content {
+    position: relative;
+    height: 100%;
+    background-color: $itemColor;
+
+    #calendar {
+      width: 100%;
+      color: $mainColor;
+      background-color: $mainColor;
+      padding-bottom: px2rem(40px);
+
+      .calendar-title {
+        text-align: center;
+        background: $mainColor;
+        height: px2rem(80px);
+        line-height: px2rem(80px);
+        @include font-dpr(20px);
+        color: $defaultFontColor;
+        position: relative;
+        z-index: 999;
+        box-shadow: 0 px2rem(6px) px2rem(6px) $grayColor;
+      }
+
+      .calendar-week {
+        display: flex;
+        background: $itemColor;
+        height: px2rem(60px);
+        @include font-dpr(13px);
+
+        .calendar-week-item {
+          height: 100%;
+          flex: 1;
+          color: $defaultFontColor;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+
+      .calendar-day {
+        display: flex;
+        flex-wrap: wrap;
+        background: #fff;
+        position: relative;
+        z-index: 998;
+        color: #333;
+      }
+
+      .calendar-today {
+        position: relative;
+      }
+
+      .calendar-item {
+        width: 14.285%;
+        height: px2rem(120px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .calendar-item-day {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+
+          .calendar-value {
+            line-height: px2rem(30px);
+            color: $defaultFontColor;
+            @include font-dpr(16px);
+          }
+
+          .calendar-china-value {
+            font-weight: normal;
+            @include font-dpr(10px);
+            color: #9b9b9b;
+          }
+        }
+
+        .calendar-other-item {
+          .calendar-value {
+            color: #b1b2b2;
+            @include font-dpr(16px);
+          }
+        }
+
+        .calendar-mark {
+          background: #FCF6D7;
+        }
+
+        .calendar-choose-day {
+          background: #FCF6D7;
+        }
+
+        .calendar-today-mark {
+          background: #FCE365;
+        }
+      }
+    }
+
+    .sign-action {
+      background-color: $mainColor;
+      padding: px2rem(30px);
+      border-top: px2rem(2px) solid $itemColor;
+
+      .sign-gift {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: px2rem(20px);
+
+        > img {
+          width: px2rem(40px);
+          height: px2rem(40px);
+        }
+
+        label {
+          span {
+            color: $grayFontColor;
+            @include font-dpr(14px);
+            margin-right: px2rem(20px);
+          }
+
+          img {
+            width: px2rem(15px);
+            height: px2rem(20px);
+          }
+        }
+
+      }
+
+      .sign-btn {
+        width: 100%;
+        color: white;
+        @include font-dpr(18px);
+        text-align: center;
+        line-height: px2rem(80px);
+        height: px2rem(80px);
+        background-color: #FF7E00;
+      }
+
+      .signed {
+        width: 100%;
+        color: #696666;
+        @include font-dpr(18px);
+        text-align: center;
+        line-height: px2rem(80px);
+        height: px2rem(80px);
+        background-color: $itemColor;
+      }
+
+    }
+
+    .sign-activity {
+      margin: px2rem(30px);
+      background-color: $mainColor;
+      border-radius: px2rem(5px);
+      padding: px2rem(20px) px2rem(30px);
+
+      p {
+        color: $defaultFontColor;
+        @include font-dpr(13px);
+      }
+
+      div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        label {
+          padding-top: px2rem(20px);
+          color: $grayFontColor;
+        }
+
+        label:last-child {
+          span:last-child {
+            color: #ff5959;
+          }
+        }
+
+      }
+
+    }
+
+    .sign-rule {
+      margin: px2rem(30px);
+      background-color: $mainColor;
+      border-radius: px2rem(5px);
+      padding: px2rem(20px) px2rem(30px);
+
+      p:first-child {
+        color: $defaultFontColor;
+        @include font-dpr(13px);
+      }
+
+      p:last-child {
+        line-height: px2rem(40px);
+        @include font-dpr(13px);
+      }
+    }
+
+  }
+
+  #signRecord {
+    display: none;
+    position: relative;
+    width: px2rem(600px);
+    height: px2rem(830px);
+    z-index: 99999;
+    background-color: $mainColor;
+    border-radius: px2rem(10px);
+
+    .sign-record-header {
+      display: flex;
+      height: px2rem(100px);
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: px2rem(2px) solid $itemColor;
+
+      span {
+        flex: 1;
+        display: flex;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        @include font-dpr(16px);
+        color: $grayFontColor;
+        position: relative;
+        padding: px2rem(20px) 0;
+      }
+
+      span.active {
+        color: $defaultFontColor;
+      }
+
+      span.active:after {
+        left: 50%;
+        margin-left: px2rem(-10px);
+        position: absolute;
+        content: "";
+        width: px2rem(20px);
+        height: px2rem(6px);
+        background-color: $activeColor;
+        bottom: 0;
+      }
+    }
+
+    .sign-record-content {
+      flex: 1;
+      position: relative;
+      padding: px2rem(30px) 0;
+      height: calc(100% - #{px2rem(100px)} - #{px2rem(100px)});
+
+      .mui-scroll-wrapper {
+        height: px2rem(540px);
+      }
+
+      .sign-recode-item {
+        margin: px2rem(30px) px2rem(30px) 0 px2rem(30px);
+        background: url("/PQ/static/img/discover/cash.png") no-repeat;
+        background-size: 100% 100%;
+        height: px2rem(150px);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        > span {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: $mainColor;
+          @include font-dpr(13px);
+
+          span {
+            @include font-dpr(30px);
+          }
+        }
+      }
+
+      .sign-recode-item.used{
+        background: url("/PQ/static/img/discover/used.png") no-repeat;
+        background-size: 100% 100%;
+      }
+
+      .sign-record-item.fee{
+        background: url("/PQ/static/img/discover/fee.png") no-repeat;
+        background-size: 100% 100%;
+      }
+
+      .sign-record-use {
+        position: absolute;
+        margin: px2rem(30px);
+        bottom: 0;
+        right: 0;
+        color: $fontGrayColor;
+
+        span {
+          color: $defaultFontColor;
+        }
+      }
+    }
+
+    .sign-record-cancel {
+      display: block;
+      height: px2rem(100px);
+      text-align: center;
+      line-height: px2rem(100px);
+      color: $activeColor;
+      border-top: px2rem(2px) solid $itemColor;
+      @include font-dpr(13px)
+    }
+  }
+}

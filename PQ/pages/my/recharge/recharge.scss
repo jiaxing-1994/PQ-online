@@ -1,0 +1,556 @@
+@import "../../../css/common.scss";
+
+* {
+  touch-action: pan-x;
+}
+
+#recharge {
+
+  .recharge-content {
+    position: relative;
+    height: 100%;
+
+    > .mui-scroll-wrapper {
+      height: 100%;
+      padding-bottom: px2rem(100px);
+
+      .balance {
+        display: flex;
+        height: px2rem(100px);
+        padding: 0 px2rem(30px);
+        background-color: $mainColor;
+        border-bottom: px2rem(2px) solid $itemColor;
+        align-items: center;
+        justify-content: space-between;
+
+        label:first-child {
+          color: $fontGrayColor;
+          @include font-dpr(15px);
+        }
+
+        label:last-child {
+          color: $defaultFontColor;
+          @include font-dpr(18px);
+
+          span {
+            color: $grayFontColor;
+            @include font-dpr(14px);
+          }
+        }
+      }
+
+      .recharge-input {
+        height: px2rem(130px);
+        padding: 0 px2rem(30px);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: $mainColor;
+        border-bottom: px2rem(2px) solid $itemColor;
+
+        div:first-child {
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          flex-direction: column;
+
+          label:first-child {
+            color: $fontGrayColor;
+            @include font-dpr(15px);
+          }
+
+          span {
+            color: $noticeColor;
+          }
+        }
+
+        div:last-child {
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          flex-direction: column;
+
+          label {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+
+            input {
+              width: px2rem(200px);
+              text-align: center;
+              height: auto;
+              @include font-dpr(13px);
+              color: $defaultFontColor;
+            }
+
+            span {
+              color: $defaultFontColor;
+            }
+          }
+
+          span {
+            //display: block;
+            //height: px2rem(40px);
+            text-align: right;
+            color: $fontGrayColor;
+            @include font-dpr(13px);
+          }
+        }
+      }
+
+      .money-list {
+        padding-left: px2rem(30px);
+        clear: both;
+        height: 100%;
+        flex-wrap: wrap;
+        display: flex;
+
+        li {
+          width: px2rem(150px);
+          height: px2rem(80px);
+          text-align: center;
+          line-height: px2rem(80px);
+          background-color: $mainColor;
+          color: $defaultFontColor;
+          margin-right: px2rem(30px);
+          margin-top: px2rem(30px);
+          @include font-dpr(14px);
+          position: relative;
+        }
+
+        li:after {
+          width: px2rem(25px);
+          height: px2rem(25px);
+          content: "";
+          background: url("/PQ/static/img/my/recharge_select.png") no-repeat;
+          background-size: 100% 100%;
+          position: absolute;
+          bottom: 0;
+          right: 0;
+        }
+
+        li.active {
+          color: $activeColor;
+          border: px2rem(2px) solid $activeColor;
+        }
+
+        li.active:after {
+          width: px2rem(25px);
+          height: px2rem(25px);
+          content: "";
+          background: url("/PQ/static/img/my/recharge_selected.png") no-repeat;
+          background-size: 100% 100%;
+          position: absolute;
+          bottom: 0;
+          right: 0;
+        }
+
+      }
+			
+			.contract-type {
+				margin-top: px2rem(30px);
+				clear: both;
+				width: 100%;
+				height: px2rem(80px);
+				@include font-dpr(14px);
+				color: $defaultFontColor;
+				background-color: $mainColor;
+				position: relative;
+				display: flex;
+				align-items: center;
+				border-bottom: px2rem(2px) solid #F7f7f7;
+				
+				span {
+					flex: 1;
+					display: flex;
+					position: relative;
+					align-items: center;
+					justify-content: center;
+					color: #666666;
+					padding: px2rem(20px) 0;
+					@include font-dpr(16px);
+					&.select {
+						color: $defaultFontColor;
+					}
+					
+					&.select:after {
+						content: '';
+						background-color: $activeColor;
+						position: absolute;
+						width: px2rem(30px);
+						height: px2rem(6px); 
+						bottom: 0;
+						left: 50%;
+						margin-left: px2rem(-15px);
+					}
+				}
+			}
+
+      .title {
+        clear: both;
+        width: 100%;
+        height: px2rem(80px);
+        line-height: px2rem(80px);
+        text-align: center;
+        @include font-dpr(14px);
+        color: $defaultFontColor;
+        background-color: $mainColor;
+        position: relative;
+
+        span {
+          display: inline-block;
+          position: absolute;
+          right: px2rem(30px);
+          margin-top: px2rem(33px);
+          border-width: px2rem(14px);
+          border-style: solid;
+          border-color: $defaultFontColor transparent transparent transparent;
+        }
+
+        span.close {
+          bottom: px2rem(33px);
+          border-width: px2rem(14px);
+          border-style: solid;
+          border-color: transparent transparent $defaultFontColor transparent;
+          //transform: rotate(90deg);
+        }
+      }
+
+      p {
+        width: 100%;
+        height: px2rem(60px);
+        line-height: px2rem(60px);
+        text-align: center;
+        color: $fontGrayColor;
+
+        span {
+          @include font-dpr(13px);
+          color: $noticeColor;
+        }
+      }
+
+      .trade::-webkit-scrollbar {
+        width: 0;
+      }
+
+      .trade {
+        width: 414px;
+        overflow: hidden;
+        overflow-x: scroll;
+        white-space: nowrap;
+
+        .list-head {
+          display: flex;
+          width: px2rem(1240px);
+          background-color: $mainColor;
+
+          li {
+            height: px2rem(60px);
+            line-height: px2rem(60px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            span {
+              color: $fontGrayColor;
+            }
+          }
+        }
+
+        .list-count {
+          display: flex;
+          width: px2rem(1240px);
+          overflow: hidden;
+
+          li {
+            padding: px2rem(10px) 0;
+            white-space: normal;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+          }
+
+          &:nth-child(odd) {
+            background-color: $mainColor;
+          }
+        }
+
+        li {
+          text-align: center;
+          padding: 0 px2rem(15px);
+
+          &:first-child {
+            width: px2rem(170px);
+
+            span:last-child {
+              color: $fontGrayColor;
+            }
+          }
+
+          &:nth-child(2) {
+            width: px2rem(150px);
+          }
+
+          &:nth-child(3) {
+            width: px2rem(240px);
+          }
+
+          &:nth-child(4) {
+            width: px2rem(240px);
+          }
+
+          &:nth-child(5) {
+            width: px2rem(360px);
+          }
+
+          span {
+            display: block;
+            @include font-dpr(13px);
+            color: $defaultFontColor;
+          }
+        }
+      }
+    }
+
+    .footer {
+      position: fixed;
+      width: 100%;
+      height: px2rem(100px);
+      padding: px2rem(10px);
+      bottom: 0;
+      z-index: 99;
+      background-color: $mainColor;
+
+      div {
+        flex: 1;
+        height: 100%;
+        display: flex;
+        color: $mainColor;
+        @include font-dpr(18px);
+        align-items: center;
+        justify-content: center;
+        background-color: $noticeColor;
+      }
+    }
+  }
+
+  #layer6{
+    //height: px2rem(400px);
+		background-color: white;
+    .tab-item{
+      height: 100%;
+      .mui-scroll{
+        width: initial;
+        min-width: 100%;
+      }
+      .nav-tab{
+        height: px2rem(60px);
+        background: $mainColor;
+        color: $fontGrayColor;
+        @include font-dpr(14px);
+        display: flex;
+        align-items: center;
+        border-bottom: solid px2rem(1px) $itemColor;
+        .mui-scroll{
+          height: 100%;
+        }
+        span{
+          display: inline-block;
+          // min-width: px2rem(170px);
+          text-align: left;
+        }
+        .tab-item{
+          padding: $padding;
+          display: flex;
+          align-items: center;
+        }
+        .list-item{
+          padding: $padding;
+        }
+      }
+      .scroll-list{
+        top: px2rem(60px);
+        height: calc(100% - #{px2rem(60px)});
+        position: relative;
+        .mui-scroll{
+          background: $mainColor;
+        }
+        .list-item{
+          padding: $padding;
+          min-height: px2rem(80px);
+          background: $mainColor;
+          color: $defaultFontColor;
+          @include font-dpr(14px);
+          display: flex;
+          align-items: center;
+          border-bottom: solid px2rem(1px) $itemColor;
+          span{
+            display: inline-block;
+            // min-width: px2rem(170px);
+            // max-width: px2rem(170px);
+            text-align: left;
+            // white-space: nowrap;
+          }
+          span:last-child{
+          }
+        }
+        .select-item{
+          background: $orderSelectColor;
+        }
+      }
+      .scroll-list-small{
+        height: calc(100% - #{px2rem(60px)} - #{px2rem(80px)});
+      }
+    }
+    #tab1{
+      .tab-item1{
+        width: px2rem(200px);
+        display: flex;
+        flex-direction: column;
+        span{
+          color: $fontGrayColor;
+        }
+      }
+      .tab-item2{
+        width: px2rem(180px);
+        text-align: center;
+      }
+      .tab-item3{
+        width: px2rem(240px);
+        text-align: center;
+      }
+      .tab-item4{
+        min-width: px2rem(240px);
+        display: flex;
+        flex-direction: column;
+        padding: px2rem(10px) 0;
+      }
+      .tab-item5{
+        width: px2rem(360px);
+        text-align: center;
+      }
+    }
+    #tab2{
+      .tab-item1{
+        width: px2rem(197px);
+      }
+      .tab-item2{
+        width: px2rem(80px);
+      }
+      .tab-item3{
+        width: px2rem(190px);
+      }
+      .tab-item4{
+        width: px2rem(100px);
+      }
+      .tab-item5{
+        width: px2rem(100px);
+      }
+      .tab-item6{
+        width: px2rem(263px);
+        // @include font-dpr(12px);
+      }
+      .tab-item-time{
+        @include font-dpr(14px);
+      }
+    }
+    #tab3{
+      .tab-item1{
+        width: px2rem(197px);
+      }
+      .tab-item2{
+        width: px2rem(190px);
+      }
+      .tab-item3{
+        width: px2rem(80px);
+      }
+      .tab-item4{
+        width: px2rem(100px);
+      }
+      .tab-item5{
+        width: px2rem(100px);
+      }
+      .tab-item6{
+        width: px2rem(110px);
+      }
+      .tab-item7{
+        width: px2rem(100px);
+      }
+      .tab-item8{
+        width: px2rem(263px);
+        @include font-dpr(12px);
+      }
+      .tab-item-time{
+        @include font-dpr(14px);
+      }
+    }
+    #tab4{
+      .tab-item1{
+        width: px2rem(197px);
+      }
+      .tab-item2{
+        width: px2rem(80px);
+      }
+      .tab-item3{
+        width: px2rem(190px);
+      }
+      .tab-item4{
+        width: px2rem(100px);
+      }
+      .tab-item5{
+        width: px2rem(263px);
+        @include font-dpr(12px);
+      }
+      .tab-item-time{
+        @include font-dpr(14px);
+      }
+    }
+  }
+
+}
+
+#rechargeActivity {
+  .layer-content {
+    flex-direction: column;
+    justify-content: space-around;
+
+    .coupon {
+      width: 100%;
+      height: px2rem(160px);
+      display: flex;
+      background: url("/PQ/static/img/discover/cash.png") no-repeat;
+      background-size: 100% 100%;
+
+      > span {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $mainColor;
+        @include font-dpr(13px);
+
+        span {
+          @include font-dpr(30px);
+        }
+      }
+    }
+
+    .coupon.discount {
+      background: url("/PQ/static/img/discover/fee.png") no-repeat;
+      background-size: 100% 100%;
+    }
+
+    p {
+      span {
+        color: $noticeColor;
+      }
+    }
+  }
+
+  .layer-btn {
+    span:last-child {
+      color: $noticeColor;
+    }
+  }
+}

@@ -1,0 +1,642 @@
+@import '../../css/common.scss';
+
+$headerHeight: px2rem(90px);
+$grayFontColor: #A1A1A1;
+$whiteColor: white;
+$blackFontColor: #333333;
+$bottomBorderColor: #F7F7F7;
+$blueFontColor: #1873f2;
+
+
+#discover {
+  height: 100%;
+  //background: $mainColor;
+}
+
+.header-nav {
+  background-color: white;
+  border-bottom: px2rem(1px) solid transparent;
+}
+
+.header-right-icon {
+  position: absolute;
+  right: px2rem(20px);
+  top: 0;
+}
+
+.mui-pull-left {
+  margin-right: px2rem(40px);
+  color: $defaultFontColor;
+  @include font-dpr(14px);
+}
+
+.header-left-icon {
+  top: 0;
+  position: absolute;
+  left: px2rem(20px);
+  height: px2rem(100px);
+  line-height: px2rem(100px);
+  z-index: 99;
+
+  .header-icon {
+    width: px2rem(40px);
+    height: px2rem(40px);
+    vertical-align: middle;
+  }
+}
+
+.header-nav .header-right-icon {
+  width: px2rem(40px);
+  height: px2rem(100px);
+  align-items: center;
+  justify-content: center;
+  margin-left: 0;
+  z-index: 99;
+}
+
+.header-right-icon label {
+  opacity: 0;
+  top: 0;
+  right: 0;
+  width: px2rem(80px);
+  position: absolute;
+  z-index: 999;
+}
+
+.header-right-icon input {
+  width: 100%;
+}
+
+.header-nav.mui-bar .mui-segmented-control {
+  top: 0;
+}
+
+.header-nav .mui-segmented-control.mui-scroll-wrapper .mui-scroll {
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-nav .mui-segmented-control.mui-scroll-wrapper .mui-control-item {
+  padding: 0;
+  margin: 0 px2rem(20px);
+  height: 100%;
+  line-height: px2rem(50px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-nav .mui-slider {
+  height: 100%;
+}
+
+.header-nav .mui-slider-indicator.mui-segmented-control {
+  height: 100%;
+  text-align: center;
+}
+
+.header-nav .mui-slider .mui-segmented-control.mui-segmented-control-inverted .mui-control-item {
+  height: 100%;
+  line-height: $headerHeight;
+}
+
+.header-nav .mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+  position: relative;
+  text-align: center;
+}
+
+.header-nav .mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active:after {
+  background-color: $blueFontColor;
+  width: px2rem(30px);
+  height: px2rem(6px);
+  content: "";
+  position: absolute;
+  bottom: px2rem(10px);
+  left: 50%;
+  margin-left: px2rem(-15px);
+}
+
+#activity {
+
+  .market-preview {
+    height: px2rem(270px);
+
+    .preview-slide-box {
+      height: px2rem(220px);
+
+      img {
+        height: 100%;
+      }
+    }
+  }
+  
+  #slider{
+	.mui-slider-group{
+		height:px2rem(240px);
+	}
+  }
+
+  .mui-slider {
+    padding-bottom: px2rem(30px);
+
+    .mui-slider-indicator {
+      bottom: 0;
+      background-color: $mainColor;
+
+      .mui-active.mui-indicator {
+        background: $activeColor;
+        width: px2rem(20px);
+      }
+
+      .mui-indicator {
+        border-radius: 0;
+        height: px2rem(10px);
+        width: px2rem(10px);
+        background: $grayColor;
+        margin: 0 px2rem(5px);
+        box-shadow: none;
+      }
+    }
+  }
+
+  .mui-scroll-wrapper {
+    //top: px2rem(715px);
+
+    .mui-scroll {
+      padding-bottom: px2rem(10px)
+    }
+  }
+}
+
+
+.both-content > div {
+  position: relative;
+  height: 100%;
+}
+
+.activity-box {
+  background-color: $whiteColor;
+  margin-top: px2rem(20px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.activity-item {
+  display: flex;
+  height: px2rem(180px);
+  align-items: center;
+	flex:1;
+	flex-direction: column;
+	justify-content: center;
+	
+	&:nth-child(2){
+		border-left: px2rem(2px) solid #F7F7F7;
+		border-right: px2rem(2px) solid #F7F7F7;
+	}
+}
+
+.activity-item img {
+  width: px2rem(40px);
+  height: px2rem(40px);
+	margin-top: px2rem(30px);
+}
+
+.activity-item label {
+  font-weight: bold;
+	@include font-dpr(14px);
+	margin-top: px2rem(10px);
+}
+
+.activity-item span {
+  color: $grayFontColor;
+	@include font-dpr(12px);
+}
+
+.activity-box:after {
+  display: block;
+  content: "";
+  clear: both;
+}
+
+.activity-notice-nav {
+  margin-top: px2rem(20px);
+  background-color: $whiteColor;
+  border-bottom: px2rem(2px) solid $bottomBorderColor;
+  position: relative;
+  z-index: 999;
+  width: 100%;
+  overflow-x: scroll;
+}
+
+.activity-notice-nav label {
+  display: inline-block;
+  padding: px2rem(25px) px2rem(30px);
+  color: $grayFontColor;
+  font-weight: bold;
+  @include font-dpr(14px)
+}
+
+.activity-notice-nav label.active {
+  color: $blackFontColor;
+}
+
+.notice-item {
+  // padding: px2rem(30px);
+  position: relative;
+  background-color: $mainColor;
+  border-bottom: px2rem(2px) solid $bottomBorderColor;
+}
+
+.notice-item-title {
+  color: $blackFontColor;
+  @include font-dpr(16px);
+  // padding: px2rem(30px) 0;
+	height: px2rem(100px);
+	line-height: px2rem(100px);
+	padding: 0 px2rem(30px);
+  display: block;
+}
+
+.notice-item-content {
+  @include font-dpr(14px);
+  overflow: hidden;
+	display: none;
+	padding: 0 px2rem(30px);
+	margin-bottom: 0;
+
+  p {
+    overflow: hidden;
+  }
+}
+
+.notice-item > label {
+  color: $grayFontColor;
+  @include font-dpr(12px);
+  margin: px2rem(20px) 0;
+	padding: 0 px2rem(30px);
+	display: none;
+}
+
+.open .notice-item-title{
+	color: $activeColor;
+}
+
+.open .notice-item-content{
+			display: block; 
+}
+		
+.open label{
+			display: block;
+}
+
+.notice-item:after {
+  width: 0;
+  height: 0;
+  content: "";
+  bottom: px2rem(10px);
+  right: px2rem(10px);
+  border-width: px2rem(12px) px2rem(12px) 0 0;
+  border-style: solid;
+  border-color: transparent $fontGrayColor transparent transparent;
+  position: absolute;
+}
+
+.notice-item.open:after {
+  width: 0;
+  height: 0;
+  content: "";
+  bottom: px2rem(10px);
+  right: px2rem(10px);
+  border-width: px2rem(12px) px2rem(12px) 0 0;
+  border-style: solid;
+  border-color: $fontGrayColor transparent transparent transparent;
+  position: absolute;
+}
+
+.notice-item .show{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	display: block;
+	width: 40px;
+	height: 40px;
+}
+
+#message {
+  background-color: white;
+
+  .message-date-title {
+    width: 100%;
+    height: px2rem(80px);
+    background-color: #f2f2f2;
+    line-height: px2rem(80px);
+    padding: 0 px2rem(30px);
+    @include font-dpr(14px);
+    margin-bottom: px2rem(30px);
+    position: relative;
+    z-index: 999;
+  }
+
+  .mui-scroll-wrapper {
+    .mui-scroll {
+      padding: px2rem(90px) px2rem(30px) 0 px2rem(30px);
+    }
+  }
+}
+
+
+#calendar {
+
+  .calendar-title {
+    background-color: $itemColor;
+    height: px2rem(120px);
+    position: relative;
+
+
+    ul {
+      display: flex;
+      height: 100%;
+      align-items: center;
+      justify-content: space-around;
+
+      li {
+        display: flex;
+        width: 14.3%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        span {
+          @include font-dpr(10px)
+        }
+
+        label {
+          margin-top: px2rem(10px);
+          @include font-dpr(16px);
+          color: $defaultFontColor;
+          font-weight: bold;
+        }
+      }
+
+      li.active {
+        color: $activeColor !important;
+        label{
+          color: $activeColor !important;
+        }
+      }
+
+      li:first-child {
+        color: $grayFontColor !important;
+        label{
+          color: $grayFontColor !important;
+        }
+      }
+
+      li:last-child {
+        color: $grayFontColor !important;
+        label {
+          color: $grayFontColor !important;
+        }
+      }
+    }
+  }
+
+  .mui-scroll-wrapper {
+    top: px2rem(120px);
+
+    .mui-scroll {
+      background-color: $mainColor;
+
+      ul {
+        li {
+          padding: px2rem(30px);
+          border-bottom: px2rem(1px) solid $bottomBorderColor;
+          display: flex;
+          flex-direction: column;
+
+          div:first-child {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            label:first-child {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+
+              span {
+                @include font-dpr(12px)
+              }
+
+              img {
+                width: px2rem(40px);
+                height: px2rem(30px);
+                margin: 0 px2rem(20px);
+              }
+            }
+
+            label:last-child {
+              img:first-child {
+                width: px2rem(120px);
+                height: px2rem(30px);
+                // margin-right: px2rem(10px);
+              }
+
+//               img:last-child {
+//                 width: px2rem(40px);
+//                 height: px2rem(40px);
+//               }
+            }
+          }
+
+          p {
+            line-height: px2rem(50px);
+            color: $blackFontColor;
+            margin: px2rem(50px) 0;
+            font-weight: bold;
+            @include font-dpr(15px);
+          }
+
+          div:last-child {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            @include font-dpr(12px);
+
+            label {
+              color: $grayFontColor;
+
+              span {
+                color: $blackFontColor;
+                font-weight: bold;
+              }
+            }
+
+            label:first-child {
+              color: $blueFontColor;
+
+              span {
+                color: $blueFontColor;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.country-dialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 100;
+  display: none;
+  width: px2rem(600px);
+  height: px2rem(700px);
+  margin-left: px2rem(-300px);
+  margin-top: px2rem(-350px);
+  background-color: $mainColor;
+  border-radius: px2rem(10px);
+
+  p {
+    clear: both;
+    @include font-dpr(16px);
+    font-weight: bold;
+    text-align: center;
+    height: px2rem(80px);
+    margin-bottom: 0;
+    line-height: px2rem(80px);
+    border-bottom: px2rem(2px) solid $itemColor;
+  }
+
+  ul {
+    padding: 0 px2rem(50px);
+
+    li {
+      width: px2rem(150px);
+      height: px2rem(60px);
+      text-align: center;
+      line-height: px2rem(60px);
+      background-color: $itemColor;
+      margin-top: px2rem(20px);
+      float: left;
+    }
+
+    li:nth-child(3n+2) {
+      margin-left: px2rem(20px);
+      margin-right: px2rem(20px);
+    }
+
+    li:last-child {
+      margin-bottom: px2rem(20px);
+    }
+
+    li.country-active {
+      border: px2rem(2px) solid $activeColor;
+      color: $activeColor;
+      background-color: transparent;
+    }
+
+    li.major-active {
+      border: px2rem(2px) solid $activeColor;
+      color: $activeColor;
+      background-color: transparent;
+    }
+
+  }
+
+  p:nth-child(3) {
+    border-top: px2rem(2px) solid $itemColor;
+  }
+
+  div {
+    clear: both;
+    display: flex;
+    padding: 0 px2rem(30px);
+    height: px2rem(100px);
+    border-top: px2rem(2px) solid $itemColor;
+
+    label {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      @include font-dpr(14px);
+      color: $activeColor;
+    }
+  }
+}
+
+.layui-timeline {
+  .layui-timeline-item {
+    &:before {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 0;
+      z-index: 0;
+      width: 1px;
+      height: 100%;
+      display: block;
+    }
+
+    &:after {
+      position: absolute;
+      content: "";
+      width: px2rem(10px);
+      height: px2rem(10px);
+      border-radius: px2rem(5px);
+      background-color: $activeColor;
+      top: 0;
+      left: 3px;
+    }
+
+    .open {
+      width: 0;
+      height: 0;
+      content: "";
+      bottom: px2rem(10px);
+      right: px2rem(10px);
+      border-width: px2rem(10px) px2rem(10px) 0 0;
+      border-style: solid;
+      border-color: transparent $grayFontColor transparent transparent;
+      position: absolute;
+    }
+
+    .close {
+      width: 0;
+      height: 0;
+      content: "";
+      bottom: px2rem(10px);
+      right: px2rem(10px);
+      border-width: px2rem(10px) px2rem(10px) 0 0;
+      border-style: solid;
+      border-color: $grayFontColor transparent transparent transparent;
+      position: absolute;
+    }
+
+    .layui-timeline-content {
+      h3 {
+        color: $grayFontColor;
+        @include font-dpr(12px)
+      }
+
+      p {
+        @include font-dpr(15px);
+        height: px2rem(150px);
+        line-height: px2rem(50px);
+        overflow: hidden;
+        color: $defaultFontColor;
+      }
+    }
+  }
+}
+
+
+
+

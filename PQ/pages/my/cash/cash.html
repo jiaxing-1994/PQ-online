@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <title>提现出金</title>
+    <script src="/PQ/static/js/flexible.js"></script>
+    <script src="/PQ/static/js/mui.js"></script>
+    <link href="/PQ/static/css/mui.min.css" rel="stylesheet"/>
+    <link href="/PQ/static/css/mui.picker.css" rel="stylesheet"/>
+    <link href="/PQ/static/css/mui.poppicker.css" rel="stylesheet"/>
+    <link href="/PQ/static/js/layui/css/layui.css" rel="stylesheet"/>
+</head>
+<body class="layer-mask">
+<div id="cash" class="header-content" v-cloak>
+    <header class="header-nav mui-bar mui-bar-nav">
+        <a class="header-right-icon mui-pull-left" @tap="back">
+            <img class="header-icon" src="/PQ/static/img/discover/back.png" alt=""/>
+        </a>
+        <h1 class="mui-title">
+            提现出金
+        </h1>
+        <a class="header-right-icon mui-pull-right" @tap="showService">
+            <img class="header-icon" src="/PQ/static/img/custom.png" alt=""/>
+        </a>
+    </header>
+
+    <div class="cash-content">
+        <div class="mui-scroll-wrapper">
+            <div class="mui-scroll">
+                <div class="cash-bank" @tap="goCheck">
+                    <div>
+                        <img src="/PQ/static/img/my/bank.png" alt="">
+                        <label>我的银行卡</label>
+                    </div>
+                    <div>
+                        <template v-if="bankList.length > 0" v-for="i in bankList">
+                            <label v-if="i.defaulted == '020'">{{i.bankName}}</label>
+                        </template>
+                        <label v-if="bankList.length == 0">{{isAuth =='020'?"添加银行卡":"实名认证"}}</label>
+                        <img src="/PQ/static/img/arrow-right.png" alt="">
+                    </div>
+                </div>
+                <div class="balance">
+                    <label>账户余额：</label>
+                    <label>￥{{balance}}</label>
+                </div>
+                <p class="notice">累计免提手续费金额为{{freeFee}}元</p>
+                <div class="cash-input">
+                    <label>提现金额：</label>
+                    <label>
+                        <input type="number" v-model="form.money">
+                    </label>
+                    <label>
+                        <span>元</span>
+                    </label>
+                </div>
+                <div class="cash-input">
+                    <label>提现手续费：</label>
+                    <label>
+                        <input v-model="form.fee" readonly placeholder="--">
+                    </label>
+                    <label>
+                        <span>元</span>
+                    </label>
+                </div>
+                <div class="cash-input">
+                    <label>实际到账：</label>
+                    <label>
+                        <input v-model="cash" readonly placeholder="--">
+                    </label>
+                    <label>
+                        <span>元</span>
+                    </label>
+                </div>
+                <div class="cash-input">
+                    <label>提现密码</label>
+                    <label>
+                        <input :type="isShowPassword?'text':'password'" v-model="form.withdrawPwd"
+                               placeholder="请输入您的提现密码">
+                    </label>
+                    <label @tap="showPassword">
+                        <img :src="isShowPassword?'/PQ/static/img/discover/eyeso.png':'/PQ/static/img/discover/eyesc.png'"
+                             alt="">
+                    </label>
+                </div>
+                <div class="cash-btn" @tap="applyCash">确认提现</div>
+                <p class="cash-pwd" @tap="goPage('/PQ/pages/my/modify/modify.html',3)">设置/修改&nbsp;提现密码>></p>
+                <p class="cash-notice">
+                    <span>温馨提示：</span><br>
+                    1.到账时间：工作日09:00-16:30申请，24小时内到账，最
+                    快5分钟到账，其余时间申请将在下个工作日到账。<br>
+                    2.提现手续费：（a）1%（适用于充值后，未实际操盘金额） ；（b）0元（适用于操盘用户提现）。<br>
+                    3.提现处理时间：每个工作日固定时间进行提现处理。具体 为10:00，14:00，16:00，17:30。
+                </p>
+            </div>
+        </div>
+    </div>
+    <div id="wxLayer" class="layer-box">
+        <div class="layer-header">请任意选择一种添加微信</div>
+        <div class="layer-content">
+            <div class="wx-add">
+                <span class="title">1、扫描二维码</span>
+                <img :src="wxPic">
+                <span class="notice">*请截屏后在微信中扫描二维码</span>
+                <span class="title">2、复制微信号</span>
+                <input :value="wxUrl" id="wxUrl" readonly>
+                <label @tap="openWX" class="open-wx">复制并打开微信</label>
+            </div>
+        </div>
+        <div class="layer-btn">
+            <span @tap="hideWX">取消</span>
+        </div>
+    </div>
+    <div id="customLayer" class="layer-box">
+        <div @tap="customService(i)" class="custom-item" v-for="(i,k) in customContact">
+            <img :src="i.imgUrl"/>
+            <span>{{i.customerName}}</span>
+        </div>
+    </div>
+</div>
+<script src="/PQ/static/js/jquery-1.11.3.js"></script>
+<!-- 压缩版vue -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+<!-- 开发版vue -->
+<script src="/PQ/static/js/vue.js"></script>
+<!-- 引入vux -->
+<script src="/PQ/static/js/vuex.js"></script>
+<script src="/PQ/static/js/layui/layui.js"></script>
+<script src="/PQ/static/js/axios.min.js"></script>
+<script src="/PQ/static/js/mui.picker.js"></script>
+<script src="/PQ/static/js/mui.poppicker.js"></script>
+<!-- <script src="/PQ/WPJS/cashWP.js"></script> -->
+</body>
+</html>

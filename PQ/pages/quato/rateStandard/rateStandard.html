@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+		<title>汇率标准</title>
+		<script src="/PQ/static/js/flexible.js"></script>
+		<script src="/PQ/static/js/mui.js"></script>
+		<link href="/PQ/static/css/mui.min.css" rel="stylesheet"/>
+		<link href="/PQ/static/js/layui/css/layui.css"/>
+	</head>
+	<body class="layer-mask">
+		<div id="rate" v-cloak>
+			<header class="header-nav mui-bar mui-bar-nav">
+				<a class="header-right-icon mui-pull-left" @tap="backBtn">
+					<img class="header-icon" src="/PQ/static/img/arrow-left.png"/>
+				</a>
+				<h1 class="mui-title">
+					汇率标准
+				</h1>
+				<a class="header-right-icon mui-pull-right" @tap="customLayer">
+					<img class="header-icon" src="/PQ/static/img/custom.png"/>
+				</a>
+			</header>
+			<div class="rate-content header-content">
+				<div class="top-swicth">
+					<span class="switch-title">当前币种汇率标准:</span>
+					<span class="switch-btn">
+						<span @tap="switchType(0)" :class="[priceType==0?'switch-btn-active':'']">美元基准</span>
+						<span @tap="switchType(1)" :class="[priceType==1?'switch-btn-active':'']">人民币基准</span>
+					</span>
+				</div>
+				<div class="price-wrap">
+					<span class="price-item">金额</span>
+					<span class="price-item input-wrap">
+						<input type="number" @tap="selectInput" @input="changePrice" placeholder="请输入金额" v-model="price"/>
+						<span v-if="priceType==0">$</span>
+						<span v-if="priceType==1">￥</span>
+					</span>
+					
+				</div>
+				<div class="result-table">
+					<div class="result-title result-item">
+						<span>币种</span>
+						<span>金额</span>
+					</div>
+					<div class="result-item" v-for="(item,index) in rateTable" :key="index">
+						<span>{{item.name}}</span>
+						<span>{{item.value==0?0:item.value.toFixed(4)}}</span>
+					</div>
+				</div>
+			</div>
+			<div id="wxLayer" class="layer-box">
+				<div class="layer-header">请任意选择一种添加微信</div>
+				<div class="layer-content">
+					<div class="wx-add">
+						<span class="title">1、扫描二维码</span>
+						<img :src="wxPic">
+						<span class="notice">*请截屏后在微信中扫描二维码</span>
+						<span class="title">2、复制微信号</span>
+						<input :value="wxUrl" id="wxUrl" readonly>
+						<label @tap="openWX" class="open-wx">复制并打开微信</label>
+					</div>
+				</div>
+				<div class="layer-btn">
+					<span @tap="hideWX">取消</span>
+				</div>
+			</div>
+			<!-- 客服弹窗 -->
+			<div id="customLayer" class="layer-box">
+				<div class="custom-item" @tap="chooseCustomer('电话客服')">
+					<img src="/PQ/static/img/custom/phone.png"/>
+					<span>{{phoneCustomer}}</span>
+				</div>
+				<div class="custom-item" @tap="chooseCustomer('在线客服')">
+					<img src="/PQ/static/img/custom/message.png"/>
+					<span>在线客服</span>
+				</div>
+				<div class="custom-item" @tap="chooseCustomer('qq客服')">
+					<img src="/PQ/static/img/custom/qq.png"/>
+					<span>QQ在线</span>
+				</div>
+				<div class="custom-item" @tap="chooseCustomer('微信客服')">
+					<img src="/PQ/static/img/custom/wechat.png"/>
+					<span>微信客服</span>
+				</div>
+			</div>
+		</div>
+		<!-- jquery -->
+		<script src="/PQ/static/js/jquery-1.11.3.js"></script>
+		<!-- 压缩版vue -->
+		<!-- <script src="/PQ/static/js/vue.min.js"></script> -->
+		<!-- 开发版vue -->
+		<script src="/PQ/static/js/vue.js"></script>
+		<!-- 引入vux -->
+		<script src="/PQ/static/js/vuex.js"></script>
+		<!-- 引入axios -->
+		<script src="/PQ/static/js/axios.min.js"></script>
+		<!-- layui -->
+		<script src="/PQ/static/js/layui/layui.js"></script>
+		<!-- <script src="/PQ/WPJS/rateStandardWP.js"></script> -->
+	</body>
+</html>

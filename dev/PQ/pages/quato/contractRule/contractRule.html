@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+		<title>合约规则</title>
+		<script src="/PQ/static/js/flexible.js"></script>
+		<script src="/PQ/static/js/mui.js"></script>
+		<link href="/PQ/static/css/mui.min.css" rel="stylesheet">
+	</head>
+	<body>
+		<div id="contractRule" v-cloak>
+			<header class="header-nav mui-bar mui-bar-nav">
+				<a class="header-right-icon mui-pull-left" @tap="backBtn">
+					<img class="header-icon" src="/PQ/static/img/arrow-left.png">
+				</a>
+				<h1 class="mui-title">{{urlParams.contractName}}交易规则</h1>
+			</header>
+			<div id="main" class="header-content">
+				<div class="contractRule-content mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<div class="item-box table-box">
+							<div class="item-title">
+								操盘流程
+							</div>
+							<div class="table-wrap">
+								<div class="table-item">
+									<span class="table-item-span">交易品种</span>
+									<span class="table-item-span">{{rule.contractName}}</span>
+								</div>
+								<div class="table-item">
+									<span class="table-item-span">交易所</span>
+									<span class="table-item-span">{{rule.exchangeCode}}</span>
+								</div>
+								<div class="table-item">
+									<span class="table-item-span">币种单位</span>
+									<span class="table-item-span">{{rule.currencyNo}}</span>
+								</div>
+								<div class="table-item">
+									<span class="table-item-span">交易单位</span>
+									<span class="table-item-span">{{rule.contractSize}}{{rule.currencyName}}/点</span>
+								</div>
+								<div class="table-item">
+									<span class="table-item-span">最小跳动</span>
+									<span class="table-item-span">{{rule.miniTikeSize}}</span>
+								</div>
+								<div class="table-item">
+									<span class="table-item-span">买入交易时间</span>
+									<span class="table-item-span table-time">
+										<span v-for="(item,index) in rule.tradeTimeArray" :key="index">{{item.begin}}-{{item.end}}<span v-if="!item.today&&rule.tradeTimeArray.length==1">(次日)</span></span>
+									</span>
+								</div>
+								<div class="table-item">
+									<span class="table-item-span">卖出交易时间</span>
+									<span class="table-item-span table-time">
+										<span v-for="(item,index) in rule.tradeTimeArray" :key="index">{{item.begin}}-{{item.end}}<span v-if="!item.today&&rule.tradeTimeArray.length==1">(次日)</span></span>
+									</span>
+								</div>
+								<div class="table-item">
+									<span class="table-item-span">交易综合费用</span>
+									<span class="table-item-span">{{rule.fee}}{{rule.currencyName}}/手</span>
+								</div>
+								<div class="table-item">
+									<span class="table-item-span">保证金</span>
+									<span class="table-item-span">{{rule.deposit}}{{rule.currencyName}}</span>
+								</div>
+							</div>
+							<div class="item-static">
+								<div class="notice" v-if="urlParams.contractNo=='HSI'">
+									<span class="notice-tip">注意:</span>
+									<span>港交所恒指期货，每点50港元，最小波动1点，可买涨买跌</span>
+								</div>
+								<div class="item-static-text" v-for="(item,index) in staticList" :key="index">
+									<div class="item-static-title">
+										{{item.title}}
+									</div>
+									<div class="item-static-content">
+										<span v-for="(i,index2) in item.content" :key="index2">{{i}}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- jquery -->
+		<script src="/PQ/static/js/jquery-1.11.3.js"></script>
+		<!-- 压缩版vue -->
+		<!-- <script src="/PQ/static/js/vue.min.js"></script> -->
+		<!-- 开发版vue -->
+		<script src="/PQ/static/js/vue.js"></script>
+		<!-- 引入vux -->
+		<script src="/PQ/static/js/vuex.js"></script>
+		<!-- 引入axios -->
+		<script src="/PQ/static/js/axios.min.js"></script>
+		<!-- <script src="/PQ/WPJS/contractRuleWP.js"></script> -->
+	<script type="text/javascript" src="/PQ/WPJS/contractRuleWP.js?88fa20424cec03a75413"></script></body>
+</html>

@@ -1,0 +1,202 @@
+@import '../../../css/common.scss';
+#noticeLayer{
+	position: relative;
+	height: 100%;
+	overflow: hidden;
+	.notice-content{
+		height: calc(100% - #{px2rem(120px)});
+		background: #20212a;
+		border-bottom-right-radius: 5px;
+		border-bottom-left-radius: 5px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.notice-btn{
+		height: px2rem(110px);
+		.notice-line{
+			display: block;
+			margin: 0 auto;
+			background: #a3a9cc;
+			width: px2rem(4px);
+			height: px2rem(60px);
+		}
+		.notice-close-btn{
+			border:solid #a3a9cc px2rem(4px);
+			border-radius: 50px;
+			transform: rotate(45deg);
+			display: block;
+			margin: 0 auto;
+			border-radius: 100px;
+			width: px2rem(40px);
+			height: px2rem(40px);
+		}
+	}
+}
+#quato{
+	background: $itemColor;
+    height: 100%;
+    .header-right-icon{
+        color: #fff;
+    }
+	.mui-title{
+		display: flex;
+		justify-content: center;
+		.quato-header{
+			position: relative;
+		}
+		.header-mark{
+			span{
+				left: 0;
+				color: #fff;
+				background: #1873f2;
+				border-radius: px2rem(5px);
+				@include font-dpr(11px);
+				padding: px2rem(3px) px2rem(10px);
+				margin-right: px2rem(10px);
+				font-weight: bold;    
+				vertical-align: middle;
+			}
+		}
+	}
+	.header-type-m{
+		background: #363d5d;
+		.header-mark{
+			span{
+				background: #fff;
+				color:#363d5d;
+			}
+		}
+		.quato-header{
+			color: #fff;
+		}
+	}
+	.top-tap{
+		height: px2rem(80px);
+		line-height: px2rem(80px);
+		color:$grayFontColor;
+		@include font-dpr(16px);
+		padding: 0 px2rem(60px);
+		background: $mainColor;
+		border-bottom: solid px2rem(1px) $itemColor;
+		font-weight: bold;
+		position: relative;
+		display: flex;
+		justify-content: space-around;
+		.mui-scroll-wrapper{
+			padding: $padding;
+		}
+		.tap-item{
+			position: relative;
+			color:$grayFontColor;
+			display: inline-block;
+			height: 100%;
+		}
+		.tap-item-active{
+			color:$defaultFontColor;
+		}
+		.tap-item-active:before{
+			content: '';
+			width: px2rem(30px);
+			height: px2rem(6px);
+			background: $activeColor;
+			position: absolute;
+			bottom: 0;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+	}
+	.quato-title{
+		height: px2rem(60px);
+		line-height: px2rem(60px);
+		background: $mainColor;
+		border-bottom: solid px2rem(1px) $itemColor;
+		color:$fontGrayColor;
+		@include font-dpr(14px);
+		padding: $padding;
+		display: flex;
+	}
+	.flex-2{
+		flex:2;
+	}
+	.flex-1{
+		text-align: right;
+		flex:1;
+		position: relative;
+		.triangle-icon{
+			position: absolute;
+			width: 0;
+			height: 0;
+			border: solid px2rem(10px) rgba(0,0,0,0);
+			border-bottom-color: $grayColor;
+			transform: rotate(135deg);
+			bottom: 0;
+			right: px2rem(-30px);
+		}
+	}
+	.quato-list{
+		background: $mainColor;
+		height: calc(100% - #{px2rem(60px)} - #{px2rem(80px)});
+		overflow: hidden;
+		position: relative;
+		.quato-item{
+			padding: 0 px2rem(30px);
+			color:$defaultFontColor;
+			display: flex;
+			height: px2rem(100px);
+			align-items: center;
+			border-bottom: solid px2rem(1px) $itemColor;
+			.quato-info{
+				display: flex;
+				align-items: center;
+				img{
+					width: px2rem(27px);
+					height: px2rem(30px);
+					margin-right: px2rem(10px);
+				}
+				.quato-info-contract{
+					display: flex;
+					flex-direction: column;
+					.quato-name{
+						@include font-dpr(16px);
+						color: $defaultFontColor;
+					}
+					.quato-code{
+						color:$fontGrayColor;
+						@include font-dpr(12px);
+					}
+				}
+				.quato-trade{
+					@include font-dpr(9px);
+					background: $itemColor;
+					display: inline-block;
+					margin-right: px2rem(10px);
+					color:$fontGrayColor;
+				}
+			}
+			.quato-value{
+				@include font-dpr(15px);
+				font-weight: bold;
+				text-align: right;
+			}
+		}
+	}
+	.item{
+		height: px2rem(140px);
+		line-height: px2rem(140px);
+		border-bottom: solid px2rem(1px) #ddd;
+		@include font-dpr(14px);
+	}
+	.item-top{
+		height: 50%;
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+	}
+	.item-bottom{
+		height: 50%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+}

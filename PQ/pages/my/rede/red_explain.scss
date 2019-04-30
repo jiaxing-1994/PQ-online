@@ -1,0 +1,98 @@
+@import "../../../css/common.scss";
+
+#rede {
+  .rede-content {
+    position: relative;
+    height: 100%;
+
+    .rede-type {
+      height: px2rem(80px);
+      display: flex;
+      align-items: center;
+      background-color: $mainColor;
+      justify-content: space-between;
+
+      label {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        @include font-dpr(16px);
+        color: $grayFontColor;
+        height: 100%;
+      }
+
+      label.active {
+        color: $defaultFontColor;
+      }
+
+      label.active:after {
+        position: absolute;
+        width: px2rem(40px);
+        height: px2rem(4px);
+        left: 50%;
+        margin-left: px2rem(-20px);
+        background-color: $activeColor;
+        content: "";
+        bottom: px2rem(3px);
+      }
+
+    }
+  }
+
+  .explain {
+    position: relative;
+    height: 100%;
+    background-color: $mainColor;
+
+    .mui-scroll{
+      padding-bottom: px2rem(30px);
+    }
+
+    .explain-img {
+      width: 100%;
+      height: px2rem(290px);
+      background-color: $mainColor;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      border-bottom: px2rem(2px) solid $itemColor;
+
+      img {
+        width: px2rem(450px);
+        height: px2rem(200px);
+      }
+
+      p {
+        margin-top: px2rem(20px);
+      }
+
+    }
+
+    .detail {
+      padding: px2rem(60px) px2rem(30px);
+      background-color: $mainColor;
+      @include font-dpr(14px);
+      color: $defaultFontColor;
+      line-height: px2rem(40px);
+
+      .title {
+        font-weight: bold;
+        color: $defaultFontColor;
+        @include font-dpr(16px);
+      }
+
+      .title.care {
+        color: $noticeColor;
+        font-weight: normal;
+      }
+
+      label {
+        color: $grayFontColor;
+      }
+
+    }
+  }
+}

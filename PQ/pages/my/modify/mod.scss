@@ -1,0 +1,87 @@
+@import "../../../css/common.scss";
+
+#modify {
+  .modify-content {
+
+    .modify {
+      background-color: $mainColor;
+
+      div {
+        width: 100%;
+        height: px2rem(100px);
+        padding: 0 px2rem(30px);
+        line-height: px2rem(100px);
+        border-bottom: px2rem(2px) solid $itemColor;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        label:first-child {
+          min-width: px2rem(120px);
+          color: $grayFontColor;
+          @include font-dpr(15px);
+        }
+
+        label:nth-child(2) {
+          flex: 1;
+          display: flex;
+          height: 100%;
+
+          input {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            color: $defaultFontColor;
+            @include font-dpr(15px);
+            padding-left: px2rem(30px) !important;
+          }
+
+          input[readonly] {
+            color: $fontGrayColor;
+          }
+
+        }
+
+        span {
+          @include font-dpr(13px);
+          min-width: px2rem(220px);
+          color: $fontGrayColor;
+          display: block;
+          text-align: right;
+          .code{
+            width: px2rem(160px);
+            text-align: center;
+            display: inline-block
+          }
+        }
+
+
+        label:last-child {
+          width: px2rem(40px);
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          img {
+            width: px2rem(40px);
+            height: px2rem(20px);
+          }
+        }
+      }
+    }
+
+    .modify-btn{
+      flex: 1;
+      height: px2rem(80px);
+      margin: px2rem(30px);
+      background-color: $activeColor;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $mainColor;
+      @include font-dpr(18px);
+    }
+  }
+}

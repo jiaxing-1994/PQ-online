@@ -1,0 +1,238 @@
+@import "../../../css/common.scss";
+
+#red {
+  .red-content {
+    position: relative;
+    height: 100%;
+
+    .red-type {
+      height: px2rem(80px);
+      display: flex;
+      align-items: center;
+      background-color: $mainColor;
+      justify-content: space-between;
+
+      label {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        @include font-dpr(16px);
+        color: $grayFontColor;
+        height: 100%;
+      }
+
+      label.active {
+        color: $defaultFontColor;
+      }
+
+      label.active:after {
+        bottom: 0;
+        left: 50%;
+        margin-left: px2rem(-20px);
+        position: absolute;
+        width: px2rem(40px);
+        height: px2rem(4px);
+        background-color: $activeColor;
+        content: "";
+      }
+
+    }
+
+    .red-list {
+      position: relative;
+      height: calc(100% - #{px2rem(80px)});
+
+      .mui-scroll {
+        padding: px2rem(30px) px2rem(30px) 0 px2rem(30px);
+      }
+
+      .red-item {
+        display: flex;
+        flex-direction: column;
+        height: px2rem(300px);
+        margin-bottom: px2rem(30px);
+
+        .red-detail {
+          width: 100%;
+          height: px2rem(220px);
+          padding: px2rem(30px) px2rem(20px);
+          background: url("/PQ/static/img/my/cashUnuseRed.png") no-repeat;
+          background-size: 100% 100%;
+          color: $mainColor;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+
+          .red-detail-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .red-title {
+              @include font-dpr(16px);
+            }
+
+            img {
+              width: px2rem(25px);
+              height: px2rem(25px);
+            }
+
+          }
+
+          .red-money {
+            @include font-dpr(13px);
+            padding: px2rem(10px) 0;
+
+            span {
+              @include font-dpr(18px);
+              font-weight: bold;
+
+              span {
+                @include font-dpr(12px);
+                font-weight: normal;
+              }
+            }
+          }
+
+          .red-note {
+            p {
+              color: $mainColor;
+            }
+          }
+
+        }
+
+        .red-action {
+          width: 100%;
+          height: px2rem(80px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: $mainColor;
+          border-bottom-left-radius: px2rem(10px);
+          border-bottom-right-radius: px2rem(10px);
+          color: #ff4c5b;
+
+          span {
+            border: px2rem(2px) solid #ff4c5b;
+            border-radius: px2rem(20px);
+            width: px2rem(150px);
+            height: px2rem(40px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            @include font-dpr(14px);
+          }
+
+        }
+
+      }
+
+      .using {
+        position: relative;
+
+        .red-item {
+          width: px2rem(600px);
+        }
+
+        .drag {
+          width: px2rem(60px);
+          height: px2rem(60px);
+          top: 50%;
+          margin-top: px2rem(-30px);
+          position: absolute;
+          right: 0;
+          background: url("/PQ/static/img/my/drag.png") no-repeat;
+          background-size: 100% 100%;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+
+      .red-item.discount {
+        .red-detail {
+          background: url("/PQ/static/img/my/discountUnuseRed.png") no-repeat;
+          background-size: 100% 100%;
+        }
+
+        .red-action {
+          color: #ff9f19;
+
+          span {
+            border: px2rem(2px) solid #ff9f19;
+          }
+        }
+
+      }
+
+      .red-item.used {
+        .red-detail {
+          background: url("/PQ/static/img/my/usedRed.png") no-repeat;
+          background-size: 100% 100%;
+        }
+
+        .red-action {
+          span {
+            border: none;
+            color: white;
+          }
+        }
+      }
+
+      .no-data {
+        flex: 1;
+        display: flex;
+        margin-top: px2rem(150px);
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+
+        img {
+          width: px2rem(120px);
+          height: px2rem(150px);
+        }
+
+        p {
+          padding: px2rem(30px) 0;
+          @include font-dpr(15px);
+        }
+
+        div {
+          width: 100%;
+          color: $mainColor;
+          background-color: $activeColor;
+          @include font-dpr(18px);
+          height: px2rem(80px);
+          line-height: px2rem(80px);
+          text-align: center;
+        }
+      }
+
+      .no-more {
+        line-height: px2rem(60px);
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    #using.red-list{
+      .mui-scroll-wrapper {
+        bottom: px2rem(200px);
+      }
+    }
+
+    .note {
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+      left: 0;
+      padding: px2rem(20px) px2rem(30px);
+      height: px2rem(200px);
+      background-color: $mainColor;
+    }
+  }
+}

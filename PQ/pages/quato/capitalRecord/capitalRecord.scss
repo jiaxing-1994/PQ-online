@@ -1,0 +1,68 @@
+@import '../../../css/common.scss';
+#capital{
+	height: 100%;
+	background: $itemColor;
+	.capital-content{
+		.total-info{
+			background: $mainColor;
+			padding: $padding;
+			margin-bottom: px2rem(9px);
+			.total-item{
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				height: px2rem(80px);
+				color:$fontGrayColor;
+				@include font-dpr(16px);
+				border-bottom: solid px2rem(1px) $itemColor;
+				span{
+					flex: 1;
+					text-align: center;
+				}
+				span:first-child{
+					text-align: left;
+				}
+				span:last-child{
+					text-align: right;
+				}
+				.num{
+					@include font-dpr(18px);
+					color:$defaultFontColor;
+					margin-right: px2rem(10px);
+				}
+				.unit{
+					@include font-dpr(13px);
+				}
+			}
+		}
+		.captial-list{
+			height: calc(100% - #{px2rem(170px)});
+			position: relative;
+			.captial-scroll{
+				height: 100%;
+				.mui-scroll{
+					background: $mainColor;
+					.captial-item{
+						height: px2rem(130px);
+						padding: $padding;
+						display: flex;
+						flex-direction: column;
+						justify-content: center;
+						border-bottom: solid px2rem(1px) $itemColor;
+						.captial-time{
+							@include font-dpr(12px);
+							color: $fontGrayColor;
+						}
+						.captial-value{
+							@include font-dpr(14px);
+							color:$defaultFontColor;
+							.captial-price{
+								margin-right: px2rem(30px);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

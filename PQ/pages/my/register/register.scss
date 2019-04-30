@@ -1,0 +1,232 @@
+@import '../../../css/common.scss';
+
+::-webkit-input-placeholder { /* WebKit browsers */
+  color: #999999;
+  font-size: 12px;
+}
+
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: #999999;
+  font-size: 12px;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+  color: #999999;
+  font-size: 12px;
+}   
+
+.header-content {
+  padding-left: px2rem(30px);
+  padding-right: px2rem(30px);
+  text-align: center;
+
+  .register-box {
+    margin-top: px2rem(60px);
+    background-color: $mainColor;
+
+    div {
+      height: px2rem(100px);
+      line-height: px2rem(100px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      span {
+        display: block;
+        width: px2rem(120px);
+        height: 100%;
+        line-height: px2rem(100px);
+        text-align: left;
+        @include font-dpr(14px);
+        color: $fontGrayColor;
+        padding-left: px2rem(20px);
+      }
+
+      label:nth-child(2) {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        height: 100%;
+
+        input {
+          width: 100%;
+          @include font-dpr(16px);
+          color: $defaultFontColor;
+        }
+      }
+
+      label:last-child {
+        display: block;
+        width: px2rem(220px);
+        height: 100%;
+        text-align: right;
+        padding-right: px2rem(20px);
+        color: $fontGrayColor;
+
+        .code {
+          width: px2rem(150px);
+          text-align: center;
+          display: inline-block
+        }
+
+        img {
+          width: px2rem(20px);
+          height: px2rem(20px);
+        }
+
+        .open-pwd {
+          width: px2rem(40px);
+          height: px2rem(20px);
+        }
+
+      }
+    }
+  }
+
+  .register-btn {
+    margin-top: px2rem(30px);
+    clear: both;
+    @include font-dpr(18px);
+    background-color: $noticeColor;
+    height: px2rem(80px);
+    text-align: center;
+    line-height: px2rem(80px);
+    color: $mainColor;
+  }
+
+  .register-register {
+    margin: px2rem(60px) 0 px2rem(70px) 0;
+    @include font-dpr(13px)
+  }
+
+  .register-agreement {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include font-dpr(13px);
+    color: $fontGrayColor;
+
+    input {
+      width: px2rem(30px);
+      height: px2rem(30px);
+    }
+
+    a {
+      color: $defaultFontColor;
+    }
+  }
+}
+
+.mui-checkbox.mui-left label, .mui-radio.mui-left label {
+  padding-left: px2rem(50px);
+}
+
+#registerActivity {
+  .layer-content {
+    flex-direction: column;
+    justify-content: space-around;
+    .coupon {
+      width: 100%;
+      height: px2rem(160px);
+      display: flex;
+      background: url("/PQ/static/img/discover/cash.png") no-repeat;
+      background-size: 100% 100%;
+
+      > span {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $mainColor;
+        @include font-dpr(13px);
+
+        span {
+          @include font-dpr(30px);
+        }
+      }
+    }
+
+    .coupon.discount{
+      background: url("/PQ/static/img/discover/fee.png") no-repeat;
+      background-size: 100% 100%;
+    }
+
+  }
+}
+
+.chart-dialog {
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  display: none;
+  position: relative;
+  width: px2rem(600px);
+  height: px2rem(400px);
+  border-radius: px2rem(10px);
+  background-color: $mainColor;
+  margin-top: px2rem(-200px);
+  margin-left: px2rem(-300px);
+  text-align: center;
+
+  h3 {
+    @include font-dpr(16px);
+    padding-top: px2rem(60px);
+    padding-bottom: px2rem(70px);
+  }
+
+  .dialog-input {
+    padding: 0 px2rem(30px);
+    width: 100%;
+    height: px2rem(80px);
+    margin-bottom: px2rem(60px);
+
+    input {
+      float: left;
+      width: px2rem(360px);
+      padding-left: px2rem(20px) !important;
+      @include font-dpr(16px);
+      background-color: $itemColor !important;
+      border-radius: px2rem(5px);
+      height: 100%;
+    }
+
+    img {
+      width: px2rem(160px);
+      height: 100%;
+      float: right;
+    }
+
+  }
+
+  .dialog-action {
+    display: flex;
+    padding: 0 px2rem(30px);
+    height: px2rem(100px);
+    border-top: px2rem(2px) solid $itemColor;
+
+    label {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      @include font-dpr(14px);
+      color: $activeColor;
+    }
+  }
+
+  span {
+    position: absolute;
+    display: block;
+    width: px2rem(60px);
+    height: px2rem(60px);
+    line-height: px2rem(60px);
+    text-align: center;
+    top: 0;
+    right: 0;
+
+    img {
+      width: px2rem(20px);
+      height: px2rem(20px);
+    }
+  }
+}

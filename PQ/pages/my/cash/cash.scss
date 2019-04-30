@@ -1,0 +1,166 @@
+@import "../../../css/common.scss";
+
+#cash {
+
+  .cash-content {
+    position: relative;
+    height: 100%;
+
+    .cash-bank {
+      background-color: $mainColor;
+      height: px2rem(100px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 px2rem(30px);
+
+      div {
+        display: flex;
+        align-items: center;
+      }
+
+      div:first-child {
+        img {
+          width: px2rem(40px);
+          height: px2rem(40px);
+          margin-right: px2rem(10px);
+        }
+
+        label {
+          @include font-dpr(15px);
+          color: $defaultFontColor;
+        }
+      }
+
+      div:last-child {
+        img {
+          width: px2rem(15px);
+          height: px2rem(20px);
+        }
+
+        label {
+          color: $fontGrayColor;
+          margin-right: px2rem(10px);
+          @include font-dpr(13px);
+        }
+      }
+    }
+
+    .balance {
+      margin-top: px2rem(20px);
+      height: px2rem(100px);
+      display: flex;
+      align-items: center;
+      padding: 0 px2rem(30px);
+      justify-content: space-between;
+      background-color: $mainColor;
+
+      label:first-child {
+        @include font-dpr(15px);
+        color: $grayFontColor;
+      }
+
+      label:last-child {
+        color: $defaultFontColor;
+        @include font-dpr(18px);
+      }
+    }
+
+    .notice {
+      height: px2rem(60px);
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: px2rem(30px);
+      color: $fontGrayColor;
+      @include font-dpr(13px);
+    }
+
+    .cash-input {
+      width: 100%;
+      height: px2rem(100px);
+      padding: 0 px2rem(30px);
+      line-height: px2rem(100px);
+      border-bottom: px2rem(2px) solid $itemColor;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: $mainColor;
+
+      label:first-child {
+        min-width: px2rem(120px);
+        color: $grayFontColor;
+        @include font-dpr(15px);
+      }
+
+      label:nth-child(2) {
+        flex: 1;
+        display: flex;
+        height: 100%;
+
+        input {
+          width: 100%;
+          text-align: right;
+          padding-right: px2rem(20px) !important;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          color: $defaultFontColor;
+          @include font-dpr(15px);
+          padding-left: px2rem(30px) !important;
+        }
+      }
+
+      span {
+        clear: both;
+        @include font-dpr(13px);
+        max-width: px2rem(140px);
+        color: $fontGrayColor;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      label:last-child {
+        width: px2rem(40px);
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+          width: px2rem(40px);
+          height: px2rem(20px);
+        }
+      }
+    }
+
+    .cash-btn {
+      flex: 1;
+      margin: px2rem(30px);
+      height: px2rem(80px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: $activeColor;
+      color: $mainColor;
+      @include font-dpr(18px);
+    }
+
+    .cash-pwd {
+      width: 100%;
+      text-align: center;
+      margin: px2rem(40px) 0;
+      @include font-dpr(13px);
+      color: $defaultFontColor;
+    }
+
+    .cash-notice {
+      padding: 0 px2rem(30px);
+      line-height: px2rem(40px);
+      span{
+        color: $noticeColor;
+      }
+    }
+  }
+}

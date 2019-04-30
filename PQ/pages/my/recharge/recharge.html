@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+		<title>充值入金</title>
+		<script src="/PQ/static/js/flexible.js"></script>
+		<script src="/PQ/static/js/mui.js"></script>
+		<link href="/PQ/static/css/mui.min.css" rel="stylesheet" />
+		<link href="/PQ/static/js/layui/css/layui.css" rel="stylesheet" />
+	</head>
+	<body class="layer-mask">
+		<div id="recharge" class="header-content" v-cloak>
+			<header class="header-nav mui-bar mui-bar-nav">
+				<a class="header-right-icon mui-pull-left" @tap="back">
+					<img class="header-icon" src="/PQ/static/img/discover/back.png" alt="" />
+				</a>
+				<h1 class="mui-title">
+					充值入金
+				</h1>
+			</header>
+
+			<div class="recharge-content">
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<div class="balance">
+							<label>我的余额：</label>
+							<label>￥{{balance}}<span>&nbsp;($ {{(balance*exchangeRate).toFixed(2)}})</span></label>
+						</div>
+						<div class="recharge-input">
+							<div>
+								<label>充值金额：</label>
+								<span>(≈$ {{(money*exchangeRate).toFixed(2)}})</span>
+							</div>
+							<div>
+								<label>
+									<input type="number" v-model="money">
+									<span>元</span>
+								</label>
+								<span>1人民币={{exchangeRate}}美元</span>
+							</div>
+						</div>
+						<div class="total-balance balance">
+							<label>充值后余额：</label>
+							<label>￥{{(parseFloat(balance)+ (money == ""?0:parseFloat(money))).toFixed(2) }}<span>&nbsp;($
+									{{((parseFloat(balance)+(money == ""?0:parseFloat(money)))*exchangeRate).toFixed(2)}})</span></label>
+						</div>
+						<ul class="money-list">
+							<template v-for="(i,k) in amountList">
+								<li @tap="changeMoney(i)" :key="k" :class="i == money?'active':''">￥{{i}}</li>
+							</template>
+						</ul>
+						<div class="contract-type"><span :class="contractType==1?'select':''" @tap="changeType(1)">国际期货</span><span :class="contractType==1?'':'select'" @tap="changeType(0)">国内期货</span></div>
+						<div class="title">可交易品种<span id="showContract" @tap="showContract"></span></div>
+						<p><span>注意：</span>请勿在交易时间外持仓，以免被系统强平</p>
+						<div id="layer6">
+							<div id="tab1" class="tab-item mui-control-content mui-active">
+								<div id="tab1-nav" class="nav-tab mui-scroll-wrapper">
+									<div class="mui-scroll">
+										<div class="tab-item list-item">
+											<span class="tab-item1">期货产品</span>
+											<span class="tab-item2">交易手续费</span>
+											<span class="tab-item3">初始化持仓手数</span>
+											<span class="tab-item4">交易时间段</span>
+											<span class="tab-item5">简介</span>
+										</div>
+									</div>
+								</div>
+								<div id="tab1-list" class="scroll-list mui-scroll-wrapper">
+									<div class="mui-scroll">
+										<div class="list-item" v-for="(i,k) in contractList" v-if="contractList.length > 0">
+											<span class="tab-item1">{{i.contractName}}<span>{{i.contractCode}}</span></span>
+											<span class="tab-item2">{{i.cnyFee}}元/手</span>
+											<span class="tab-item3" v-if='i.currencyNo == "USD"'>{{Math.floor(((balance+parseInt(money))*exchangeRate)/(i.deposit+i.fee)) > 0 ? Math.floor(((balance+parseInt(money))*exchangeRate)/(i.deposit+i.fee)) : 0}}手</span>
+											<span class="tab-item3" v-else>{{Math.floor((((balance+parseInt(money))*exchangeRate)/i.rate)/(i.deposit+i.fee)) > 0 ? Math.floor((((balance+parseInt(money))*exchangeRate)/i.rate)/(i.deposit+i.fee)) : 0}}手</span>
+											<span class="tab-item4"> <span v-for="j in (i.tradingTime).split('，')">{{j}}</span></span>
+											<span class="tab-item5">最小变动单位{{i.miniTikeSize}}，跳动一下±{{i.miniTikeSize}}{{i.currencyName}}</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="footer">
+					<div @tap="goRecharge">立即充值</div>
+				</div>
+			</div>
+
+			<div id="rechargeActivity" class="layer-box">
+				<!--<img @tap="hideDialog" class="close-icon" src="/PQ/static/img/layerClose.png"/>-->
+				<div class="layer-header">充值提示</div>
+				<div class="layer-content">
+					<span>首次充值可获得{{couponValue}}元{{couponName}}</span>
+					<div :class="couponName.indexOf('现金') != -1 ? 'coupon':'coupon discount'">
+						<span>￥&nbsp;<span>{{couponValue}}</span></span>
+						<span>{{couponName}}</span>
+					</div>
+					<p><span>Tip:</span>完成充值后奖励将自动发送</p>
+				</div>
+				<div class="layer-btn">
+					<span @tap="hideDialog">残忍放弃</span>
+					<span @tap="recharge">好的，马上充值</span>
+				</div>
+			</div>
+		</div>
+		<script src="/PQ/static/js/jquery-1.11.3.js"></script>
+		<!-- 压缩版vue -->
+		<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+		<!-- 开发版vue -->
+		<script src="/PQ/static/js/vue.js"></script>
+		<!-- 引入vux -->
+		<script src="/PQ/static/js/vuex.js"></script>
+		<script src="/PQ/static/js/layui/layui.js"></script>
+		<script src="/PQ/static/js/axios.min.js"></script>
+		<!-- <script src="/PQ/WPJS/rechargeWP.js"></script> -->
+	</body>
+</html>

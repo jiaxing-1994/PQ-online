@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+		<title>历史记录</title>
+		<script src="/PQ/static/js/flexible.js"></script>
+		<script src="/PQ/static/js/mui.js"></script>
+		<link href="/PQ/static/css/mui.min.css" rel="stylesheet">
+		<link href="/PQ/static/css/mui.picker.css" rel="stylesheet">
+		<link href="/PQ/static/css/mui.dtpicker.css" rel="stylesheet">
+		<link href="/PQ/static/js/layui/css/layui.css">
+	</head>
+	<body class="layer-mask">
+		<div id="history" v-cloak>
+			<header class="header-nav mui-bar mui-bar-nav">
+				<a class="header-right-icon mui-pull-left" @tap="backBtn">
+					<img class="header-icon" src="/PQ/static/img/arrow-left.png">
+				</a>
+				<h1 class="mui-title">
+					历史记录
+				</h1>
+			</header>
+			<div class="history-content header-content">
+				<div class="time-wrap">
+					<div class="time-box">
+						<div class="time-input-box">
+							<span @tap="chooseTime(1)">{{beginTime}}</span>
+							<img src="/PQ/static/img/history/arrow.png">
+							<span @tap="chooseTime(2)">{{endTime}}</span>
+						</div>
+						<div class="search-btn" @tap="confirmSearch">
+							<img src="/PQ/static/img/history/search.png">
+						</div>
+					</div>
+				</div>
+				<div class="tab">
+					<span @tap="chooseDate(1)" :class="[dateIndex == 1?'tab-item-active':'']">一天内</span>
+					<span @tap="chooseDate(2)" :class="[dateIndex == 2?'tab-item-active':'']">一周内</span>
+					<span @tap="chooseDate(3)" :class="[dateIndex == 3?'tab-item-active':'']">一月内</span>
+				</div>
+				<div class="list-wrap">
+					<div id="tab1-nav" class="list-scroll list-title mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<div class="list-item">
+								<span>序号</span>
+								<span>合约代码</span>
+								<span class="price">交易盈亏</span>
+								<span>交易手数</span>
+								<span>价格</span>
+								<span class="price">交易手续费</span>
+								<span class="time">时间</span>
+							</div>
+						</div>
+					</div>
+					<div id="tab1-list" class="list-scroll list-box mui-scroll-wrapper">
+						<div id="scroll-refresh" class="mui-scroll" v-show="historyList.length>0">
+							<div class="list-item" v-for="(item,index) in historyList" :key="index">
+								<span>{{index+1}}</span>
+								<span class="history-name">
+									<span>{{item.contractName}}</span>
+									<span>{{item.contractCode}}</span>
+								</span>
+								<span class="price">
+									<span>￥{{(item.profits*item.rate/RMBRate).toFixed(2)}}</span>
+									<span>({{item.profits}}{{item.currency}})</span>
+								</span>
+								<span>{{item.volume}}</span>
+								<span>{{item.tradePrice}}</span>
+								<span class="price">
+									<span>￥{{(item.fee*item.rate/RMBRate).toFixed(2)}}</span>
+									<span>({{item.fee}}{{item.currency}})</span>
+								</span>
+								<span class="time">{{item.date}}</span>
+							</div>
+							<div :class="['pull-box']" v-if="pullRefreshStatus!=-1">{{pullRefreshStatus==0||pullRefreshStatus==1?'上拉加载更多':pullRefreshStatus==2?'正在加载':pullRefreshStatus==3?'没有更多数据':''}}</div>
+						</div>
+						<div class="no-data" v-if="historyList.length==0">
+							暂无交易数据
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- jquery -->
+		<script src="/PQ/static/js/jquery-1.11.3.js"></script>
+		<!-- 压缩版vue -->
+		<!-- <script src="/PQ/static/js/vue.min.js"></script> -->
+		<!-- 开发版vue -->
+		<script src="/PQ/static/js/vue.js"></script>
+		<!-- 引入vux -->
+		<script src="/PQ/static/js/vuex.js"></script>
+		<!-- layui -->
+		<script src="/PQ/static/js/layui/layui.js"></script>
+		<!-- 引入axios -->
+		<script src="/PQ/static/js/axios.min.js"></script>
+		<script src="/PQ/static/js/mui.picker.js"></script>
+		<script src="/PQ/static/js/mui.dtpicker.js"></script>
+		<!-- <script src="/PQ/WPJS/historyWP.js"></script> -->
+	<script type="text/javascript" src="/PQ/WPJS/historyWP.js?88fa20424cec03a75413"></script></body>
+</html>

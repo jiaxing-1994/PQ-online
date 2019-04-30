@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <title>每日签到</title>
+    <script src="/PQ/static/js/flexible.js"></script>
+    <script src="/PQ/static/js/mui.js"></script>
+    <link href="/PQ/static/css/mui.min.css" rel="stylesheet">
+    <link href="/PQ/static/js/layui/css/layui.css" rel="stylesheet">
+</head>
+<body class="layer-mask">
+<div id="sign" class="header-content" v-cloak>
+    <header class="header-nav mui-bar mui-bar-nav">
+        <a class="header-right-icon mui-pull-left" @tap="back">
+            <img class="header-icon" src="/PQ/static/img/discover/back.png" alt="">
+        </a>
+        <h1 class="mui-title">
+            每日签到
+        </h1>
+    </header>
+    <div class="sign-content">
+        <div class="mui-scroll-wrapper">
+            <div class="mui-scroll">
+                <div id="calendar" v-cloak>
+                    <div class="calendar-week">
+                        <span class="calendar-week-item">日</span>
+                        <span class="calendar-week-item">一</span>
+                        <span class="calendar-week-item">二</span>
+                        <span class="calendar-week-item">三</span>
+                        <span class="calendar-week-item">四</span>
+                        <span class="calendar-week-item">五</span>
+                        <span class="calendar-week-item">六</span>
+                    </div>
+                    <div class="calendar-title">
+                        {{currentYear}}年{{currentMonth}}月
+                    </div>
+                    <div class="calendar-day">
+                <span :class="['calendar-item',item.isToday?'calendar-today':'']" v-for="(item,index) in calendarData" :key="index">
+                    <span :class="['calendar-item-day',item.isMonth?'':'calendar-other-item',item.isToday?'calendar-today-mark':'',item.isMark?'calendar-mark':'',item.year==currentYear&&item.month==currentMonth&&item.day==currentDay?'calendar-choose-day':'']">
+                        <span class="calendar-value">{{(item.isToday && !isTodayMark) ?'今日':item.day}}</span>
+                    </span>
+                </span>
+                    </div>
+                </div>
+                <div class="sign-action">
+                    <div class="sign-gift">
+                        <img src="/PQ/static/img/discover/record.png" alt="">
+                        <label @tap="showSign">
+                            <span>已领取的奖励</span>
+                            <img src="/PQ/static/img/arrow-right.png" alt="">
+                        </label>
+                    </div>
+                    <div :class="isTodayMark?'signed':'sign-btn'" @tap="todaySign">{{isTodayMark?"已签到":"签到"}}</div>
+                </div>
+                <!--<div class="sign-activity">-->
+                <!--<p>{{activity.activityName}}</p>-->
+                <!--<div>-->
+                <!--<label>总累计&nbsp;&nbsp;<span>{{totalDays}}</span>&nbsp;&nbsp;天</label>-->
+                <!--<label><span>30</span>&nbsp;&nbsp;元抵扣券</label>-->
+                <!--</div>-->
+                <!--<div>-->
+                <!--<label>连续累计&nbsp;&nbsp;<span>24</span>&nbsp;&nbsp;天</label>-->
+                <!--<label><span>100</span>&nbsp;&nbsp;元现金红包</label>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--<div class="sign-rule">-->
+                <!--<p>活动奖励</p>-->
+                <!--<p>-->
+                <!--1.xxxxxxxx<br>-->
+                <!--2.xxxxxxxx-->
+                <!--</p>-->
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+
+    <div id="signRecord">
+        <div class="sign-record-header">
+            <span @tap="changeStatus('010')" :class="useStatus=='010'?'active':''">已领取</span>
+            <span @tap="changeStatus('030')" :class="useStatus=='030'?'active':''">已使用/已失效</span>
+        </div>
+        <div class="sign-record-content">
+            <div class="mui-scroll-wrapper">
+                <div class="mui-scroll">
+					<template v-if="signData.length > 0">
+						<div v-for="(i,k) in signData" :key="k" :class="['sign-recode-item',(i.useStatus=='030' || i.useStatus == '040')?'used':i.couponType=='010'?'':'fee'] ">
+							<span>￥&nbsp;<span>{{i.faceValue}}</span></span>
+							<span>{{i.couponType == '010'?'(现金红包)':'(手续费红包)'}}</span>
+						</div>
+					</template>
+					<template v-else>
+						<p style="text-align: center;margin-top: 50px;">没有更多红包</p>
+					</template>
+                </div>
+            </div>
+            <p class="sign-record-use">去<span @tap="goUseCoupon">&nbsp;我的红包&nbsp;</span>使用>></p>
+        </div>
+        <span class="sign-record-cancel" @tap="hideDialog">取消</span>
+    </div>
+</div>
+<script src="/PQ/static/js/jquery-1.11.3.js"></script>
+<!-- 压缩版vue -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+<!-- 开发版vue -->
+<script src="/PQ/static/js/vue.js"></script>
+<!-- 引入vux -->
+<script src="/PQ/static/js/vuex.js"></script>
+<script src="/PQ/static/js/axios.min.js"></script>
+<script src="/PQ/static/js/layui/layui.js"></script>
+<script src="/PQ/js/moment.js"></script>
+<!-- <script src="/PQ/WPJS/signWP.js"></script> -->
+<script type="text/javascript" src="/PQ/WPJS/signWP.js?88fa20424cec03a75413"></script></body>
+</html>

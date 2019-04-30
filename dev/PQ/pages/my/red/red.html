@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+		<title>我的红包</title>
+		<script src="/PQ/static/js/flexible.js"></script>
+		<script src="/PQ/static/js/mui.js"></script>
+		<link href="/PQ/static/css/mui.min.css" rel="stylesheet">
+		<link href="/PQ/static/js/layui/css/layui.css" rel="stylesheet">
+		<style type="text/css">
+			#red .red-content .red-list .red-item .red-detail .red-money{
+				padding: 0;
+			}
+		</style>
+	</head>
+	<body class="layer-mask">
+		<div id="red" class="header-content" v-cloak>
+			<header class="header-nav mui-bar mui-bar-nav">
+				<a class="header-right-icon mui-pull-left" @tap="back">
+					<img class="header-icon" src="/PQ/static/img/discover/back.png" alt="">
+				</a>
+				<h1 class="mui-title">
+					我的红包
+				</h1>
+				<a class="header-right-icon mui-pull-right" @tap="goPage('/PQ/pages/my/rede/red_explain.html')">
+					<img class="header-icon" src="/PQ/static/img/help.png" alt="">
+				</a>
+			</header>
+
+			<div class="red-content">
+				<div class="red-type">
+					<label class="active" @tap="changeRedType(0)">未使用</label>
+					<label @tap="changeRedType(1)">使用中</label>
+					<label @tap="changeRedType(2)">已失效</label>
+				</div>
+				<div v-show="selectType == 0" class="red-list" id="unused">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<template v-if="noUseList.length == 0">
+								<div class="no-data">
+									<img src="/PQ/static/img/discover/search_no_data.png" alt="">
+									<p>当前没有正在使用的红包</p>
+									<div @tap="goPage('/PQ/pages/discover/new/new.html')">做任务领取</div>
+								</div>
+							</template>
+							<template v-else v-for="(i,k) in noUseList">
+								<div :key="k+'no'" :class="['red-item',i.couponType == '010'?'':'discount']">
+									<div class="red-detail">
+										<div class="red-detail-title">
+											<label class="red-title">{{i.couponName}}</label>
+											<span v-if="i.couponType == '010'">(现金红包)</span>
+											<label v-else><img @tap="showNote(i)" src="/PQ/static/img/my/help_w.png" alt="">&nbsp;&nbsp;(手续费红包)</label>
+										</div>
+										<div class="red-money">
+											<label v-if="i.couponType == '020'">{{ i.useVariety ? (i.useVariety)[0] : ""}}</label>￥<span>{{i.faceValue}}</span>
+										</div>
+										<div class="red-note">
+											<p>{{i.couponType == '010'?'使用后自动充值到账户余额':''}}</p>
+											<p>有效期限:{{i.beginTime}} 至 {{i.endTime}}</p>
+										</div>
+									</div>
+									<div class="red-action" @tap="useCoupon(i,k)">
+										<span>立即使用</span>
+									</div>
+								</div>
+							</template>
+						</div>
+					</div>
+				</div>
+				<div v-show="selectType == 1" class="red-list" id="using">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll sortable">
+							<template v-if="usingList.length == 0">
+								<div class="no-data">
+									<img src="/PQ/static/img/discover/search_no_data.png" alt="">
+									<p>当前没有正在使用的红包</p>
+									<div @tap="goPage('/PQ/pages/discover/new/new.html')">做任务领取</div>
+								</div>
+							</template>
+							<div id="sortable" v-else>
+								<template v-for="(i,k) in usingList">
+									<div :key="k+'using'" class="using">
+										<div :class="['red-item',i.couponType == '010'?'':'discount']">
+											<div class="red-detail">
+												<div class="red-detail-title">
+													<label class="red-title">{{i.couponName}}</label>
+													<span v-if="i.couponType == '010'">(现金红包)</span>
+													<label v-else><img @tap="showNote(i)" src="/PQ/static/img/my/help_w.png" alt="">&nbsp;&nbsp;(手续费红包)</label>
+												</div>
+												<div class="red-money"><label v-if="i.couponType == '020'">{{i.useVariety ? (i.useVariety)[0] : ""}}</label>￥<span>{{i.faceValue}}<span>&nbsp;{{i.couponType == '020'?'(剩余￥' +i.remainValue+'元可抵扣)':''}}</span></span>
+												</div>
+												<div class="red-note">
+													<p>{{i.couponType == '010'?'使用后自动充值到账户余额':''}}</p>
+													<p>有效期限:{{i.beginTime}} 至 {{i.endTime}}</p>
+												</div>
+											</div>
+											<div class="red-action">使用中</div>
+										</div>
+										<div class="drag" :drag-id="i.couponId"></div>
+									</div>
+								</template>
+							</div>
+							<template v-if="usingList.length != 0">
+								<p class="no-more">没有更多了</p>
+							</template>
+						</div>
+					</div>
+					<p class="note">1.使用中的红包可进行排序，排序后将会根据从上至下的顺
+						序优先进行手续费的优惠返还。(建议您将快过期的红包放置
+						顶部，以便充分享受优惠)<br>
+						2.默认顺序按照获得红包的新旧时间排列。</p>
+					<template v-if="usingList.length != 0">
+						<p class="note">1.使用中的红包可进行排序，排序后将会根据从上至下的顺
+							序优先进行手续费的优惠返还。(建议您将快过期的红包放置
+							顶部，以便充分享受优惠)<br>
+							2.默认顺序按照获得红包的新旧时间排列。</p>
+					</template>
+				</div>
+				<div v-show="selectType == 2" class="red-list" id="used">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<div v-if="usedList.length > 0" v-for="(i,k) in usedList" class="red-item used">
+								<div class="red-detail">
+									<div class="red-detail-title">
+										<label class="red-title">{{i.couponName}}</label>
+										<span v-if="i.couponType == '010'">(现金红包)</span>
+										<span v-if="i.couponType == '020'">(手续费红包)</span>
+									</div>
+									<div class="red-money">
+										<label v-if="i.couponType == '020'">{{i.useVariety ? (i.useVariety)[0] : ""}}</label>￥<span>{{i.faceValue}}</span>
+									</div>
+									<div class="red-note">
+										<p>{{i.couponType == '010'?'使用后自动充值到账户余额':''}}</p>
+										<p>有效期限:{{i.beginTime}} 至 {{i.endTime}}</p>
+									</div>
+								</div>
+								<div class="red-action">
+									<span style="color:#333333">{{i.useStatus == '030' ? '已使用':'已失效'}}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="customLayer" class="layer-box">
+				<img @tap="hideDialog" class="close-icon" src="/PQ/static/img/layerClose.png">
+				<div class="layer-header">红包说明</div>
+				<div class="layer-content">
+					本活动可用于{{showContract}}品种的手续费抵扣
+				</div>
+				<div class="layer-btn">
+					<span @tap="hideDialog">了解了</span>
+				</div>
+			</div>
+
+		</div>
+		<script src="/PQ/static/js/jquery-1.11.3.js"></script>
+		<!-- 压缩版vue -->
+		<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+		<!-- 开发版vue -->
+		<script src="/PQ/static/js/vue.js"></script>
+		<!-- 引入vux -->
+		<script src="/PQ/static/js/vuex.js"></script>
+		<script src="/PQ/static/js/layui/layui.js"></script>
+		<script src="/PQ/static/js/axios.min.js"></script>
+		<script src="/PQ/js/moment.js"></script>
+		<script src="/PQ/static/js/Sortable.min.js"></script>
+		<!-- <script src="/PQ/WPJS/redWP.js"></script> -->
+	<script type="text/javascript" src="/PQ/WPJS/redWP.js?88fa20424cec03a75413"></script></body>
+</html>

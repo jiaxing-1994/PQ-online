@@ -1,0 +1,28 @@
+@import "../../../css/common";
+
+.agreement {
+  background-color: $mainColor;
+  height: 100%;
+  position: relative;
+
+  .mui-scroll{
+    padding-left: px2rem(30px);
+    padding-right: px2rem(30px);
+  }
+
+  h4 {
+    @include font-dpr(16px);
+    padding-top: px2rem(60px);
+    padding-bottom: px2rem(24px);
+    font-weight: bold;
+  }
+
+  p {
+    @include font-dpr(14px);
+    line-height: px2rem(48px);
+    padding-top: px2rem(20px);
+    color: $defaultFontColor;
+  }
+
+
+}

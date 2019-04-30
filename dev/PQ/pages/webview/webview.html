@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+		<title></title>
+		<script src="/PQ/static/js/flexible.js"></script>
+		<script src="/PQ/static/js/mui.js"></script>
+		<link href="/PQ/static/css/mui.min.css" rel="stylesheet">
+		<link href="/PQ/static/js/layui/css/layui.css" rel="stylesheet">
+		<link href="/PQ/static/css/mui.indexedlist.css" rel="stylesheet">
+	</head>
+	<body>
+		<div id="webview">
+			<header id="webview-header" class="header-nav mui-bar mui-bar-nav">
+				<a class="header-right-icon mui-pull-left" @tap="backBtn">
+					<img class="header-icon" src="/PQ/static/img/arrow-left.png">
+				</a>
+				<h1 class="mui-title">
+					{{urlParams.title}}
+				</h1>
+			</header>
+			<div :class="urlParams.title=='在线客服'?'header-content':'header-content'">
+				<iframe id="iframeBox" :src="urlParams.url"></iframe>
+			</div>
+		</div>
+		<!-- jquery -->
+		<script src="/PQ/static/js/jquery-1.11.3.js"></script>
+		<!-- 压缩版vue -->
+		<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+		<!-- 开发版vue -->
+		<script src="/PQ/static/js/vue.js"></script>
+		<!-- 引入vux -->
+		<script src="/PQ/static/js/vuex.js"></script>
+		<!-- layui -->
+		<script src="/PQ/static/js/layui/layui.js"></script>
+		<!-- <script src="/PQ/WPJS/webviewWP.js"></script> -->
+	<script type="text/javascript" src="/PQ/WPJS/webviewWP.js?88fa20424cec03a75413"></script></body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+		<title>发现</title>
+		<script src="/PQ/static/js/flexible.js"></script>
+		<script src="/PQ/static/js/mui.js"></script>
+		<link href="/PQ/static/css/mui.picker.css" rel="stylesheet" />
+		<link href="/PQ/static/css/mui.dtpicker.css" rel="stylesheet" />
+		<link href="/PQ/static/js/layui/css/layui.css" rel="stylesheet" />
+		<link href="/PQ/static/css/mui.min.css" rel="stylesheet" />
+	</head>
+	<body class="layer-mask">
+		<div id="discover" class="mui-content" v-cloak>
+			<header class="header-nav mui-bar mui-bar-nav">
+				<a v-if="tabIndex == 2" @tap="showCountryDialog" class="header-left-icon mui-pull-left">
+					<img class="header-icon" src="/PQ/static/img/discover/message.png" alt="" />
+				</a>
+				<div class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<div class="mui-scroll">
+						<a @tap="changeTab(0)" class="mui-control-item" :class="tabIndex == 0?'mui-active':''">活动</a>
+						<a @tap="changeTab(1)" class="mui-control-item" :class="tabIndex == 1?'mui-active':''">快讯</a>
+						<a @tap="changeTab(2)" class="mui-control-item" :class="tabIndex == 2?'mui-active':''">日历</a>
+					</div>
+				</div>
+				<a v-if="tabIndex == 1" @tap="goPage('/PQ/pages/discover/search/search.html')" class="search header-right-icon mui-pull-right">
+					<img class="header-icon" src="/PQ/static/img/discover/search.png" alt="" />
+				</a>
+				<a v-if="tabIndex == 2" @tap="showPicker" class="calendar header-right-icon mui-pull-right">
+					<img class="header-icon" src="/PQ/static/img/discover/calendar.png" alt="" />
+				</a>
+			</header>
+
+			<div class="both-content">
+				<div v-show="tabIndex == 0" id="activity">
+					<div id="scroll0" class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<div id="slider" class="mui-slider">
+								<div class="mui-slider-group mui-slider-loop">
+									<template v-if="bannerList.length > 0">
+										<div @tap="goBanner(bannerList[0])" class="mui-slider-item mui-slider-item-duplicate">
+											<img :src="bannerList[0].imgUrl" alt="">
+										</div>
+										<div @tap="goBanner(item)" class="mui-slider-item" v-for="(item,index) in bannerList" :key="index">
+											<img :src="item.imgUrl">
+										</div>
+										<div @tap="goBanner(bannerList[bannerList.length-1])" class="mui-slider-item mui-slider-item-duplicate">
+											<img :src="bannerList[bannerList.length-1].imgUrl" alt="">
+										</div>
+									</template>
+								</div>
+								<div class="mui-slider-indicator">
+									<template v-if="bannerList.length > 0">
+										<div v-for="(i,k) in bannerList" :key="k" :class="['mui-indicator',k == 0 ? 'mui-active':'']"></div>
+									</template>
+								</div>
+							</div>
+							<div class="activity-box">
+								<div class="activity-item" @tap="goPage('/PQ/pages/discover/new/new.html')">
+									<img src="/PQ/static/img/discover/red.png" alt="">
+									<label>新手红包</label>
+									<span>做任务，领红包</span>
+								</div>
+								<div class="activity-item" @tap="goSign">
+									<img src="/PQ/static/img/discover/sign.png" alt="">
+									<label>每日签到</label>
+									<span>天天领现金红包</span>
+								</div>
+								<div class="activity-item" @tap="goPage('/PQ/pages/discover/share/share.html')">
+									<img src="/PQ/static/img/discover/share.png" alt="">
+									<label>分享赚钱</label>
+									<span>邀好友赚红包</span>
+								</div>
+							</div>
+							<div class="activity-notice-nav">
+								<template v-if="noticeTypeList.length > 0">
+									<label @tap="changeNoticeType(k)" v-for="(i,k) in noticeTypeList" :key="k" :class="selectNoticeType==k?'active':''">
+										{{i.typeName}}
+									</label>
+								</template>
+							</div>
+							<template v-if="noticeTypeList.length > 0">
+								<div id="system-notice">
+									<div :class="['notice-item',(k==0 && selectNoticeType==0) ?'open':'' ]"
+									 v-for="(i,k) in noticeTypeList[selectNoticeType].noticeList" :key="k+selectNoticeType">
+										<span @tap="showMore($event)" class="notice-item-title">{{i.title}}</span>
+										<p class="notice-item-content" v-html="i.content"></p>
+										<label @tap="showMore($event)">{{i.noticeTime}}</label>
+										<i @tap="showMore($event)" class="show"></i>
+									</div>
+								</div>
+							</template>
+						</div>
+					</div>
+				</div>
+				<div v-show="tabIndex == 1" id="message">
+					<div class="message-date-title">{{messageDate}}&nbsp;&nbsp;{{messageWeek}}</div>
+					<div id="scroll1" class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul class="layui-timeline">
+								<li @tap="showMessageMore" v-for="(i,k) in messageList" :key="k" class="layui-timeline-item">
+									<div class="layui-timeline-content layui-text">
+										<h3 class="layui-timeline-title">{{i.liveCreateTime.split(" ")[1]}}</h3>
+										<p>{{i.liveTitle}}</p>
+									</div>
+									<span class="open"></span>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div v-show="tabIndex == 2" id="calendar">
+					<div class="calendar-title">
+						<ul>
+							<li @tap="getWeek(i.index)" v-for="(i,k) in daysList" :class="i.isSelected?'active':''">
+								<span>{{i.day}}</span>
+								<label>{{i.date}}</label>
+							</li>
+						</ul>
+					</div>
+					<div id="scroll2" class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul>
+								<template v-if="tempCalendar.length > 0">
+									<li v-for="(i,k) in tempCalendar" :key="k">
+										<div>
+											<label>
+												<span>{{i.createTime.split(" ")[1]}}</span>
+												<img :src="i.flagUrl" alt="">
+												<span>{{i.country}}</span>
+											</label>
+											<label>
+												<img :src="'/PQ/static/img/discover/star'+i.importance+'.png'" alt="">
+												<!-- <img v-if="i.importance != 0" :src="'/PQ/static/img/discover/clock'+i.importance+'.png'" alt=""> -->
+											</label>
+										</div>
+										<p>{{i.title}}</p>
+										<div>
+											<label>今值&nbsp;&nbsp;<span>{{i.actual== ""?'---':i.actual}}</span></label>
+											<label>预期&nbsp;&nbsp;<span>{{i.forecast== ""?'---':i.forecast}}</span></label>
+											<label>前值&nbsp;&nbsp;<span>{{i.previous== ""?'---':i.previous}}</span></label>
+										</div>
+									</li>
+								</template>
+								<template v-else>
+									<li @tap="showAll" style="text-align: center">暂无所选数据，点此加载全部数据</li>
+								</template>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<nav class="bottom-tab-nav mui-bar mui-bar-tab">
+				<a class="mui-tab-item" href="/PQ/pages/home/home.html">
+					<img class="tab-icon" src="/PQ/static/img/tab/01.png" alt />
+					<span class="mui-tab-label">首页</span>
+				</a>
+				<a class="mui-tab-item" href="/PQ/pages/quato/quato.html">
+					<img class="tab-icon" src="/PQ/static/img/tab/02.png" alt />
+					<span class="mui-tab-label">行情</span>
+				</a>
+				<a class="mui-tab-item" href="/PQ/pages/trade/trade.html">
+					<img class="tab-icon" src="/PQ/static/img/tab/03.png" alt />
+					<span class="mui-tab-label">交易</span>
+				</a>
+				<a class="mui-tab-item mui-active1">
+					<img class="tab-icon" src="/PQ/static/img/tab/04y.png" alt />
+					<span class="mui-tab-label">发现</span>
+				</a>
+				<a class="mui-tab-item" href="/PQ/pages/my/my.html">
+					<img class="tab-icon" src="/PQ/static/img/tab/05.png" alt />
+					<span class="mui-tab-label">我的</span>
+				</a>
+			</nav>
+
+			<div id="country-dialog" class="country-dialog">
+				<p>按国家</p>
+				<ul class="country">
+					<li v-for="(i,k) in countryList" :key="k+'i'" @tap="changeCountry(k)" class="country-active">{{i}}</li>
+				</ul>
+				<p>按重要</p>
+				<ul class="major">
+					<li @tap="changeMajor(0)" class="major-active">全部</li>
+					<li @tap="changeMajor(1)">重要</li>
+				</ul>
+				<div>
+					<label @tap="hideDialog">取消</label>
+					<label @tap="sureChoose">确认</label>
+				</div>
+			</div>
+
+		</div>
+
+		<script src="/PQ/static/js/jquery-1.11.3.js"></script>
+		<!-- 压缩版vue -->
+		<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+		<!-- 开发版vue -->
+		<script src="/PQ/static/js/vue.js"></script>
+		<!-- 引入vux -->
+		<script src="/PQ/static/js/vuex.js"></script>
+		<script src="/PQ/static/js/axios.min.js"></script>
+		<script src="/PQ/static/js/layui/layui.js"></script>
+		<script src="/PQ/static/js/mui.picker.js"></script>
+		<script src="/PQ/static/js/mui.dtpicker.js"></script>
+		<script src="/PQ/js/moment.js"></script>
+		<!-- <script src="/PQ/WPJS/discoverWP.js"></script> -->
+	</body>
+</html>

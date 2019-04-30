@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+		<title>交易</title>
+		<script src="/PQ/static/js/flexible.js"></script>
+		<script src="/PQ/static/js/mui.js"></script>
+		<link href="/PQ/static/css/mui.min.css" rel="stylesheet"/>
+		<link href="/PQ/static/js/layui/css/layui.css"/>
+		<!-- 路由 -->
+		<!-- <script src="/PQ/js/route.js"></script>
+		<script>
+		</script> -->
+	</head>
+	<body class="layer-mask">
+		<div id="trade" v-cloak>
+			<header class="header-nav mui-bar mui-bar-nav">
+				<h1 class="mui-title">交易</h1>
+				<a class="header-right-icon mui-pull-right" @tap="customLayer">
+					<img class="header-icon" src="/PQ/static/img/custom.png"/>
+				</a>
+				<a class="header-right-icon mui-pull-right" @tap="goToPage('/PQ/pages/trade/guide/guide.html')">
+					<img class="header-icon" src="/PQ/static/img/help.png"/>
+				</a>
+			</header>
+			<div id="trade-content" class="both-content mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<div class="step-wrap">
+						<img src="/PQ/static/img/trade/step.png"/>
+						<div class="step-text">
+							<span>注册开户</span>
+							<span>充值入金</span>
+							<span>实盘交易</span>
+						</div>
+					</div>
+					<div class="info-list">
+						<div class="info-item">
+							<img src="/PQ/static/img/trade/ad1.png"/>
+							<div class="info-text">
+								<span v-if="urlParams!=0" class="info-text-title">真实实盘</span>
+								<span v-if="urlParams!=0" class="info-text-decs">直连全球期货交易所,100%实盘</span>
+								<span v-if="urlParams==0" class="info-text-title">模拟实盘</span>
+								<span v-if="urlParams==0" class="info-text-decs">直接移植实盘系统，真实体验</span>
+							</div>
+						</div>
+						<div class="info-item">
+							<img src="/PQ/static/img/trade/ad2.png"/>
+							<div class="info-text">
+								<span class="info-text-title">双向交易</span>
+								<span class="info-text-decs">买涨买跌都能赚钱</span>
+							</div>
+						</div>
+						<div class="info-item">
+							<img src="/PQ/static/img/trade/ad3.png"/>
+							<div class="info-text">
+								<span class="info-text-title">T+0交易</span>
+								<span class="info-text-decs">当天买，当天卖，迅速盈利</span>
+							</div>
+						</div>
+						<div class="info-item">
+							<img src="/PQ/static/img/trade/ad4.png"/>
+							<div class="info-text">
+								<span class="info-text-title">服务全球</span>
+								<span class="info-text-decs">全球期货，外汇实时交易</span>
+							</div>
+						</div>
+					</div>
+					<div class="option-btn">
+						<div class="btn-item btn-item-blue" @tap="goToPage('/PQ/pages/my/register/register.html')">
+							30秒极速开户
+						</div>
+						<div class="btn-item" @tap="goToPage('/PQ/pages/my/login/login.html')">
+							已开户，直接登录
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<nav class="bottom-tab-nav mui-bar mui-bar-tab">
+				<a id="defaultTab" class="mui-tab-item" href="/PQ/pages/home/home.html">
+					<img class="tab-icon" src="/PQ/static/img/tab/01.png" />
+					<span class="mui-tab-label">首页</span>
+				</a>
+				<a class="mui-tab-item" href="/PQ/pages/quato/quato.html">
+					<img class="tab-icon" src="/PQ/static/img/tab/02.png" />
+					<span class="mui-tab-label">行情</span>
+				</a>
+				<a class="mui-tab-item mui-active1">
+					<img class="tab-icon" src="/PQ/static/img/tab/03y.png" />
+					<span class="mui-tab-label">交易</span>
+				</a>
+				<a class="mui-tab-item" href="/PQ/pages/discover/discover.html">
+					<img class="tab-icon" src="/PQ/static/img/tab/04.png" />
+					<span class="mui-tab-label">发现</span>
+				</a>
+				<a class="mui-tab-item" href="/PQ/pages/my/my.html">
+					<img class="tab-icon" src="/PQ/static/img/tab/05.png" />
+					<span class="mui-tab-label">我的</span>
+				</a>
+			</nav>
+			
+			
+			<!-- 客服弹窗 -->
+			<div id="customLayer" class="layer-box">
+				<div class="custom-item" @tap="chooseCustomer('电话客服')">
+					<img src="/PQ/static/img/custom/phone.png"/>
+					<span>{{phoneCustomer}}</span>
+				</div>
+				<div class="custom-item" @tap="chooseCustomer('在线客服')">
+					<img src="/PQ/static/img/custom/message.png"/>
+					<span>在线客服</span>
+				</div>
+				<div class="custom-item" @tap="chooseCustomer('qq客服')">
+					<img src="/PQ/static/img/custom/qq.png"/>
+					<span>QQ在线</span>
+				</div>
+				<div class="custom-item" @tap="chooseCustomer('微信客服')">
+					<img src="/PQ/static/img/custom/wechat.png"/>
+					<span>微信客服</span>
+				</div>
+			</div>
+		</div>
+		
+		<!-- jquery -->
+		<script src="/PQ/static/js/jquery-1.11.3.js"></script>
+		<!-- 压缩版vue -->
+		<!-- <script src="/PQ/static/js/vue.min.js"></script> -->
+		<!-- 开发版vue -->
+		<script src="/PQ/static/js/vue.js"></script>
+		<!-- 引入vux -->
+		<script src="/PQ/static/js/vuex.js"></script>
+		<!-- layui -->
+		<script src="/PQ/static/js/layui/layui.js"></script>
+		<!-- 引入axios -->
+		<script src="/PQ/static/js/axios.min.js"></script>
+		
+		<!-- <script src="/PQ/WPJS/tradeWP.js"></script> -->
+	</body>
+</html>

@@ -1,0 +1,61 @@
+@import '../../../css/common.scss';
+
+#cooperate{
+	height: 100%;
+	background: $mainColor;
+	#main{
+		position: relative;
+		.cooperate-content{
+			@include font-dpr(14px);
+			top: px2rem(80px);
+			width: 100%;
+			@include font-dpr(14px);
+			color:$defaultFontColor;
+			.mui-scroll{
+			}
+			.item-box{
+				margin-bottom:px2rem(60px);
+				.item-title{
+					margin-bottom: px2rem(30px);
+					font-weight: bold;
+				}
+			}
+			.no-margin{
+				margin-bottom: 0;
+			}
+			.info-top{
+				padding: px2rem(60px) px2rem(30px) 0 px2rem(30px);
+			}
+			.table-box{
+				.item-title{
+					padding: 0 px2rem(30px);
+					@include font-dpr(16px);
+				}
+				.table-wrap{
+					border-top: solid px2rem(1px) $itemColor;
+					.table-item{
+						display: flex;
+						height: px2rem(80px);
+						border-bottom: solid px2rem(1px) $itemColor;
+						span{
+							flex: 1;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							border-right: solid px2rem(1px) $itemColor;
+						}
+						span:last-child{
+							border-right: none;
+						}
+					}
+				}
+			}
+			.more-info{
+				padding: px2rem(30px);
+				span{
+					color:#ff7e00;
+				}
+			}
+		}
+	}
+}

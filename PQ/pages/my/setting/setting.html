@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <title>安全设置</title>
+    <script src="/PQ/static/js/flexible.js"></script>
+    <script src="/PQ/static/js/mui.js"></script>
+    <link href="/PQ/static/css/mui.min.css" rel="stylesheet"/>
+    <link href="/PQ/static/js/layui/css/layui.css" rel="stylesheet"/>
+</head>
+<body>
+<div id="setting" class="header-content">
+    <header class="header-nav mui-bar mui-bar-nav">
+        <a class="header-right-icon mui-pull-left" @tap="back">
+            <img class="header-icon" src="/PQ/static/img/discover/back.png" alt=""/>
+        </a>
+        <h1 class="mui-title">
+            安全设置
+        </h1>
+    </header>
+
+    <div class="setting-content">
+        <div @tap="goPage('/PQ/pages/my/modify/modify.html',1)">
+            <label>修改手机号</label>
+            <img src="/PQ/static/img/arrow-right.png" alt="">
+        </div>
+        <div @tap="goPage('/PQ/pages/my/modify/modify.html',2)">
+            <label>修改密码</label>
+            <img src="/PQ/static/img/arrow-right.png" alt="">
+        </div>
+        <div @tap="goPage('/PQ/pages/my/modify/modify.html',3)">
+            <label>修改提现密码</label>
+            <img src="/PQ/static/img/arrow-right.png" alt="">
+        </div>
+        <!--<div onclick="pushRoute({page:'/PQ/pages/my/address/address.html'})">-->
+            <!--<label>收货地址</label>-->
+            <!--<img src="/PQ/static/img/arrow-right.png" alt="">-->
+        <!--</div>-->
+    </div>
+</div>
+<script src="/PQ/static/js/jquery-1.11.3.js"></script>
+<!-- 压缩版vue -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+<!-- 开发版vue -->
+<script src="/PQ/static/js/vue.js"></script>
+<!-- 引入vux -->
+<script src="/PQ/static/js/vuex.js"></script>
+<script src="/PQ/static/js/layui/layui.js"></script>
+<script src="/PQ/static/js/axios.min.js"></script>
+<!-- <script src="/PQ/WPJS/settingWP.js"></script> -->
+<script>
+</script>
+</body>
+</html>

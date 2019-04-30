@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+		<title>行情</title>
+		<script src="/PQ/static/js/flexible.js"></script>
+		<script src="/PQ/static/js/mui.js"></script>
+		<link href="/PQ/static/css/mui.min.css" rel="stylesheet">
+		<link href="/PQ/static/js/layui/css/layui.css" rel="stylesheet">
+		<link href="/PQ/static/css/mui.indexedlist.css" rel="stylesheet">
+	</head>
+	<body>
+		<div id="trade" class="mui-off-canvas-wrap mui-draggable mui-slide-in">
+			<!--菜单部分-->
+			<aside id="offCanvasSide" class="mui-off-canvas-right">
+				<div id="offCanvasSideScroll" class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="menu-list">
+							<li @tap="goToPage('/PQ/pages/quato/conditionOrder/conditionOrder.html')" class="menu-item">
+								<img src="/PQ/static/img/quato/menu/m1.png">
+								<span>条件单</span>
+							</li>
+							<li @tap="goToPage('/PQ/pages/quato/stopOrder/stopOrder.html')" class="menu-item menu-item-margin">
+								<img src="/PQ/static/img/quato/menu/m2.png">
+								<span>止盈止损</span>
+							</li>
+							<li @tap="goToPage('/PQ/pages/quato/history/history.html')" class="menu-item">
+								<img src="/PQ/static/img/quato/menu/m3.png">
+								<span>历史成交</span>
+							</li>
+							<li @tap="goToPage('/PQ/pages/quato/capitalRecord/capitalRecord.html')" class="menu-item">
+								<img src="/PQ/static/img/quato/menu/m4.png">
+								<span>资金明细</span>
+							</li>
+							<li @tap="goToPage('/PQ/pages/quato/rateStandard/rateStandard.html',1)" class="menu-item menu-item-margin">
+								<img src="/PQ/static/img/quato/menu/m5.png">
+								<span>汇率标准</span>
+							</li>
+							<li @tap="goToPage('/PQ/pages/quato/quato.html',1)" v-if="tradeType==0" class="menu-item menu-item-margin">
+								<img src="/PQ/static/img/quato/menu/m6.png">
+								<span>实盘交易</span>
+							</li>
+							<li @tap="goToPage('/PQ/pages/my/red/red.html')" v-if="tradeType==1" class="menu-item menu-item-margin">
+								<img src="/PQ/static/img/quato/menu/m8.png">
+								<span>我的红包</span>
+							</li>
+							<li @tap="goToPage('/PQ/pages/my/my.html',1)" v-if="tradeType==1" class="menu-item menu-item-margin">
+								<img src="/PQ/static/img/quato/menu/m9.png">
+								<span>我的账户</span>
+							</li>
+							<li @tap="getMoney" v-if="tradeType==0" class="menu-item">
+								<img src="/PQ/static/img/quato/menu/m7.png">
+								<span class="award">领<span>{{simPrice}}</span>模拟金</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</aside>
+			<div class="mui-inner-wrap layer-mask">
+				<header :class="tradeType==0?'header-type-m':''" id="trade-header" class="header-nav mui-bar mui-bar-nav" v-cloak>
+					<a class="header-right-icon mui-pull-left" @tap="backBtn">
+						<img v-if="tradeType==0" class="header-icon" src="/PQ/static/img/arrow-left-white.png">
+						<img v-if="tradeType==1" class="header-icon" src="/PQ/static/img/arrow-left.png">
+					</a>
+					<h1 class="mui-title">
+						<div class="contract-header">
+							<span>
+								<span class="header-mark">{{tradeType==0?'模拟':'实盘'}}</span>
+							</span>
+							<span class="contract-header-left" @tap="switchContract">
+								<span class="header-left-item header-left-top-item" :style="{'color':tradeType==0?isOnTrade?'#fff':'#979fc2':'#333'}">
+									<span class="title-name">{{headerTextTop}}</span>
+									<span class="title-code">{{headerTextBottom}}</span>
+								</span>
+								<span v-if="!isOnTrade" class="header-left-item header-right-top-item trade-mark">(休市中)</span>
+							</span>
+							<span class="contract-header-right" @tap="switchContract">
+								<img v-if="tradeType==0" class="title-icon" src="/PQ/static/img/quato/arrow-white.png">
+								<img v-if="tradeType==1" class="title-icon" src="/PQ/static/img/quato/arrow.png">
+							</span>
+						</div>
+					</h1>
+					<a class="header-right-icon mui-pull-right" href="#offCanvasSide">
+						<img v-if="tradeType==0" class="header-icon" src="/PQ/static/img/menu-white.png">
+						<img v-if="tradeType==1" class="header-icon" src="/PQ/static/img/menu.png">
+					</a>
+					<a class="header-right-icon mui-pull-right" @tap="goToPage('/PQ/pages/quato/contractRule/contractRule.html')">
+						<img v-if="tradeType==0" class="header-icon" src="/PQ/static/img/help-white.png">
+						<img v-if="tradeType==1" class="header-icon" src="/PQ/static/img/help.png">
+					</a>
+				</header>
+				<div id="trade-content" class="header-content">
+					<div id="tradeTab" class="trade-tab" v-cloak>
+						<span class="trade-tab-item" :class="tabIndex==1?'tab-active':''" @tap="chooseTap(1,'LIGHT')">闪电图</span>
+						<span class="trade-tab-item" :class="tabIndex==2?'tab-active':''" @tap="chooseTap(2,'KLINE_UNKNOWN')">分时</span>
+						<span :class="tabIndex==3?'tab-active':''" @tap="chooseTap(3)" class="trade-tab-item kline-option">
+							{{klineName}}
+							<i class="triangle-icon"></i>
+						</span>
+						<span class="trade-tab-item" :class="tabIndex==4?'tab-active':''" @tap="chooseTap(4)">盘口</span>
+						<span class="trade-tab-item tab-position-order" :class="[tabIndex==5?'tab-active':'']" @tap="chooseTap(5)"><span v-if="positionList.length>0" class="tab-position-order-point"></span>交易中心</span>
+						<span class="trade-tab-item" :class="['kline-more',isShowKlineOption?'kline-more-active':'']">
+							<span class="trade-tab-item" @tap="chooseTap(6)">1分K</span>
+							<span class="trade-tab-item" @tap="chooseTap(7)">5分K</span>
+							<span class="trade-tab-item" @tap="chooseTap(8)">15分K</span>
+							<span class="trade-tab-item" @tap="chooseTap(9)">30分K</span>
+							<span class="trade-tab-item" @tap="chooseTap(10)">日K</span>
+						</span>
+						<!-- 未登录交易的弹出框 -->
+						<div id="tradeLoginLayer2" class="layer-box">
+							<img @tap="closeLayer" class="close-icon" src="/PQ/static/img/layerClose.png">
+							<div class="layer-header">
+								系统提示
+							</div>
+							<div class="layer-content">
+								<span v-if="isLogin&&!isTradeLogin">交易连接出错，暂无法交易，请重启应用。</span>
+								<span v-if="isLogin&&!isTradeLogin">重启仍无法解决，请联系客服。</span>
+								<span v-if="!isLogin">暂无登录交易，请先登录交易账户。</span>
+							</div>
+							<div class="layer-btn">
+								<span v-if="isLogin&&!isTradeLogin" @tap="layerInfoBtn(3)">确认</span>
+								<span v-if="!isLogin" class="border-right" @tap="layerInfoBtn(1)">取消</span>
+								<span v-if="!isLogin" @tap="layerInfoBtn(2)">去登录>></span>
+							</div>
+						</div>
+					</div>
+					<div id="chart-page" class="chartPage" v-if="choosePage == 1" v-cloak>
+						<div class="chart">
+							<span class="loading" v-if="chartLoad">
+								<svg version="1.1" id="L9" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
+									<path fill="#ddd" d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
+									<animateTransform attributeName="transform" attributeType="XML" type="rotate" dur="1s" from="0 50 50" to="360 50 50" repeatCount="indefinite"/>
+								</path>
+								</svg>
+							</span>
+							<iframe id="chartURL" :src="chartUrl"></iframe>
+						</div>
+						<div class="trade-area">
+							<div class="trade-info-wrap">
+								<div class="trade-info-side trade-info-left">
+									<div class="trade-info-item">
+										<span>
+											<span class="info-name">卖</span>
+											<span :class="LastData[11]>LastData[10]?'colorUp':'colorDown'">{{LastData[1]?LastData[11].toFixed(this.chooseContract.dotSize):0}}</span>
+										</span>
+										<span class="info-right">{{LastData[1]?LastData[12]:0}}</span>
+									</div>
+									<div class="trade-info-item">
+										<span>
+											<span class="info-name">买</span>
+											<span :class="LastData[13]>LastData[10]?'colorUp':'colorDown'">{{LastData[13].toFixed(this.chooseContract.dotSize)}}</span>
+										</span>
+										<span class="info-right">{{LastData[14]}}</span>
+									</div>
+								</div>
+								<div class="trade-info-side trade-info-right">
+									<div :class="['info-price',LastData[3]>LastData[10]?'colorUp':'colorDown']">
+										{{LastData[3].toFixed(this.chooseContract.dotSize)}}
+									</div>
+									<div class="info-rate">
+										<span :class="LastData[3]>LastData[10]?'colorUp':'colorDown'">{{LastData[3]==0?'-':(LastData[3]-LastData[10]).toFixed(this.chooseContract.dotSize)}}</span>
+										<span :class="LastData[3]>LastData[10]?'colorUp':'colorDown'">{{LastData[3]==0?'-':((LastData[3]-LastData[10])/LastData[10]*100).toFixed(2)+'%'}}</span>
+									</div>
+								</div>
+							</div>
+							<div class="rate-wrap">
+								<div :style="{'width':LastData[14]/(LastData[12]+LastData[14])*100+'%'}" class="rate-item rate-item-buy">
+									<span>{{LastData[12]+LastData[14]==0?0:(LastData[14]/(LastData[12]+LastData[14])*100).toFixed(2)}}%</span>
+									<span>{{LastData[14]}}</span>
+								</div><div :style="{'width':LastData[12]/(LastData[12]+LastData[14])*100+'%'}" class="rate-item rate-item-sell">
+									<span>{{LastData[12]}}</span>
+									<span>{{LastData[12]+LastData[14]==0?0:(LastData[12]/(LastData[12]+LastData[14])*100).toFixed(2)}}%</span>
+								</div>
+							</div>
+							<div class="trade-num-wrap">
+								<div :class="['trade-hand-num',keyboardType==1?'trade-active':'']" @tap="showKeyboard(1)">
+									<!-- <span class="trade-num-item trade-num-btn" @tap="chooseNum(2)">
+										<img src="/PQ/static/img/minus.png"/>
+									</span> --><span class="trade-num-item trade-num-content">
+										<span class="content-a">手数:</span>
+										<span class="content-b">{{handNum}}</span>
+									</span><!-- <span class="trade-num-item trade-num-btn" @tap="chooseNum(1)">
+										<img src="/PQ/static/img/add.png"/>
+									</span> -->
+								</div>
+								<div :class="['trade-price-num',keyboardType==2?'trade-active':'']" @tap="showKeyboard(2)">
+									<span>价格</span>
+									<!-- <input class="price-input" type="text" /> -->
+									<span class="price-input">{{price}}</span>
+								</div>
+								<!-- <div class="trade-type-btn">
+									限价
+									<i class="triangle-icon"></i>
+								</div> -->
+							</div>
+							<div class="trade-btn-wrap">
+								<span class="trade-btn trade-buy-btn" @tap="tradeBtn(1)">
+									<span class="trade-btn-price">{{keyboardPriceType==4?price:buyPrice}}</span>
+									<span>{{tradeType==0?'模拟':''}}买入</span>
+								</span>
+								<span class="trade-btn trade-sell-btn" @tap="tradeBtn(2)">
+									<span class="trade-btn-price">{{keyboardPriceType==4?price:sellPrice}}</span>
+									<span>{{tradeType==0?'模拟':''}}卖出</span>
+								</span>
+							</div>
+							<transition name="slide-up">
+								<div :class="['keyboard',keyboardType==1?'keyboard1':'keyboard2']" v-show="isShowKeyboard">
+									<div class="flex keyboard-info">
+										<span v-if="keyboardType==1">手数:{{handNum}}</span>
+										<span v-if="keyboardType==2">最小变动价为:{{chooseContract.mini_ticker_size}}</span>
+										<span class="keyboard-btn" @tap="closeKeyboard">
+											<img src="/PQ/static/img/quato/keyboard.png">
+										</span>
+									</div>
+									<div class="flex price-type" v-if="keyboardType==2">
+										<div @tap="chooseKeyboardNum('排队价')" class="price-type-item flex-1" :class="keyboardPriceType==1?'price-type-item-active':''">排队价</div>
+										<div @tap="chooseKeyboardNum('对手价')" class="price-type-item flex-1" :class="keyboardPriceType==2?'price-type-item-active':''">对手价</div>
+										<div @tap="chooseKeyboardNum('市价')" class="price-type-item flex-1" :class="keyboardPriceType==3?'price-type-item-active':''">市价</div>
+										<div @tap="chooseKeyboardNum('限价')" class="price-type-item flex-1" :class="keyboardPriceType==4?'price-type-item-active':''">限价</div>
+									</div>
+									<div class="flex keyboard-box">
+										<div class="flex-4 keyboard-box1">
+											<div class="flex">
+												<div @tap="chooseKeyboardNum(7)" class="keyboard-item flex-1">7</div>
+												<div @tap="chooseKeyboardNum(8)" class="keyboard-item flex-1">8</div>
+												<div @tap="chooseKeyboardNum(9)" class="keyboard-item flex-1">9</div>
+											</div>
+											<div class="flex">
+												<div @tap="chooseKeyboardNum(4)" class="keyboard-item flex-1">4</div>
+												<div @tap="chooseKeyboardNum(5)" class="keyboard-item flex-1">5</div>
+												<div @tap="chooseKeyboardNum(6)" class="keyboard-item flex-1">6</div>
+											</div>
+											<div class="flex">
+												<div @tap="chooseKeyboardNum(1)" class="keyboard-item flex-1">1</div>
+												<div @tap="chooseKeyboardNum(2)" class="keyboard-item flex-1">2</div>
+												<div @tap="chooseKeyboardNum(3)" class="keyboard-item flex-1">3</div>
+											</div>
+											<div class="flex">
+												<div @tap="chooseKeyboardNum('.')" v-if="keyboardType == 2" class="keyboard-item flex-1 keyboard-item-gray">.</div>
+												<div @tap="chooseKeyboardNum(0)" :class="['keyboard-item',keyboardType == 2?'flex-1':'flex-2']">0</div>
+												<div @tap="chooseKeyboardNum('back')" class="keyboard-item flex-1 keyboard-item-gray">
+													<img src="/PQ/static/img/quato/back.png">
+												</div>
+											</div>
+										</div>
+										<div class="flex-1 keyboard-box2">
+											<div class="keyboard-item high-height flex keyboard-item-gray" @tap="chooseKeyboardNum('加')">
+												<img src="/PQ/static/img/quato/add.png">
+											</div>
+											<div class="keyboard-item high-height flex keyboard-item-gray" @tap="chooseKeyboardNum('减')">
+												<img src="/PQ/static/img/quato/jian.png">
+											</div>
+										</div>
+									</div>
+								</div>
+							</transition>
+						</div>
+						<!-- 确认订单弹出框 -->
+						<div id="confirmOrderOpenLayer" class="layer-box">
+							<img @tap="closeLayer" class="close-icon" src="/PQ/static/img/layerClose.png">
+							<div class="layer-header">
+								确认订单
+							</div>
+							<div class="layer-content">
+								确认提交订单:[{{chooseContract.commodity_name}}{{chooseContract.main_contract_no}}],价格[{{keyboardPriceType==3?'市价':keyboardPriceType==2?'对手价':keyboardPriceType==1?'排队价':keyboardPriceType==4?price:''}}],手数[{{handNum}}],方向[{{direction==0?'买':'卖'}}]?
+							</div>
+							<div class="layer-btn">
+								<span class="border-right" @tap="layerBtn(1)">取消</span>
+								<span @tap="layerBtn(2)">确认</span>
+							</div>
+						</div>
+						<!-- 未登录交易的弹出框 -->
+						<div id="tradeLoginLayer2" class="layer-box">
+							<img @tap="closeLayer" class="close-icon" src="/PQ/static/img/layerClose.png">
+							<div class="layer-header">
+								系统提示
+							</div>
+							<div class="layer-content">
+								<span v-if="isLogin&&!isTradeLogin">交易连接出错，暂无法交易，请重启应用。</span>
+								<span v-if="isLogin&&!isTradeLogin">重启仍无法解决，请联系客服。</span>
+								<span v-if="!isLogin">暂无登录交易，请先登录交易账户。</span>
+							</div>
+							<div class="layer-btn">
+								<span v-if="isLogin&&!isTradeLogin" @tap="layerInfoBtn(1)">确认</span>
+								<span v-if="!isLogin" class="border-right" @tap="layerInfoBtn(1)">取消</span>
+								<span v-if="!isLogin" @tap="layerInfoBtn(2)">去登录>></span>
+							</div>
+						</div>
+						<!-- 余额不足弹出框 -->
+						<div id="balanceInfoLayer" class="layer-box">
+							<img @tap="closeLayer" class="close-icon" src="/PQ/static/img/layerClose.png">
+							<div class="layer-header">
+								系统提示
+							</div>
+							<div class="layer-content">
+								<span>您的资金不足，是否去充值入金？</span>
+								<span class="layer-tips">Tips:交易{{chooseContract.commodity_name}}需{{(needMoney).toFixed(2)}}元</span>
+							</div>
+							<div class="layer-btn">
+								<span class="border-right" @tap="layerInfoBtn(1)">再看看</span>
+								<span @tap="goToPage('/PQ/pages/my/recharge/recharge.html',1)">去充值</span>
+							</div>
+						</div>
+					</div>
+					<div id="position-page" class="positionPage" v-if="choosePage == 2" v-cloak>
+						<div class="tab-btn">
+							<span :class="[pageIndex==1?'tab-btn-active':'']" @tap="switchPage(1)">盘口/五档</span>
+							<span :class="[pageIndex==2?'tab-btn-active':'']" @tap="switchPage(2)">逐笔明细</span>
+						</div>
+						<div class="position-info">
+							<div class="position-info-item info-page-a" v-show="pageIndex == 1">
+								<div class="detail-list-scroll mui-scroll-wrapper">
+									<div class="mui-scroll">
+										<div class="info-side">
+											<ul>
+												<li>
+													<span class="info-title">涨跌</span>
+													<span :class="LastData[3]>LastData[10]?LastData[3]==LastData[10]?'':'colorUp':'colorDown'">{{LastData[3]==0?'-':(LastData[3]-LastData[10]).toFixed(2)}}/{{LastData[3]==0?'-':((LastData[3]-LastData[10])/LastData[10]*100).toFixed(2)+'%'}}</span>
+												</li>
+												<li>
+													<span class="info-title">成交</span>
+													<span>{{LastData[6]}}</span>
+												</li>
+												<li>
+													<span class="info-title">持仓</span>
+													<span>{{LastData[7]}}</span>
+												</li>
+												<li>
+													<span class="info-title">昨结</span>
+													<span>{{LastData[10].toFixed(this.chooseContract.dotSize)}}</span>
+												</li>
+												<li>
+													<span class="info-title">最新</span>
+													<span :class="LastData[3]>LastData[10]?LastData[3]==LastData[10]?'':'colorUp':'colorDown'">{{LastData[3].toFixed(this.chooseContract.dotSize)}}</span>
+												</li>
+												<li>
+													<span class="info-title">开盘</span>
+													<span :class="LastData[2]>LastData[10]?LastData[2]==LastData[10]?'':'colorUp':'colorDown'">{{LastData[2].toFixed(this.chooseContract.dotSize)}}</span>
+												</li>
+												<li>
+													<span class="info-title">最高</span>
+													<span :class="LastData[4]>LastData[10]?LastData[4]==LastData[10]?'':'colorUp':'colorDown'">{{LastData[4].toFixed(this.chooseContract.dotSize)}}</span>
+												</li>
+												<li>
+													<span class="info-title">最低</span>
+													<span :class="LastData[5]>LastData[10]?LastData[5]==LastData[10]?'':'colorUp':'colorDown'">{{LastData[5].toFixed(this.chooseContract.dotSize)}}</span>
+												</li>
+											</ul>
+										</div><div class="info-side">
+											<ul>
+												<li>
+													<span class="info-side-item">
+														<span class="sell-type">卖五</span>
+													</span>
+													<span class="info-side-item" :class="sell5[0]>LastData[10]?sell5[0]==LastData[10]?'':'colorUp':'colorDown'">{{sell5[0]}}</span>
+													<span class="info-side-item">{{sell5[1]}}</span>
+												</li>
+												<li>
+													<span class="info-side-item">
+														<span class="sell-type">卖四</span>
+													</span>
+													<span class="info-side-item" :class="sell4[0]>LastData[10]?sell4[0]==LastData[10]?'':'colorUp':'colorDown'">{{sell4[0]}}</span>
+													<span class="info-side-item">{{sell4[1]}}</span>
+												</li>
+												<li>
+													<span class="info-side-item">
+														<span class="sell-type">卖三</span>
+													</span>
+													<span class="info-side-item" :class="sell3[0]>LastData[10]?sell3[0]==LastData[10]?'':'colorUp':'colorDown'">{{sell3[0]}}</span>
+													<span class="info-side-item">{{sell3[1]}}</span>
+												</li>
+												<li>
+													<span class="info-side-item">
+														<span class="sell-type">卖二</span>
+													</span>
+													<span class="info-side-item" :class="sell2[0]>LastData[10]?sell2[0]==LastData[10]?'':'colorUp':'colorDown'">{{sell2[0]}}</span>
+													<span class="info-side-item">{{sell2[1]}}</span>
+												</li>
+												<li>
+													<span class="info-side-item">
+														<span class="sell-type">卖一</span>
+													</span>
+													<span class="info-side-item" :class="LastData[11]>LastData[10]?LastData[11]==LastData[10]?'':'colorUp':'colorDown'">{{LastData[11].toFixed(this.chooseContract.dotSize)}}</span>
+													<span class="info-side-item">{{LastData[12]}}</span>
+												</li>
+												<li>
+													<span class="info-side-item">
+														<span class="buy-type">买一</span>
+													</span>
+													<span class="info-side-item" :class="LastData[13]>LastData[10]?LastData[13]==LastData[10]?'':'colorUp':'colorDown'">{{LastData[13].toFixed(this.chooseContract.dotSize)}}</span>
+													<span class="info-side-item">{{LastData[14]}}</span>
+												</li>
+												<li>
+													<span class="info-side-item">
+														<span class="buy-type">买二</span>
+													</span>
+													<span class="info-side-item" :class="buy2[0]>LastData[10]?buy2[0]==LastData[10]?'':'colorUp':'colorDown'">{{buy2[0]}}</span>
+													<span class="info-side-item">{{buy2[1]}}</span>
+												</li>
+												<li>
+													<span class="info-side-item">
+														<span class="buy-type">买三</span>
+													</span>
+													<span class="info-side-item" :class="buy3[0]>LastData[10]?buy3[0]==LastData[10]?'':'colorUp':'colorDown'">{{buy3[0]}}</span>
+													<span class="info-side-item">{{buy3[1]}}</span>
+												</li>
+												<li>
+													<span class="info-side-item">
+														<span class="buy-type">买四</span>
+													</span>
+													<span class="info-side-item" :class="buy4[0]>LastData[10]?buy4[0]==LastData[10]?'':'colorUp':'colorDown'">{{buy4[0]}}</span>
+													<span class="info-side-item">{{buy4[1]}}</span>
+												</li>
+												<li>
+													<span class="info-side-item">
+														<span class="buy-type">买五</span>
+													</span>
+													<span class="info-side-item" :class="buy5[0]>LastData[10]?buy5[0]==LastData[10]?'':'colorUp':'colorDown'">{{buy5[0]}}</span>
+													<span class="info-side-item">{{buy5[1]}}</span>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="position-info-item info-page-b" v-show="pageIndex == 2">
+								<div class="detail-title detail-item">
+									<span>时间</span>
+									<span>成交价</span>
+									<span>成交量</span>
+								</div>
+								<div class="detail-list">
+									<div class="detail-list-scroll mui-scroll-wrapper">
+										<div class="mui-scroll">
+											<div class="detail-item" v-if="item.val!=0" v-for="(item,index) in tickerList" :key="index">
+												<span>{{item[1].split(' ')[1]}}</span>
+												<span>{{item[3]}}</span>
+												<span>{{item[4]}}</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="trade-area">
+							<div class="trade-info-wrap">
+								<div class="trade-info-side trade-info-left">
+									<div class="trade-info-item">
+										<span>
+											<span class="info-name">卖</span>
+											<span :class="LastData[11]>LastData[10]?'colorUp':'colorDown'">{{LastData[11].toFixed(this.chooseContract.dotSize)}}</span>
+										</span>
+										<span class="info-right">{{LastData[12]}}</span>
+									</div>
+									<div class="trade-info-item">
+										<span>
+											<span class="info-name">买</span>
+											<span :class="LastData[13]>LastData[10]?'colorUp':'colorDown'">{{LastData[13].toFixed(this.chooseContract.dotSize)}}</span>
+										</span>
+										<span class="info-right">{{LastData[14]}}</span>
+									</div>
+								</div>
+								<div class="trade-info-side trade-info-right">
+									<div :class="['info-price',LastData[3]>LastData[10]?'colorUp':'colorDown']">
+										{{LastData[3].toFixed(this.chooseContract.dotSize)}}
+									</div>
+									<div class="info-rate">
+										<span :class="LastData[3]>LastData[10]?'colorUp':'colorDown'">{{LastData[3]==0?'-':(LastData[3]-LastData[10]).toFixed(this.chooseContract.dotSize)}}</span>
+										<span :class="LastData[3]>LastData[10]?'colorUp':'colorDown'">{{LastData[3]==0?'-':((LastData[3]-LastData[10])/LastData[10]*100).toFixed(2)+'%'}}</span>
+									</div>
+								</div>
+							</div>
+							<div class="rate-wrap">
+								<div :style="{'width':LastData[14]/(LastData[12]+LastData[14])*100+'%'}" class="rate-item rate-item-buy">
+									<span>{{LastData[12]+LastData[14]==0?0:(LastData[14]/(LastData[12]+LastData[14])*100).toFixed(2)}}%</span>
+									<span>{{LastData[14]}}</span>
+								</div><div :style="{'width':LastData[12]/(LastData[12]+LastData[14])*100+'%'}" class="rate-item rate-item-sell">
+									<span>{{LastData[12]}}</span>
+									<span>{{LastData[12]+LastData[14]==0?0:(LastData[12]/(LastData[12]+LastData[14])*100).toFixed(2)}}%</span>
+								</div>
+							</div>
+							<div class="trade-num-wrap">
+								<div :class="['trade-hand-num',keyboardType==1?'trade-active':'']" @tap="showKeyboard(1)">
+									<!-- <span class="trade-num-item trade-num-btn" @tap="chooseNum(2)">
+										<img src="/PQ/static/img/minus.png"/>
+									</span> --><span class="trade-num-item trade-num-content">
+										<span class="content-a">手数:</span>
+										<span class="content-b">{{handNum}}</span>
+									</span><!-- <span class="trade-num-item trade-num-btn" @tap="chooseNum(1)">
+										<img src="/PQ/static/img/add.png"/>
+									</span> -->
+								</div>
+								<div :class="['trade-price-num',keyboardType==2?'trade-active':'']" @tap="showKeyboard(2)">
+									<span>价格</span>
+									<!-- <input class="price-input" type="text" /> -->
+									<span class="price-input">{{price}}</span>
+								</div>
+								<!-- <div class="trade-type-btn">
+									限价
+									<i class="triangle-icon"></i>
+								</div> -->
+							</div>
+							<div class="trade-btn-wrap">
+								<span class="trade-btn trade-buy-btn" @tap="tradeBtn(1)">
+									<span class="trade-btn-price">{{keyboardPriceType==4?price:buyPrice}}</span>
+									<span>{{tradeType==0?'模拟':''}}买入</span>
+								</span>
+								<span class="trade-btn trade-sell-btn" @tap="tradeBtn(2)">
+									<span class="trade-btn-price">{{keyboardPriceType==4?price:sellPrice}}</span>
+									<span>{{tradeType==0?'模拟':''}}卖出</span>
+								</span>
+							</div>
+							<transition name="slide-up">
+								<div :class="['keyboard',keyboardType==1?'keyboard1':'keyboard2']" v-show="isShowKeyboard">
+									<div class="flex keyboard-info">
+										<span v-if="keyboardType==1">手数:{{handNum}}</span>
+										<span v-if="keyboardType==2">最小变动价为:{{chooseContract.mini_ticker_size}}</span>
+										<span class="keyboard-btn" @tap="closeKeyboard">
+											<img src="/PQ/static/img/quato/keyboard.png">
+										</span>
+									</div>
+									<div class="flex price-type" v-if="keyboardType==2">
+										<div @tap="chooseKeyboardNum('排队价')" class="price-type-item flex-1" :class="keyboardPriceType==1?'price-type-item-active':''">排队价</div>
+										<div @tap="chooseKeyboardNum('对手价')" class="price-type-item flex-1" :class="keyboardPriceType==2?'price-type-item-active':''">对手价</div>
+										<div @tap="chooseKeyboardNum('市价')" class="price-type-item flex-1" :class="keyboardPriceType==3?'price-type-item-active':''">市价</div>
+										<div @tap="chooseKeyboardNum('限价')" class="price-type-item flex-1" :class="keyboardPriceType==4?'price-type-item-active':''">限价</div>
+									</div>
+									<div class="flex keyboard-box">
+										<div class="flex-4 keyboard-box1">
+											<div class="flex">
+												<div @tap="chooseKeyboardNum(7)" class="keyboard-item flex-1">7</div>
+												<div @tap="chooseKeyboardNum(8)" class="keyboard-item flex-1">8</div>
+												<div @tap="chooseKeyboardNum(9)" class="keyboard-item flex-1">9</div>
+											</div>
+											<div class="flex">
+												<div @tap="chooseKeyboardNum(4)" class="keyboard-item flex-1">4</div>
+												<div @tap="chooseKeyboardNum(5)" class="keyboard-item flex-1">5</div>
+												<div @tap="chooseKeyboardNum(6)" class="keyboard-item flex-1">6</div>
+											</div>
+											<div class="flex">
+												<div @tap="chooseKeyboardNum(1)" class="keyboard-item flex-1">1</div>
+												<div @tap="chooseKeyboardNum(2)" class="keyboard-item flex-1">2</div>
+												<div @tap="chooseKeyboardNum(3)" class="keyboard-item flex-1">3</div>
+											</div>
+											<div class="flex">
+												<div @tap="chooseKeyboardNum('.')" v-if="keyboardType == 2" class="keyboard-item flex-1 keyboard-item-gray">.</div>
+												<div @tap="chooseKeyboardNum(0)" :class="['keyboard-item',keyboardType == 2?'flex-1':'flex-2']">0</div>
+												<div @tap="chooseKeyboardNum('back')" class="keyboard-item flex-1 keyboard-item-gray">
+													<img src="/PQ/static/img/quato/back.png">
+												</div>
+											</div>
+										</div>
+										<div class="flex-1 keyboard-box2">
+											<div class="keyboard-item high-height flex keyboard-item-gray" @tap="chooseKeyboardNum('加')">
+												<img src="/PQ/static/img/quato/add.png">
+											</div>
+											<div class="keyboard-item high-height flex keyboard-item-gray" @tap="chooseKeyboardNum('减')">
+												<img src="/PQ/static/img/quato/jian.png">
+											</div>
+										</div>
+									</div>
+								</div>
+							</transition>
+						</div>
+						<!-- 确认订单弹出框 -->
+						<div id="confirmOrderOpenLayer" class="layer-box">
+							<img @tap="closeLayer" class="close-icon" src="/PQ/static/img/layerClose.png">
+							<div class="layer-header">
+								确认订单
+							</div>
+							<div class="layer-content">
+								确认提交订单:[{{chooseContract.commodity_name}}{{chooseContract.main_contract_no}}],价格[{{keyboardPriceType==3?'市价':keyboardPriceType==2?'对手价':keyboardPriceType==1?'排队价':keyboardPriceType==4?price:''}}],手数[{{handNum}}],方向[{{direction==0?'买':'卖'}}]?
+							</div>
+							<div class="layer-btn">
+								<span class="border-right" @tap="layerBtn(1)">取消</span>
+								<span @tap="layerBtn(2)">确认</span>
+							</div>
+						</div>
+						<!-- 余额不足弹出框 -->
+						<div id="balanceInfoLayer" class="layer-box">
+							<img @tap="closeLayer" class="close-icon" src="/PQ/static/img/layerClose.png">
+							<div class="layer-header">
+								系统提示
+							</div>
+							<div class="layer-content">
+								<span>您的资金不足，是否去充值入金？</span>
+								<span class="layer-tips">Tips:交易{{chooseContract.commodity_name}}需{{(needMoney).toFixed(2)}}元</span>
+							</div>
+							<div class="layer-btn">
+								<span class="border-right" @tap="layerInfoBtn(1)">再看看</span>
+								<span @tap="goToPage('/PQ/pages/my/recharge/recharge.html',1)">去充值</span>
+							</div>
+						</div>
+						<!-- 未登录交易的弹出框 -->
+						<div id="tradeLoginLayer2" class="layer-box">
+							<img @tap="closeLayer" class="close-icon" src="/PQ/static/img/layerClose.png">
+							<div class="layer-header">
+								系统提示
+							</div>
+							<div class="layer-content">
+								<span v-if="isLogin&&!isTradeLogin">交易连接出错，暂无法交易，请重启应用。</span>
+								<span v-if="isLogin&&!isTradeLogin">重启仍无法解决，请联系客服。</span>
+								<span v-if="!isLogin">暂无登录交易，请先登录交易账户。</span>
+							</div>
+							<div class="layer-btn">
+								<span v-if="isLogin&&!isTradeLogin" @tap="layerInfoBtn(1)">确认</span>
+								<span v-if="!isLogin" class="border-right" @tap="layerInfoBtn(1)">取消</span>
+								<span v-if="!isLogin" @tap="layerInfoBtn(2)">去登录>></span>
+							</div>
+						</div>
+					</div>
+					<div id="trade-center-page" class="tradeCenterPage" v-if="choosePage == 3" v-cloak>
+						<div class="total-info">
+							<div class="total-info-wrap">
+								<div class="total-info-box">
+									<span class="total-info-item">
+										<span class="total-info-title">总资产</span>
+										<span class="total-info-value" v-if="capitalType2&&!capitalType1">$ {{(totalBalance+totalFloatProfit).toFixed(2)}}</span>
+										<span class="total-info-value" v-if="capitalType1&&!capitalType2">￥{{((totalBalance+totalFloatProfit)/RMBRate).toFixed(2)}}</span>
+										<span class="total-info-value" v-if="capitalType1&&capitalType2">￥{{((totalBalance+totalFloatProfit)/RMBRate).toFixed(2)}}
+											<span class="money-usd">($ {{(totalBalance+totalFloatProfit).toFixed(2)}})</span>
+										</span>
+										<!-- <span class="total-info-value">￥{{((totalBalance+totalFloatProfit)/RMBRate).toFixed(2)}}
+											<span class="money-usd">($ {{(totalBalance+totalFloatProfit).toFixed(2)}})</span>
+										</span> -->
+									</span>
+									<span class="total-info-item">
+										<span class="total-info-title">可用资金</span>
+										<span class="total-info-value" v-if="capitalType2&&!capitalType1">$ {{(todayCanUseBalance+totalFloatProfit).toFixed(2)}}</span>
+										<span class="total-info-value" v-if="capitalType1&&!capitalType2">￥{{((todayCanUseBalance+totalFloatProfit)/RMBRate).toFixed(2)}}</span>
+										<span class="total-info-value" v-if="capitalType1&&capitalType2">￥{{((todayCanUseBalance+totalFloatProfit)/RMBRate).toFixed(2)}}<span class="money-usd">($ {{(todayCanUseBalance+totalFloatProfit).toFixed(2)}})</span></span>
+										<!-- <span class="total-info-value">￥{{((todayCanUseBalance+totalFloatProfit)/RMBRate).toFixed(2)}}
+											<span class="money-usd">($ {{(todayCanUseBalance+totalFloatProfit).toFixed(2)}})</span>
+										</span> -->
+									</span>
+								</div>
+								<div class="total-info-box">
+									<span class="total-info-item no-border">
+										<span class="total-info-title">平仓线</span>
+										<span class="total-info-value" v-if="capitalType2&&!capitalType1">$ {{forceLine.toFixed(2)}}</span>
+										<span class="total-info-value" v-if="!capitalType2&&capitalType1">￥{{(forceLine/RMBRate).toFixed(2)}}</span>
+										<span class="total-info-value" v-if="capitalType2&&capitalType1">￥{{(forceLine/RMBRate).toFixed(2)}}</span>
+									</span>
+									<span class="total-info-item no-border">
+										<span class="total-info-title">风险度</span>
+										<span class="total-info-value">{{totalBalance+totalFloatProfit==0?'0':(forceLine/(totalBalance+totalFloatProfit)*100).toFixed(2)}}%</span>
+									</span>
+								</div>
+							</div>
+							<div @tap="openCapitalLayer" class="arrow-icon"></div>
+						</div>
+						<div class="trade-area">
+							<div class="trade-info-wrap">
+								<div class="trade-info-side trade-info-left">
+									<div class="trade-info-item">
+										<span>
+											<span class="info-name">卖</span>
+											<span :class="LastData[11]>LastData[10]?'colorUp':'colorDown'">{{LastData[11].toFixed(this.chooseContract.dotSize)}}</span>
+										</span>
+										<span class="info-right">{{LastData[12]}}</span>
+									</div>
+									<div class="trade-info-item">
+										<span>
+											<span class="info-name">买</span>
+											<span :class="LastData[13]>LastData[10]?'colorUp':'colorDown'">{{LastData[13].toFixed(this.chooseContract.dotSize)}}</span>
+										</span>
+										<span class="info-right">{{LastData[14]}}</span>
+									</div>
+								</div>
+								<div class="trade-info-side trade-info-right">
+									<div :class="['info-price',LastData[3]>LastData[10]?'colorUp':'colorDown']">
+										{{LastData[3].toFixed(this.chooseContract.dotSize)}}
+									</div>
+									<div class="info-rate">
+										<span :class="LastData[3]>LastData[10]?'colorUp':'colorDown'">{{LastData[3]==0?'-':(LastData[3]-LastData[10]).toFixed(this.chooseContract.dotSize)}}</span>
+										<span :class="LastData[3]>LastData[10]?'colorUp':'colorDown'">{{LastData[3]==0?'-':((LastData[3]-LastData[10])/LastData[10]*100).toFixed(2)+'%'}}</span>
+									</div>
+								</div>
+							</div>
+							<div class="rate-wrap">
+								<div :style="{'width':LastData[14]/(LastData[12]+LastData[14])*100+'%'}" class="rate-item rate-item-buy">
+									<span>{{LastData[12]+LastData[14]==0?0:(LastData[14]/(LastData[12]+LastData[14])*100).toFixed(2)}}%</span>
+									<span>{{LastData[14]}}</span>
+								</div><div :style="{'width':LastData[12]/(LastData[12]+LastData[14])*100+'%'}" class="rate-item rate-item-sell">
+									<span>{{LastData[12]}}</span>
+									<span>{{LastData[12]+LastData[14]==0?0:(LastData[12]/(LastData[12]+LastData[14])*100).toFixed(2)}}%</span>
+								</div>
+							</div>
+							<div class="trade-num-wrap">
+								<div :class="['trade-hand-num',keyboardType==1?'trade-active':'']" @tap="showKeyboard(1)">
+									<!-- <span class="trade-num-item trade-num-btn" @tap="chooseNum(2)">
+										<img src="/PQ/static/img/minus.png"/>
+									</span> --><span class="trade-num-item trade-num-content">
+										<span class="content-a">手数:</span>
+										<span class="content-b">{{handNum}}</span>
+									</span><!-- <span class="trade-num-item trade-num-btn" @tap="chooseNum(1)">
+										<img src="/PQ/static/img/add.png"/>
+									</span> -->
+								</div>
+								<div :class="['trade-price-num',keyboardType==2?'trade-active':'']" @tap="showKeyboard(2)">
+									<span>价格</span>
+									<!-- <input class="price-input" type="text" /> -->
+									<span class="price-input">{{limitPrice}}</span>
+								</div>
+								<!-- <div class="trade-type-btn" @tap="showChooseType">
+									{{priceType==1?'市价':priceType==2?'对手价':priceType==3?'排队价':priceType==4?'限价':'选择'}}
+									<i class="triangle-icon"></i>
+									<div class="trade-type-option" v-if="isShowPriceType">
+										<span @tap="switchPrice(3)">排队价</span>
+										<span @tap="switchPrice(2)">对手价</span>
+										<span @tap="switchPrice(1)">市价价</span>
+										<span @tap="switchPrice(4)">限价</span>
+									</div>
+								</div> -->
+							</div>
+							<div class="trade-btn-wrap">
+								<span class="trade-btn trade-buy-btn" @tap="tradeBtn(1)">
+									<span class="trade-btn-price">{{keyboardPriceType==4?limitPrice:buyPrice}}</span>
+									<span>{{tradeType==0?'模拟':''}}买入</span>
+								</span>
+								<span class="trade-btn trade-sell-btn" @tap="tradeBtn(2)">
+									<span class="trade-btn-price">{{keyboardPriceType==4?limitPrice:sellPrice}}</span>
+									<span>{{tradeType==0?'模拟':''}}卖出</span>
+								</span>
+							</div>
+						</div>
+						<div class="layer5 mui-segmented-control">
+							<a @tap="switchTab" :class="['mui-control-item',tabIndex==1?'mui-active':'']" href="#tab1">持仓</a>
+							<a @tap="switchTab" :class="['mui-control-item',templeList.length>0?'wait-order':'',tabIndex==2?'mui-active':'']" href="#tab2">挂单</a>
+							<a @tap="switchTab" :class="['mui-control-item',tabIndex==3?'mui-active':'']" href="#tab3">委托</a>
+							<a @tap="switchTab" :class="['mui-control-item',tabIndex==4?'mui-active':'']" href="#tab4">成交</a>
+						</div>
+						<div class="layer6">
+							<div id="tab1" class="tab-item mui-control-content mui-active">
+								<div id="tab1-nav" class="nav-tab mui-scroll-wrapper">
+									<div class="mui-scroll">
+										<div class="tab-item list-item">
+											<span class="tab-item1">
+												合约名称
+											</span><span class="tab-item2">
+												多空
+											</span><span class="tab-item3">
+												手数
+											</span><span class="tab-item4">
+												开仓均价
+											</span><span class="tab-item5">
+												浮动盈亏
+											</span>
+										</div>
+									</div>
+								</div>
+								<div id="tab1-list" class="scroll-list mui-scroll-wrapper">
+									<div class="mui-scroll">
+										<div v-for="(item,index) in positionList" :key="index">
+											<div @tap="selectContract(item,index,1)" :class="['list-item',contractIndex==index?'select-item':'']">
+												<span class="tab-item1">
+													{{item.CommodityName}}
+												</span><span :class="['tab-item2',item.Direction==0?'colorUp':'colorDown']">
+													{{item.Direction==0?'多':'空'}}
+												</span><span class="tab-item3">
+													{{item.HoldNum}}
+												</span><span class="tab-item4">
+													{{item.HoldAvgPrice}}
+												</span><span class="tab-item5" :class="item.floatProfit>0?'colorUp':'colorDown'">
+													{{item.floatProfit}}&nbsp;{{item.CurrencyNo}}
+												</span>
+											</div>
+											<div class="option-item" v-if="contractIndex==index">
+												<div class="option-wrap">
+													<span @tap="positionBtn(2)">平仓</span>
+													<span @tap="positionBtn(4)">反手</span>
+													<span @tap="positionBtn(3)">止损止盈</span>
+												</div>
+											</div>
+										</div>
+										<div v-if="positionList.length>0">
+											<div @tap="selectContract('all',-2)" :class="['list-item',contractIndex==-2?'select-item':'']">
+												<span class="tab-item1">
+													合计({{positionList.length}})
+												</span><span class="tab-item2">
+												</span><span class="tab-item3">
+													{{totalPositionNum}}
+												</span><span class="tab-item4">
+												</span><span class="tab-item5" :class="totalFloatProfit>0?'colorUp':'colorDown'">
+													<span class="capital-item-value" v-if="capitalType2&&!capitalType1">{{totalFloatProfit.toFixed(2)}}&nbsp;USD</span>
+													<span class="capital-item-value" v-if="capitalType1&&!capitalType2">{{(totalFloatProfit/RMBRate).toFixed(2)}}&nbsp;RMB</span>
+													<span class="usd-price" v-if="capitalType1&&capitalType2">{{(totalFloatProfit/RMBRate).toFixed(2)}}&nbsp;RMB</span>
+													<span class="rmb-price" v-if="capitalType1&&capitalType2">($ {{totalFloatProfit.toFixed(2)}})</span>
+												</span>
+											</div>
+											<div class="option-item" v-if="contractIndex==-2">
+												<div class="option-wrap">
+													<span @tap="positionBtn(1)">全部平仓</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div id="tab2" class="tab-item mui-control-content">
+								<div id="tab2-nav" class="nav-tab mui-scroll-wrapper">
+									<div class="mui-scroll">
+										<div class="tab-item">
+											<span class="tab-item1">合约名称</span>
+											<span class="tab-item2">买卖</span>
+											<span class="tab-item3">委托价</span>
+											<span class="tab-item4">委托量</span>
+											<span class="tab-item5">挂单量</span>
+											<span class="tab-item6 tab-item-time">挂单时间</span>
+										</div>
+									</div>
+								</div>
+								<div id="tab2-list" class="scroll-list mui-scroll-wrapper">
+									<div class="mui-scroll">
+										<div v-for="(item,index) in templeList" :key="index">
+											<div @tap="selectContract(item,index)" :class="['list-item',contractIndex==index?'select-item':'']">
+												<span class="tab-item1">
+													{{item.CommodityName}}
+												</span><span :class="['tab-item2',item.Direction==0?'colorUp':'colorDown']">
+													{{item.Drection==0?'买':'卖'}}
+												</span><span class="tab-item3">
+													{{item.OrderPrice}}
+												</span><span class="tab-item4">
+													{{item.OrderNum}}
+												</span><span class="tab-item5">
+													{{item.OrderNum}}
+												</span><span class="tab-item6">
+													{{item.InsertDateTime}}
+												</span>
+											</div>
+											<div class="option-item" v-if="contractIndex==index">
+												<div class="option-wrap">
+													<span @tap="changeOrderBtn(2)">撤单</span>
+													<span @tap="changeOrderBtn(3)">改单</span>
+												</div>
+											</div>
+										</div>
+										<div v-if="templeList.length>0">
+											<div @tap="selectContract('all',-2)" :class="['list-item',contractIndex==-2?'select-item':'']">
+												<span class="tab-item1">
+													合计({{templeList.length}})
+												</span><span class="tab-item2">
+												</span><span class="tab-item3">
+												</span><span class="tab-item4">
+													{{templeOrderHandNum}}
+												</span><span class="tab-item5">
+													{{templeOrderHandNum}}
+												</span><span class="tab-item6">
+												</span>
+											</div>
+											<div class="option-item" v-if="contractIndex==-2">
+												<div class="option-wrap">
+													<span @tap="changeOrderBtn(1)">全部撤单</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div id="tab3" class="tab-item mui-control-content">
+								<div id="tab3-nav" class="nav-tab mui-scroll-wrapper">
+									<div class="mui-scroll">
+										<div class="tab-item">
+											<span class="tab-item1">合约名称</span>
+											<span class="tab-item2">状态</span>
+											<span class="tab-item3">买卖</span>
+											<span class="tab-item4">委托价</span>
+											<span class="tab-item5">委托量</span>
+											<span class="tab-item6">已成交</span>
+											<span class="tab-item7">已撤单</span>
+											<span class="tab-item8 tab-item-time">下单时间</span>
+										</div>
+									</div>
+								</div>
+								<div id="tab3-list" class="scroll-list scroll-all-list mui-scroll-wrapper">
+									<div class="mui-scroll">
+										<div :class="['list-item',contractIndex==index?'select-item':'']" v-for="(item,index) in allOrderList" :key="index">
+											<span class="tab-item1">
+												{{item.CommodityName}}
+											</span><span class="tab-item2">
+												{{item.StatusMsg}}
+											</span><span :class="['tab-item3',item.Direction==0?'colorUp':'colorDown']">
+												{{item.Drection==0?'买':'卖'}}
+											</span><span class="tab-item4">
+												{{item.OrderPriceType==0?'限价':'市价'}}
+											</span><span class="tab-item5">
+												{{item.OrderNum}}
+											</span><span class="tab-item6">
+												{{item.TradeNum}}
+											</span><span class="tab-item7">
+												{{item.OrderStatus==4?'是':'否'}}
+											</span><span class="tab-item8">
+												{{item.InsertDateTime}}
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div id="tab4" class="tab-item mui-control-content">
+								<div id="tab4-nav" class="nav-tab mui-scroll-wrapper">
+									<div class="mui-scroll">
+										<div class="tab-item">
+											<span class="tab-item1">合约名称</span>
+											<span class="tab-item2">买卖</span>
+											<span class="tab-item3">成交价</span>
+											<span class="tab-item4">成交量</span>
+											<span class="tab-item5 tab-item-time">成交时间</span>
+										</div>
+									</div>
+								</div>
+								<div id="tab4-list" class="scroll-list scroll-all-list mui-scroll-wrapper">
+									<div class="mui-scroll">
+										<div v-if="item.OrderStatus == 3" :class="['list-item',contractIndex==index?'select-item':'']" v-for="(item,index) in finishOrderList" :key="index">
+											<span class="tab-item1">
+												{{item.CommodityName}}
+											</span><span :class="['tab-item2',item.Direction==0?'colorUp':'colorDown']">
+												{{item.Drection==0?'买':'卖'}}
+											</span><span class="tab-item3">
+												{{item.TradePrice}}
+											</span><span class="tab-item4">
+												{{item.TradeNum}}
+											</span><span class="tab-item5">
+												{{item.InsertDateTime}}
+											</span>
+										</div>
+										<div v-if="finishOrderList.length>0">
+											<div :class="['list-item',contractIndex==-2?'select-item':'']">
+												<span class="tab-item1">
+													合计({{finishOrderList.length}})
+												</span><span class="tab-item2">
+												</span><span class="tab-item3">
+												</span><span class="tab-item4">
+													{{allOrderHandNum}}
+												</span><span class="tab-item5">
+												</span>
+											</div>
+											<div class="option-item" v-if="contractIndex==-2">
+												<div class="option-wrap">
+													<span @tap="positionBtn(1)">全部平仓</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="layer7">
+							<span @tap="openRedLayer(0)" class="btn1" :class="[activityStatus=='010'?'btn1-no':'']" v-if="tradeType == 0&&received=='010'"><span class="btn-small">领取</span>{{faceValue}}<span class="btn-small">{{couponName}}</span></span>
+							<span @tap="goToPage('/PQ/pages/quato/quato.html')" class="btn2" v-if="tradeType == 0">去实盘交易</span>
+							<span @tap="openRedLayer(1)" class="btn1 finished-btn" v-if="tradeType == 1&&activityStatus=='020'&&received=='010'"><span class="btn-small">领取</span>{{faceValue}}<span class="btn-small">{{couponName}}</span></span>
+							<span @tap="goToPage('/PQ/pages/my/recharge/recharge.html')" class="btn2" v-if="tradeType == 1">充值入金</span>
+						</div>
+						<!-- 全部平仓和全部撤单的弹出框 -->
+						<div id="confirmAllayer" class="layer-box">
+							<img @tap="closeLayer" class="close-icon" src="/PQ/static/img/layerClose.png">
+							<div class="layer-header">
+								确认操作
+							</div>
+							<div class="layer-content">
+								<div>确认{{confirmInfoType==0?'订单':confirmInfoType==1?'全部平仓':confirmInfoType==2?'平仓':confirmInfoType==3?'全撤':confirmInfoType==4?'撤单':''}}?</div>
+								<div v-if="confirmInfoType==1||confirmInfoType==2" class="layer-content-tips">如果持仓设有止盈/止损，平仓后将自动取消</div>
+							</div>
+							<div class="layer-btn">
+								<span class="border-right" @tap="layerInfoBtn(1)">取消</span>
+								<span @tap="layerInfoBtn(2)">确认</span>
+							</div>
+						</div>
+						<!-- 确认订单弹出框 -->
+						<div id="confirmOrderLayer" class="layer-box">
+							<img @tap="closeLayer" class="close-icon" src="/PQ/static/img/layerClose.png">
+							<div class="layer-header">
+								确认订单
+							</div>
+							<div class="layer-content">
+								确认提交订单:[{{chooseContract.commodity_name}}{{chooseContract.main_contract_no}}],价格[{{keyboardPriceType==3?'市价':keyboardPriceType==2?'对手价':keyboardPriceType==1?'排队价':keyboardPriceType==4?limitPrice:''}}],手数[{{handNum}}],方向[{{direction==0?'买':'卖'}}]?
+							</div>
+							<div class="layer-btn">
+								<span class="border-right" @tap="layerInfoBtn(1)">取消</span>
+								<span @tap="layerInfoBtn(2)">确认</span>
+							</div>
+						</div>
+						<!-- 确认信息弹出框 -->
+						<div id="confirmInfoLayer" class="layer-box">
+							<img @tap="closeLayer" class="close-icon" src="/PQ/static/img/layerClose.png">
+							<div class="layer-header">
+								确认操作
+							</div>
+							<div class="layer-content">
+								确认{{confirmInfoType==1?'全部平仓':confirmInfoType==2?'平仓':confirmInfoType==3?'全部撤单':confirmInfoType==4?'撤单':confirmInfoType==7?'反手':'操作'}}?
+								<div v-if="confirmInfoType==1||confirmInfoType==2" class="layer-content-tips">如果当前持仓设有止盈/止损，平仓后将自动取消</div>
+							</div>
+							<div class="layer-btn">
+								<span class="border-right" @tap="layerInfoBtn(1)">取消</span>
+								<span @tap="layerInfoBtn(2)">确认</span>
+							</div>
+						</div>
+						<!-- 余额不足弹出框 -->
+						<div id="balanceInfoLayer" class="layer-box">
+							<img @tap="closeLayer" class="close-icon" src="/PQ/static/img/layerClose.png">
+							<div class="layer-header">
+								系统提示
+							</div>
+							<div class="layer-content">
+								<span>您的资金不足，是否去充值入金？</span>
+								<span class="layer-tips">Tips:交易{{chooseContract.commodity_name}}需{{(needMoney).toFixed(2)}}元</span>
+							</div>
+							<div class="layer-btn">
+								<span class="border-right" @tap="layerInfoBtn(1)">再看看</span>
+								<span @tap="goToPage('/PQ/pages/my/recharge/recharge.html',1)">去充值</span>
+							</div>
+						</div>
+						<!-- 反手余额不足弹出框 -->
+						<div id="balanceInfoLayer2" class="layer-box">
+							<img @tap="closeLayer" class="close-icon" src="/PQ/static/img/layerClose.png">
+							<div class="layer-header">
+								系统提示
+							</div>
+							<div class="layer-content">
+								<span>您的资金不足，是否去充值入金？</span>
+							</div>
+							<div class="layer-btn">
+								<span class="border-right" @tap="layerInfoBtn(1)">再看看</span>
+								<span @tap="goToPage('/PQ/pages/my/recharge/recharge.html',1)">去充值</span>
+							</div>
+						</div>
+						<!-- 交易中心资金弹窗 -->
+						<div id="capitalInfoLayer" class="layer-box">
+							<div class="layer-content">
+								<span class="capital-item">
+									<span class="capital-item-box">
+										<img @tap="openCapitalInfo(1)" class="capital-item-icon" src="/PQ/static/img/quato/question.png">
+										<span class="capital-item-title">总资产</span>
+									</span>
+									<span class="capital-item-box">
+										<span class="capital-item-value" v-if="capitalType2&&!capitalType1">$ {{(totalBalance+totalFloatProfit).toFixed(2)}}</span>
+										<span class="capital-item-value" v-if="capitalType1&&!capitalType2">￥{{((totalBalance+totalFloatProfit)/RMBRate).toFixed(2)}}</span>
+										<span class="capital-item-value" v-if="capitalType1&&capitalType2">￥{{((totalBalance+totalFloatProfit)/RMBRate).toFixed(2)}}<span class="money-usd">($ {{(totalBalance+totalFloatProfit).toFixed(2)}})</span></span>
+									</span>
+								</span>
+								<span class="capital-item">
+									<span class="capital-item-box">
+										<img @tap="openCapitalInfo(2)" class="capital-item-icon" src="/PQ/static/img/quato/question.png">
+										<span class="capital-item-title">可用资产</span>
+									</span>
+									<span class="capital-item-box">
+										<span class="capital-item-value" v-if="capitalType2&&!capitalType1">$ {{(todayCanUseBalance+totalFloatProfit).toFixed(2)}}</span>
+										<span class="capital-item-value" v-if="capitalType1&&!capitalType2">￥{{((todayCanUseBalance+totalFloatProfit)/RMBRate).toFixed(2)}}</span>
+										<span class="capital-item-value" v-if="capitalType1&&capitalType2">￥{{((todayCanUseBalance+totalFloatProfit)/RMBRate).toFixed(2)}}<span class="money-usd">($ {{(todayCanUseBalance+totalFloatProfit).toFixed(2)}})</span></span>
+									</span>
+								</span>
+								<span class="capital-item">
+									<span class="capital-item-box">
+										<img @tap="openCapitalInfo(3)" class="capital-item-icon" src="/PQ/static/img/quato/question.png">
+										<span class="capital-item-title">风险度</span>
+									</span>
+									<span class="capital-item-box">
+										<span class="capital-item-value">{{totalBalance+totalFloatProfit==0?'0':(forceLine/(totalBalance+totalFloatProfit)*100).toFixed(2)}}%</span>
+									</span>
+								</span>
+								<span class="capital-item">
+									<span class="capital-item-box">
+										<img @tap="openCapitalInfo(4)" class="capital-item-icon" src="/PQ/static/img/quato/question.png">
+										<span class="capital-item-title">平仓线</span>
+									</span>
+									<span class="capital-item-box">
+										<span class="capital-item-value" v-if="capitalType2&&!capitalType1">$ {{forceLine.toFixed(2)}}</span>
+										<span class="capital-item-value" v-if="capitalType1&&!capitalType2">￥{{(forceLine/RMBRate).toFixed(2)}}</span>
+										<span class="capital-item-value" v-if="capitalType1&&capitalType2">￥{{(forceLine/RMBRate).toFixed(2)}}<span class="money-usd">($ {{forceLine.toFixed(2)}})</span></span>
+									</span>
+								</span>
+								<span class="capital-item">									
+									<span class="capital-item-box">
+										<img @tap="openCapitalInfo(5)" class="capital-item-icon" src="/PQ/static/img/quato/question.png">
+										<span class="capital-item-title">持仓保证金</span>
+									</span>
+									<span class="capital-item-box">
+										<span class="capital-item-value" v-if="capitalType2&&!capitalType1">$ {{positionCashDeposit.toFixed(2)}}</span>
+										<span class="capital-item-value" v-if="capitalType1&&!capitalType2">￥{{(positionCashDeposit/RMBRate).toFixed(2)}}</span>
+										<span class="capital-item-value" v-if="capitalType1&&capitalType2">￥{{(positionCashDeposit/RMBRate).toFixed(2)}}<span class="money-usd">($ {{positionCashDeposit.toFixed(2)}})</span></span>
+									</span>
+								</span>
+								<span class="capital-item capital-item-row capital-type">
+									<span @tap="switchCapitalType(0)">
+										<span :class="['radio-box',capitalType1?'radio-box-active':'']">
+											<img v-if="capitalType1" src="/PQ/static/img/quato/gou.png">
+										</span>
+										以人民币显示
+									</span>
+									<span @tap="switchCapitalType(1)">
+										<span :class="['radio-box',capitalType2?'radio-box-active':'']">
+											<img v-if="capitalType2" src="/PQ/static/img/quato/gou.png">
+										</span>
+										以美元显示
+									</span>
+								</span>
+							</div>
+							<div class="layer-btn">
+								<span class="border-right" @tap="layerInfoBtn(1)">确认</span>
+							</div>
+						</div>
+						<!-- 资金介绍弹窗 -->
+						<div id="capitalInfoLayer2" class="layer-box">
+							<img @tap="closeCapitalInfo" class="close-icon" src="/PQ/static/img/layerClose.png">
+							<div class="layer-header">
+								{{capitalInfoTitle}}
+							</div>
+							<div class="layer-content">
+								<span>{{capitalInfoContent}}</span>
+							</div>
+							<div class="layer-btn">
+								<span class="border-right" @tap="closeCapitalInfo">确定</span>
+							</div>
+						</div>
+						<!-- 止盈止损弹出框 -->
+						<div id="stopProfitLossLayer" class="layer-box">
+							<div class="layer-content layer-tabs">
+								<div class="layer-header-tab">
+									<span @tap="switchLayerTab(0)" :class="layerTabIndex==0?'layer-header-tab-active':''">止损</span>
+									<span @tap="switchLayerTab(1)" :class="layerTabIndex==1?'layer-header-tab-active':''">止盈</span>
+								</div>
+								<div class="layer-tab-item" v-show="layerTabIndex==0">
+									<!-- 止损 -->
+									<div class="tab-item">
+										<span class="item-flex border-right item-title">合约</span>
+										<span class="item-flex item-flex-4">
+											<span class="item-flex item-flex-2 border-right">{{selectContractItem.CommodityNo}}{{selectContractItem.ContractNo}}</span>
+											<span class="item-flex item-flex-1 border-right">{{selectContractItem.Direction==0?'多':'空'}}</span>
+											<span class="item-flex item-flex-2">最新:<span>{{selectContractLastData[3]}}</span></span>
+										</span>
+									</div>
+									<div class="tab-item">
+										<span class="item-flex border-right item-title">方式</span>
+										<span class="item-flex item-flex-4 item-between">
+											<span class="option-box triangle item-flex-2">
+												<select v-model="stopLossType">
+													<option value="0">止损价</option>
+													<option value="1">动态价</option>
+												</select>
+											</span>
+											<input class="option-box item-flex-2" type="text" @input="setStopLossPrice" v-model="stopLossPrice">
+											<span class="item-flex-1">{{stopLossRate.toFixed(2)}}%</span>
+										</span>
+									</div>
+									<div class="tab-item no-padding">
+										<span class="item-flex no-border border-right item-title">手数</span>
+										<span class="item-flex no-border item-flex-4 item-between">
+											<span class="item-flex input-box border-right">
+												<input type="number" v-model="stopHandNum">
+											</span>
+											<span class="item-flex handNum-box item-flex-2 border-right">
+												止损委托价:
+											</span>
+											<span class="item-flex item-flex-1">
+													市价
+												<!-- <span class="option-box triangle">
+													<select>
+														<option value="0">市价</option>
+														<option value="1">限价</option>
+													</select>
+												</span> -->
+											</span>
+										</span>
+									</div>
+								</div>
+								<div class="layer-tab-item" v-show="layerTabIndex==1">
+									<!-- 止盈 -->
+									<div class="tab-item">
+										<span class="item-flex border-right item-title">合约</span>
+										<span class="item-flex item-flex-4">
+											<span class="item-flex item-flex-2 border-right">{{selectContractItem.CommodityNo}}{{selectContractItem.ContractNo}}</span>
+											<span class="item-flex item-flex-1 border-right">{{selectContractItem.Direction==0?'多':'空'}}</span>
+											<span class="item-flex item-flex-2">最新:<span>{{selectContractLastData[3]}}</span></span>
+										</span>
+									</div>
+									<div class="tab-item">
+										<span class="item-flex border-right item-title">止盈价</span>
+										<span class="item-flex item-flex-4">
+											<input class="option-box item-flex-2" type="number" @input="setStopProfitPrice" v-model="stopProfitPrice">
+											<span class="item-flex-3" style="text-align: left;">{{stopProfitRate.toFixed(2)}}%</span>
+										</span>
+									</div>
+									<div class="tab-item">
+										<span class="item-flex no-border border-right item-title">手数</span>
+										<span class="item-flex no-border item-flex-4 item-between">
+											<span class="item-flex input-box border-right">
+												<input type="number" v-model="stopHandNum">
+											</span>
+											<span class="item-flex handNum-box item-flex-2 border-right">
+												止损委托价:
+											</span>
+											<span class="item-flex item-flex-1">
+												<!-- <span class="option-box triangle"> -->
+													市价
+													<!-- <select v-model="stopLossType">
+														<option value="0">市价</option>
+														<option value="1">限价</option>
+													</select> -->
+												<!-- </span> -->
+											</span>
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="layer-btn">
+								<span class="border-right" @tap="layerInfoBtn(1)">取消</span>
+								<span @tap="layerInfoBtn(2)">确认</span>
+							</div>
+						</div>
+						<!-- 改单弹出框 -->
+						<div id="changeOrderLayer" class="layer-box">
+							<img @tap="closeLayer" class="close-icon" src="/PQ/static/img/layerClose.png">
+							<div class="layer-header">
+								填写改单信息
+							</div>
+							<div class="layer-content">
+								<div class="change-order-item">
+									<span>委托价格</span>
+									<input type="number" v-model="changeOrderPrice">
+								</div>
+								<div class="change-order-item">
+									<span>委托数量</span>
+									<input type="number" v-model="changeOrderNum">
+								</div>
+							</div>
+							<div class="layer-btn">
+								<span class="border-right" @tap="layerInfoBtn(1)">取消</span>
+								<span @tap="layerInfoBtn(2)">确认</span>
+							</div>
+						</div>
+						<!-- 领取红包弹出框 -->
+						<div id="redLayer" class="layer-box">
+							<img @tap="closeLayer" class="close-icon" src="/PQ/static/img/layerClose.png">
+							<div class="layer-header">
+								红包领取
+							</div>
+							<div class="layer-content">
+								<span>获得<span>{{faceValue}}</span>元{{couponName}}</span>
+								<span class="red-box">
+									<span class="circle circle1"></span>
+									<span class="circle circle2"></span>
+									<img class="line" src="/PQ/static/img/red-line.png">
+									<span class="red-content">￥<span class="red-price">{{faceValue}}</span></span>
+									<span class="red-content">({{couponName}})</span>
+								</span>
+							</div>
+							<div class="layer-btn">
+								<span class="border-right" @tap="goToPage('/PQ/pages/my/red/red.html')">查看已获得</span>
+								<span v-if="tradeType==0" @tap="switchTradeType(1)">去实盘交易</span>
+								<span v-if="tradeType==1" @tap="layerInfoBtn(1)">确定</span>
+							</div>
+						</div>
+			
+						<!-- 未登录交易的弹出框 -->
+						<div id="tradeLoginLayer3" class="layer-box">
+							<img @tap="closeLayer" class="close-icon" src="/PQ/static/img/layerClose.png">
+							<div class="layer-header">
+								系统提示
+							</div>
+							<div class="layer-content">
+								<span v-if="isLogin&&!isTradeLogin">交易连接出错，暂无法交易，请重启应用。</span>
+								<span v-if="isLogin&&!isTradeLogin">重启仍无法解决，请联系客服。</span>
+								<span v-if="!isLogin">暂无登录交易，请先登录交易账户。</span>
+							</div>
+							<div class="layer-btn">
+								<span v-if="isLogin&&!isTradeLogin" @tap="layerInfoBtn(1)">确认</span>
+								<span v-if="!isLogin" class="border-right" @tap="layerInfoBtn(1)">取消</span>
+								<span v-if="!isLogin" @tap="layerInfoBtn(2)">去登录>></span>
+							</div>
+						</div>
+						<!-- 自定义键盘 -->
+						<transition name="slide-up">
+							<div :class="['keyboard',keyboardType==1?'keyboard1':'keyboard2']" v-show="isShowKeyboard">
+								<div class="flex keyboard-info">
+									<span v-if="keyboardType==1">手数:{{handNum}}</span>
+									<span v-if="keyboardType==2">最小变动价为:{{chooseContract.mini_ticker_size}}</span>
+									<span @tap="closeKeyboard">
+										<img src="/PQ/static/img/quato/keyboard.png">
+									</span>
+								</div>
+								<div class="flex price-type" v-if="keyboardType==2">
+									<div @tap="chooseKeyboardNum('排队价')" class="price-type-item flex-1" :class="keyboardPriceType==1?'price-type-item-active':''">排队价</div>
+									<div @tap="chooseKeyboardNum('对手价')" class="price-type-item flex-1" :class="keyboardPriceType==2?'price-type-item-active':''">对手价</div>
+									<div @tap="chooseKeyboardNum('市价')" class="price-type-item flex-1" :class="keyboardPriceType==3?'price-type-item-active':''">市价</div>
+									<div @tap="chooseKeyboardNum('限价')" class="price-type-item flex-1" :class="keyboardPriceType==4?'price-type-item-active':''">限价</div>
+								</div>
+								<div class="flex keyboard-box">
+									<div class="flex-4 keyboard-box1">
+										<div class="flex">
+											<div @tap="chooseKeyboardNum(7)" class="keyboard-item flex-1">7</div>
+											<div @tap="chooseKeyboardNum(8)" class="keyboard-item flex-1">8</div>
+											<div @tap="chooseKeyboardNum(9)" class="keyboard-item flex-1">9</div>
+										</div>
+										<div class="flex">
+											<div @tap="chooseKeyboardNum(4)" class="keyboard-item flex-1">4</div>
+											<div @tap="chooseKeyboardNum(5)" class="keyboard-item flex-1">5</div>
+											<div @tap="chooseKeyboardNum(6)" class="keyboard-item flex-1">6</div>
+										</div>
+										<div class="flex">
+											<div @tap="chooseKeyboardNum(1)" class="keyboard-item flex-1">1</div>
+											<div @tap="chooseKeyboardNum(2)" class="keyboard-item flex-1">2</div>
+											<div @tap="chooseKeyboardNum(3)" class="keyboard-item flex-1">3</div>
+										</div>
+										<div class="flex">
+											<div @tap="chooseKeyboardNum('.')" v-if="keyboardType == 2" class="keyboard-item flex-1 keyboard-item-gray">.</div>
+											<div @tap="chooseKeyboardNum(0)" :class="['keyboard-item',keyboardType == 2?'flex-1':'flex-2']">0</div>
+											<div @tap="chooseKeyboardNum('back')" class="keyboard-item flex-1 keyboard-item-gray">
+												<img src="/PQ/static/img/quato/back.png">
+											</div>
+										</div>
+									</div>
+									<div class="flex-1 keyboard-box2">
+										<div class="keyboard-item high-height flex keyboard-item-gray" @tap="chooseKeyboardNum('加')">
+											<img src="/PQ/static/img/quato/add.png">
+										</div>
+										<div class="keyboard-item high-height flex keyboard-item-gray" @tap="chooseKeyboardNum('减')">
+											<img src="/PQ/static/img/quato/jian.png">
+										</div>
+									</div>
+								</div>
+							</div>
+						</transition>
+					</div>
+				</div>
+				<!-- off-canvas backdrop -->
+				<div class="mui-off-canvas-backdrop"></div>
+			</div>
+			<!-- 合约选择弹出框 -->
+			<div id="contractSelect" class="layer-box" v-cloak>
+				<div id="list" class="mui-indexed-list">
+					<div class="mui-indexed-list-search mui-input-row mui-search" style="display: none;">
+						<input type="search" class="mui-input-clear mui-indexed-list-search-input" placeholder="搜索机场">
+					</div>
+					<div class="mui-indexed-list-bar">
+						<a>A</a>
+						<a>B</a>
+						<a>C</a>
+						<a>D</a>
+						<a>E</a>
+						<a>F</a>
+						<a>G</a>
+						<a>H</a>
+						<a>I</a>
+						<a>J</a>
+						<a>K</a>
+						<a>L</a>
+						<a>M</a>
+						<a>N</a>
+						<a>O</a>
+						<a>P</a>
+						<a>Q</a>
+						<a>R</a>
+						<a>S</a>
+						<a>T</a>
+						<a>U</a>
+						<a>V</a>
+						<a>W</a>
+						<a>X</a>
+						<a>Y</a>
+						<a>Z</a>
+					</div>
+					<div class="mui-indexed-list-alert"></div>
+					<div class="mui-indexed-list-inner">
+						<div id="contractScroll" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+									<!-- <li :data-group="item.firstLetter" v-for="(item,index) in contractData" :key="index" class="contract-item">{{item.contractName}}</li> -->
+									<li v-for="(item,index) in contractData" :key="index">
+										<span :data-group="item.Title" class="contract-title">{{item.Title}}</span>
+										<span @tap="selectContractBtn(i)" v-for="(i,index2) in item.List" :key="index2" class="contract-item">{{i.contractName}}</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- jquery -->
+		<script src="/PQ/static/js/jquery-1.11.3.js"></script>
+		<!-- 压缩版vue -->
+		<!-- <script src="/PQ/static/js/vue.min.js"></script> -->
+		<!-- 开发版vue -->
+		<script src="/PQ/static/js/vue.js"></script>
+		<!-- 引入vux -->
+		<script src="/PQ/static/js/vuex.js"></script>
+		<!-- layui -->
+		<script src="/PQ/static/js/layui/layui.js"></script>
+		<!-- 引入axios -->
+		<script src="/PQ/static/js/axios.min.js"></script>
+		<!-- base64 -->
+		<script src="/PQ/static/js/base64.js"></script>
+		<script src="/PQ/static/js/mui.indexedlist.js"></script>
+		<!-- <script src="/PQ/WPJS/quatoDetailWP.js"></script> -->
+	<script type="text/javascript" src="/PQ/WPJS/quatoDetailWP.js?88fa20424cec03a75413"></script></body>
+</html>

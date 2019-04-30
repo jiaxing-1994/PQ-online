@@ -1,0 +1,146 @@
+@import '../../../css/common.scss';
+
+#history{
+	height: 100%;
+	background: $itemColor;
+	.history-content{
+		background: $itemColor;
+		.time-wrap{
+			padding: px2rem(30px);
+			.time-box{
+				background: $mainColor;
+				height: px2rem(120px);
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				.time-input-box{
+					flex: 1;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					height: 100%;
+					padding: px2rem(30px) 0 px2rem(30px) px2rem(30px);
+					span{
+						height: 100%;
+						background: $itemColor;
+						flex: 2;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						border-radius: px2rem(10px);
+						@include font-dpr(13px);
+						position: relative;
+					}
+					span::before{
+						content: '';
+						position: absolute;
+						bottom: 0;
+						right: 0;
+						border: solid px2rem(10px) rgba(0,0,0,0);
+						border-top-color: $fontGrayColor;
+						transform: rotate(-45deg);
+					}
+					img{
+						margin: 0 px2rem(10px);
+						width: px2rem(20px);
+						height: px2rem(20px);
+					}
+				}
+				.search-btn{
+					width: px2rem(100px);
+					height: 100%;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					img{
+						width: px2rem(40px);
+						height: px2rem(40px);
+					}
+				}
+			}
+		}
+		.tab{
+			background: $mainColor;
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+			height: px2rem(80px);
+			border-bottom: solid px2rem(1px) $itemColor;
+			span{
+				@include font-dpr(16px);
+				font-weight: bold;
+				color:$fontGrayColor;
+				height: 100%;
+				flex: 1;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			.tab-item-active{
+				color: $defaultFontColor;
+			}
+		}
+		.list-wrap{
+			height: calc(100% - #{px2rem(260px)});
+			position: relative;
+			.list-title{
+				color: $fontGrayColor;
+				@include font-dpr(13px);
+				.list-item{
+					height: px2rem(60px);
+					border-bottom: solid px2rem(1px) $itemColor;
+				}
+			}
+			
+			.list-box{
+				top: px2rem(60px);
+				height: calc(100% - #{px2rem(60px)});
+				.list-item{
+					display: flex;
+					align-items: center;
+					background: $mainColor;
+					height: px2rem(80px);
+					border-bottom: solid px2rem(1px) $itemColor;
+				}
+				.pull-box{
+					height: px2rem(60px);
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+			}
+			.list-scroll{
+				background: #fff;
+				.mui-scroll{
+					width: initial;
+					.list-item{
+						display: flex;
+						align-items: center;
+						background: $mainColor;
+						.history-name,.price{
+							display: flex;
+							flex-direction: column;
+						}
+						span{
+							display: inline-block;
+							width: px2rem(170px);
+							text-align: center;
+							white-space: nowrap;
+						}
+						.price{
+							width: px2rem(250px);    
+							align-items: center;
+						}
+						.time{
+							width: px2rem(260px);
+						}
+					}
+				}
+				.no-data{
+					text-align: center;
+					color:#9c9c9c;
+				}
+			}
+		}
+	}
+}

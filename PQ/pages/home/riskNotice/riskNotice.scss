@@ -1,0 +1,46 @@
+@import '../../../css/common.scss';
+
+#riskNotice{
+	height: 100%;
+	background: $mainColor;
+	#main{
+		position: relative;
+		.risk-content{
+			@include font-dpr(14px);
+			top: px2rem(80px);
+			width: 100%;
+			.mui-scroll{
+				padding: px2rem(60px) px2rem(30px);
+			}
+			.text-item{
+				display: flex;
+				flex-direction: column;
+				margin-bottom: px2rem(60px);
+				.text-title{
+					font-weight: bold;
+					margin-bottom: px2rem(30px);
+				}
+				.text-content{
+					display: flex;
+					flex-direction: column;
+					span{
+						margin-bottom: px2rem(40px);
+					}
+					span:last-child{
+						margin-bottom: 0;
+					}
+				}
+			}
+			.btn{
+				width: 100%;
+				height: px2rem(80px);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				@include font-dpr(18px);
+				color:$lightFontColor;
+				background: $activeColor;
+			}
+		}
+	}
+}

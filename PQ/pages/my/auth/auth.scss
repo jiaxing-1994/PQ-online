@@ -1,0 +1,45 @@
+@import "../../../css/common.scss";
+
+#auth {
+  .auth-content {
+    div {
+      width: 100%;
+      padding-left: px2rem(30px);
+      height: px2rem(100px);
+      line-height: px2rem(100px);
+      background-color: $mainColor;
+      display: flex;
+      border-bottom: px2rem(2px) solid $itemColor;
+
+      label {
+        color: $grayFontColor;
+        @include font-dpr(15px);
+
+        input {
+          color: $defaultFontColor;
+          @include font-dpr(15px);
+          padding-left: px2rem(30px) !important;
+        }
+      }
+
+      label:last-child{
+        flex: 1;
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    > label {
+      display: block;
+      margin: px2rem(30px);
+      height: px2rem(80px);
+      flex: 1;
+      line-height: px2rem(80px);
+      text-align: center;
+      color: $mainColor;
+      @include font-dpr(18px);
+      background-color: $activeColor;
+    }
+
+  }
+}

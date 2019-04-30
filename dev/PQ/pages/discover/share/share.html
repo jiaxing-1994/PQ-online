@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <title>分享赚钱</title>
+    <script src="/PQ/static/js/flexible.js"></script>
+    <script src="/PQ/static/js/mui.js"></script>
+    <link href="/PQ/static/css/mui.min.css" rel="stylesheet">
+    <link href="/PQ/static/js/layui/css/layui.css" rel="stylesheet">
+</head>
+<body class="layer-mask">
+<div id="share" class="header-content" v-cloak>
+    <header class="header-nav mui-bar mui-bar-nav">
+        <a class="header-right-icon mui-pull-left" @tap="back">
+            <img class="header-icon" src="/PQ/static/img/discover/back.png" alt="">
+        </a>
+        <h1 class="mui-title">
+            分享赚钱
+        </h1>
+        <a class="header-right-icon mui-pull-right" @tap="goPage('/PQ/pages/discover/sharem/share_method.html')">
+            <img class="header-icon" src="/PQ/static/img/help.png" alt="">
+        </a>
+    </header>
+
+    <div class="share-content">
+        <div class="mui-scroll-wrapper">
+            <div class="mui-scroll">
+                <div class="share-head">
+                    <img src="/PQ/static/img/trade/ad1.png" alt="">
+                    <span>{{mobile !=""?mobile.substr(0,3)+'****'+mobile.substr(7,11):''}}</span>
+                    <label>￥{{totalProfit ? totalProfit : 0}}</label>
+                </div>
+                <div class="share-detail">
+                    <div class="share-code">
+                        <label class="share-code-title">我要分享</label>
+                        <label>邀请码：<span>{{shareCode}}</span></label>
+                    </div>
+                    <div class="share-action">
+                        <label @tap="copyUrl">
+                            <img src="/PQ/static/img/discover/share_url.png" alt="">
+                            <span>复制链接</span>
+                        </label>
+                        <label @tap="openQRCode">
+                            <img src="/PQ/static/img/discover/share_code.png" alt="">
+                            <span>扫描二维码</span>
+                        </label>
+                        <label @tap="share">
+                            <img src="/PQ/static/img/discover/share_friends.png" alt="">
+                            <span>分享到微信</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="share-profit">
+                    <div class="share-profit-title">
+                        <span>分享收益(T+1结算)</span>
+                        <label @tap="goPage('/PQ/pages/discover/record/record.html')">
+                            <span>赚钱流水</span>
+                            <img src="/PQ/static/img/arrow-right.png" alt="">
+                        </label>
+                    </div>
+                    <div class="share-number">
+                        <p>
+                            <span>一级佣金</span>
+                            <label>{{firstLevelProfit ? firstLevelProfit : 0 }}</label>
+                        </p>
+                        <p>
+                            <span>二级佣金</span>
+                            <label>{{secLevelProfit ? secLevelProfit : 0}}</label>
+                        </p>
+                        <p>
+                            <span>一级注册</span>
+                            <label>{{firstLevelNum ? firstLevelNum : 0}}</label>
+                        </p>
+                        <p>
+                            <span>二级注册</span>
+                            <label>{{secLevelNum ? secLevelNum : 0}}</label>
+                        </p>
+                    </div>
+                </div>
+                <div class="share-rule">
+                    <p>规则举例：<br>
+                        您所推荐的用户在结算方案后，佣金会自动按照比例增加到
+                        您的账户余额中，算法：<br><br>
+                        A.您推荐的一级用户，产生交易手续费1000元，您的收益
+                        为：1000元*6%=60元；<br>
+                        B.您推荐的二级用户，产生交易手续费1000元，您的收益
+                        为：1000元*2%=20元；<br><br>
+                        *本活动禁止通过如自己推荐自己等进行恶意刷手续费返利，
+                        违规获得的奖励本平台将有权力不予发放或追回，同时有权
+                        限制账号的推荐功能。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="confirmOrderLayer" class="layer-box">
+        <img @tap="closeLayer" class="close-icon" src="/PQ/static/img/layerClose.png">
+        <div class="layer-header">二维码</div>
+        <div class="layer-content" style="border-bottom: none;margin-top: 20px">
+            <div id="qrcode"></div>
+        </div>
+    </div>
+<input :value="shareUrl" id="shareUrl" readonly="readonly">
+</div>
+
+<script src="/PQ/static/js/jquery-1.11.3.js"></script>
+<!-- 压缩版vue -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+<!-- 开发版vue -->
+<script src="/PQ/static/js/vue.js"></script>
+<!-- 引入vux -->
+<script src="/PQ/static/js/vuex.js"></script>
+<script src="/PQ/static/js/axios.min.js"></script>
+<script src="/PQ/static/js/layui/layui.js"></script>
+<script src="/PQ/static/js/qrcode.min.js"></script>
+<!-- <script src="/PQ/WPJS/shareWP.js"></script> -->
+<script type="text/javascript" src="/PQ/WPJS/shareWP.js?88fa20424cec03a75413"></script></body>
+</html>

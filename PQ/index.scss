@@ -1,0 +1,19 @@
+html,body{
+    height:100%;
+}
+
+#app{
+    height: 100%;
+    touch-action: none;
+    #slide{
+        height: 100%;
+        .mui-slider-group{
+            height: 100%;
+            .mui-slider-item{
+                img{
+                    height:100%;
+                }
+            }
+        }
+    }
+}

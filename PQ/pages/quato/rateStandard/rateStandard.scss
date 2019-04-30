@@ -1,0 +1,87 @@
+@import '../../../css/common.scss';
+#rate{
+	height: 100%;
+	background: $itemColor;
+	.rate-content{
+		.top-swicth{
+			background: $mainColor;
+			height: px2rem(80px);
+			padding: $padding;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			border-bottom: solid px2rem(1px) $itemColor;
+			.switch-title{
+				color: $defaultFontColor;
+				@include font-dpr(16px);
+			}
+			.switch-btn{
+				color: $fontGrayColor;
+				font-weight: bold;
+				@include font-dpr(14px);
+				height: 100%;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				width: px2rem(280px);
+				.switch-btn-active{
+					color: $defaultFontColor;
+				}
+			}
+		}
+		.price-wrap{
+			height: px2rem(100px);
+			padding: $padding;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			background: $mainColor;
+			.price-item{
+				flex: 1;
+				color: $fontGrayColor;
+				@include font-dpr(16px);
+			}
+			.input-wrap{
+				display: flex;    
+				align-items: center;
+				input{
+					flex: 1;
+					height: 100%;
+					color:$defaultFontColor;
+					@include font-dpr(16px);
+					text-align: right;
+				}
+				input::-webkit-input-placeholder{
+					@include font-dpr(14px);
+					color:$fontGrayColor;
+				}
+			}
+		}
+		.result-table{
+			@include font-dpr(13px);
+			border-top: solid px2rem(1px) $itemColor;
+			border-bottom: solid px2rem(1px) $itemColor;
+			.result-item{
+				color: $defaultFontColor;
+				display: flex;
+				height: px2rem(60px);
+				background: $mainColor;
+				span{
+					flex: 1;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+				span:first-child{
+					border-right: solid px2rem(1px) $itemColor;
+				}
+			}
+			.result-item:nth-child(even){
+				background: #fafafa;
+			}
+			.result-title{
+				color: $fontGrayColor;
+			}
+		}
+	}
+}

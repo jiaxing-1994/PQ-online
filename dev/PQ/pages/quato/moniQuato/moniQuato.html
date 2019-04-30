@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+		<title>行情</title>
+		<script src="/PQ/static/js/flexible.js"></script>
+		<script src="/PQ/static/js/mui.js"></script>
+		<link href="/PQ/static/css/mui.min.css" rel="stylesheet">
+		<link href="/PQ/static/js/layui/css/layui.css">
+	</head>
+	<body class="layer-mask">
+		<div id="quato" v-cloak>
+			<header class="header-nav mui-bar mui-bar-nav header-type-m">
+                <a class="header-right-icon mui-pull-left" @tap="backBtn">
+                    <img v-if="tradeType==0" class="header-icon" src="/PQ/static/img/arrow-left-white.png">
+                </a>
+				<h1 class="mui-title">
+					<span class="header-mark">
+						<span>模拟</span>
+					</span>
+					<span class="quato-header">
+						行情
+					</span>
+				</h1>
+				<a class="header-right-icon mui-pull-right" @tap="goToPage('/PQ/pages/quato/quato.html')">
+					<span>去实盘</span>
+				</a>
+			</header>
+			<div class="header-content">
+				<div class="top-tap">
+					<span @tap="switchQuatoType(1)" :class="['tap-item',quatoType==1?'tap-item-active':'']">国际期货</span>
+					<span @tap="switchQuatoType(2)" :class="['tap-item',quatoType==2?'tap-item-active':'']">国内期货</span>
+				</div>
+				<div class="quato-title">
+					<span class="flex-2">名称</span>
+					<span class="flex-1">
+						成交量
+					</span>
+					<span class="flex-1">最新价</span>
+					<span class="flex-1" @tap="switchRateBtn">
+						<span v-show="switchRate">涨跌幅</span>
+						<span v-show="!switchRate">涨跌额</span>
+						<i class="triangle-icon"></i>
+					</span>
+				</div>
+				<div class="quato-list" id="quatoList">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<div class="quato-item" v-for="(item,index) in quatoList" @tap="chooseQuato(item)">
+								<span class="flex-2 quato-info">
+									<span class="quato-info-contract">
+										<span class="quato-name">{{item.commodity_name}}</span>
+										<span class="quato-code">{{item.commodity_no}}{{item.main_contract_no}}</span>
+									</span>
+									<span v-if="!item.isOnTrade" class="quato-trade">休市中</span>
+								</span>
+								<span class="flex-1 quato-value" :class="item.isOnTrade?item.quatoData&&item.quatoData[3]>item.quatoData[10]?item.quatoData[3]==item.quatoData[10]?'':'colorUp':'colorDown':'notTrade'">{{item.quatoData?item.quatoData[3].toFixed(item.dotSize):'0'}}</span>
+								<span class="flex-1 quato-value" :class="item.isOnTrade?'':'notTrade'">{{item.quatoData?item.quatoData[6]:'0'}}</span>
+								<span class="flex-1 quato-value" :class="item.isOnTrade?item.quatoData&&item.quatoData[3]>item.quatoData[10]?item.quatoData[3]==item.quatoData[10]?'':'colorUp':'colorDown':'notTrade'">{{item.quatoData?switchRate?(item.quatoData[3]==0?'-':((item.quatoData[3]-item.quatoData[10])/item.quatoData[10]*100).toFixed(2)+'%'):(item.quatoData[3]==0?'-':(item.quatoData[3]-item.quatoData[10]).toFixed(item.dotSize)):'0'}}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- jquery -->
+		<script src="/PQ/static/js/jquery-1.11.3.js"></script>
+		<!-- 压缩版vue -->
+		<!-- <script src="/PQ/static/js/vue.min.js"></script> -->
+		<!-- 开发版vue -->
+		<script src="/PQ/static/js/vue.js"></script>
+		<!-- 引入vux -->
+		<script src="/PQ/static/js/vuex.js"></script>
+		<!-- layui -->
+		<script src="/PQ/static/js/layui/layui.js"></script>
+		<!-- 引入axios -->
+		<script src="/PQ/static/js/axios.min.js"></script>
+		<!-- <script src="/PQ/WPJS/quatoWP.js"></script> -->
+	<script type="text/javascript" src="/PQ/WPJS/moniQuatoWP.js?88fa20424cec03a75413"></script></body>
+</html>

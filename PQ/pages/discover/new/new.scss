@@ -1,0 +1,89 @@
+@import "../../../css/common.scss";
+
+#new {
+
+  .new-head {
+    height: px2rem(240px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: $mainColor;
+    background-color: $defaultFontColor;
+
+    img {
+      width: 100%;
+    }
+
+  }
+
+  .new-box {
+
+    .new-title {
+      padding: px2rem(30px);
+      background-color: $mainColor;
+      border-bottom: px2rem(2px) solid $itemColor;
+
+      span {
+        @include font-dpr(15px);
+        color: $defaultFontColor;
+        display: flex;
+        align-items: center;
+      }
+
+      span:before {
+        width: px2rem(6px);
+        height: px2rem(30px);
+        display: inline-block;
+        content: "";
+        margin-right: px2rem(10px);
+        background-color: $activeColor;
+      }
+
+    }
+
+    .new-item {
+      padding: px2rem(30px);
+      border-bottom: px2rem(2px) solid $itemColor;
+      display: flex;
+      align-content: center;
+      justify-content: space-between;
+      background-color: $mainColor;
+
+      div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+          width: px2rem(40px);
+          height: px2rem(40px);
+          margin-right: px2rem(10px);
+        }
+
+        span {
+          @include font-dpr(14px);
+          color: $defaultFontColor;
+        }
+      }
+
+      label {
+        float: right;
+        display: inline-block;
+        width: px2rem(120px);
+        height: px2rem(60px);
+        background: linear-gradient(#ffb369, #ff9791);
+        background-size: 100% 100%;
+        border-radius: px2rem(30px);
+        text-align: center;
+        line-height: px2rem(60px);
+        color: $mainColor;
+      }
+
+      label.not {
+        background-size: 100% 100%;
+        background: linear-gradient(#fd5c1f, #fe3024);
+      }
+    }
+  }
+}

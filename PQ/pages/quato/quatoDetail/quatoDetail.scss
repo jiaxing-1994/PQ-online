@@ -1,0 +1,1560 @@
+@import '../../../css/common.scss';
+.header-nav{
+	.contract-header{
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		.header-mark{
+			color: #fff;
+			background: #1873f2;
+			border-radius: px2rem(5px);
+			@include font-dpr(11px);
+			padding: px2rem(5px);
+			margin-right: px2rem(10px);
+			font-weight: bold;
+			// margin-top: px2rem(10px);
+		}
+		.contract-header-left{
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+			.header-left-item{
+				flex: 1;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				.title-name{
+					display: flex;
+					align-items: center;
+					height: 100%;
+					@include font-dpr(14px);
+					// margin-top: px2rem(10px);
+				}
+				.title-code{
+					display: flex;
+					align-items: center;
+					height: 100%;
+					@include font-dpr(14px);
+					position: relative;
+					// margin-top: px2rem(10px);
+				}
+			}
+			.trade-mark{
+				@include font-dpr(12px);
+			}
+		}
+		.contract-header-right{
+			margin-left: px2rem(10px);
+			.title-icon{
+				width: px2rem(20px);
+				height: px2rem(10px);
+			}
+		}
+	}
+}
+.header-type-m{
+	background: #363d5d;
+	.contract-header{
+		.header-mark{
+			background: #fff;
+			color:#363d5d;
+		}
+		.contract-header-left{
+			color: #979fc2;
+		}
+	}
+}
+#offCanvasSide{
+	background: $itemColor;
+	.menu-list{
+		.menu-item{
+			padding: 0 px2rem(30px);
+			background: $mainColor;
+			height: px2rem(100px);
+			display: flex;
+			align-items: center;
+			img{
+				width: px2rem(40px);
+				height: px2rem(40px);
+				margin-right: px2rem(23px);
+			}
+			.award{
+				@include font-dpr(13px);
+				span{
+					color:#ff5959;
+				}
+			}
+		}
+		.menu-item-margin{
+			margin-bottom: px2rem(20px);
+		}
+	}
+}
+#contractList{
+	z-index: 19891016;
+	border-radius: 0;
+	height: px2rem(600px);
+	background-color: $itemColor!important;
+	.mui-scroll-wrapper{
+		height: 100%;
+		margin: 0;
+	}
+	.popover-item{
+		@include font-dpr(14px);
+		background: $mainColor;
+		height: px2rem(80px);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: $defaultFontColor;
+		border-bottom:solid px2rem(1px) $itemColor;
+	}
+}
+#trade{
+	height: 100%;
+	background: $mainColor;
+	#trade-content{
+		.trade-tab{
+			display: flex;
+			justify-content: space-around;
+			align-items: stretch;
+			color:$grayFontColor;
+			height: px2rem(80px);
+			line-height: px2rem(80px);
+			background: $mainColor;
+			border-bottom: solid px2rem(1px) $itemColor;
+			@include font-dpr(16px);
+			position: relative;
+			.tab-active{
+				color:$defaultFontColor;
+				position: relative
+			}
+			.tab-active::before{
+				content: '';
+				width: px2rem(30px);
+				height: px2rem(6px);
+				background: $activeColor;
+				position: absolute;
+				bottom: 0;
+				left: 50%;
+				transform: translateX(-50%);
+			}
+			.trade-tab-item{
+				flex: 1;
+				text-align: center;
+				font-weight: bold;
+			}
+			.tab-position-order{
+				position: relative;
+			}
+			.tab-position-order-point{
+				position: absolute;
+				border-radius: 50px;
+				width: px2rem(12px);
+				height: px2rem(12px);
+				background: #ff4040;
+				top: px2rem(10px);
+				right: px2rem(10px);
+			}
+			.kline-option{
+				position: relative;
+				.triangle-icon{
+					position: absolute;
+					width: 0;
+					height: 0;
+					border: solid px2rem(10px) rgba(0,0,0,0);
+					border-bottom-color: $grayFontColor;
+					transform: rotate(135deg);
+					bottom: 0;
+					right: 0;
+				}
+			}
+			.kline-more{
+				position: absolute;
+				display: flex;
+				left: 50%;
+				bottom: 0;
+				transform: translateX(-50%);
+				width: 100%;
+				background: $mainColor;
+				color:$defaultFontColor;
+				opacity: 0;
+				z-index: -1;
+				transition: opacity .5s,bottom .5s;
+				border-bottom: solid px2rem(1px) $itemColor;
+				border-top: solid px2rem(1px) $itemColor;
+				span{
+					flex: 1;
+				}
+				.trade-tab-item{
+					font-weight: initial;
+					@include font-dpr(14px);
+					color: #999999;
+				}
+			}
+			.kline-more-active{
+				z-index: 99999;
+				bottom: px2rem(-80px);
+				opacity: 1;
+			}
+		}
+		.keyboard{
+			background: #fff;
+// 			position: absolute;
+// 			bottom: 0;
+			@include font-dpr(16px);
+			font-weight: bold;
+			width: 100%;
+			height: px2rem(500px);
+			.flex{
+				display: flex;
+			}
+			.flex-1{
+				flex: 1;
+			}
+			.flex-2{
+				flex: 2;
+			}
+			.flex-3{
+				flex: 3;
+			}
+			.flex-4{
+				flex: 4;
+			}
+			.keyboard-btn{
+				height: 100%;
+				width: px2rem(100px);
+				display: flex;
+				justify-content: flex-end;
+				align-items: center;
+			}
+			.keyboard-info{
+				height: px2rem(80px);
+				justify-content: space-between;
+				align-items: center;
+				padding: 0 px2rem(30px);
+				@include font-dpr(15px);
+				color:$fontGrayColor;
+				img{
+					width: px2rem(40px);
+					height: px2rem(40px);
+				}
+			}
+			.price-type{
+				height: px2rem(80px);
+				@include font-dpr(14px);
+				.price-type-item{
+					background: #bcbec4;
+					color:$defaultFontColor;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					border-right: solid px2rem(1px) $mainColor;
+				}
+				.price-type-item-active{
+					background: #ff7f00;
+					color:$lightFontColor;
+				}
+			}
+			.keyboard-box{
+				padding: px2rem(5px);
+				background: #d6d8dc;
+				.keyboard-item{
+					height: px2rem(80px);
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					border-bottom: solid px2rem(1px) #dfe4e6;
+					border-right: solid px2rem(1px) #dfe4e6;
+					box-sizing: content-box;
+					color: $defaultFontColor;
+					background: #fff;
+					border-radius: px2rem(10px);
+					border-bottom: solid px2rem(1px) #999c9f;
+					margin: px2rem(5px);
+					img{
+						width: px2rem(45px);
+						height: px2rem(30px);
+					}
+				}
+				.keyboard-item-gray{
+					background: #bcbec4;
+				}
+				.high-height{
+					height: px2rem(170px);
+					color:$lightFontColor;
+					justify-content: center;
+					align-items: center;
+					margin-bottom: px2rem(10px);
+					img{
+						width: px2rem(40px);
+						height: px2rem(40px);
+					}
+				}
+			}
+		}
+		.trade-area{
+			.trade-info-wrap{
+				background: $mainColor;
+				height: px2rem(100px);
+				border-top: solid px2rem(1px) $itemColor;
+				border-bottom: solid px2rem(1px) $itemColor;
+				display: flex;
+				justify-content: space-around;
+				color:$defaultFontColor;
+				.trade-info-side{
+					padding: 0 px2rem(10px);
+					.trade-info-item{
+						display: flex;
+						align-items: center;
+						justify-content: space-between;
+					}
+					.info-name{
+						color:$defaultFontColor;
+						padding-right: px2rem(20px);
+					}
+					.info-right{
+						flex: 1;
+						display: flex;
+						justify-content: flex-end;
+					}
+				}
+				.trade-info-left{
+					flex: 1.5;
+					border-right: solid px2rem(1px) $itemColor;
+					@include font-dpr(14px);
+					display: flex;
+					justify-content: center;
+					flex-direction: column;
+				}
+				.trade-info-right{
+					flex: 2;
+					display: flex;
+					align-items: center;
+					justify-content: flex-end;
+					.info-price{
+						@include font-dpr(30px);
+						font-weight: bold;
+						margin-right: px2rem(10px);
+					}
+					.info-rate{
+						display: flex;
+						flex-direction: column;
+						@include font-dpr(12px);
+					}
+				}
+			}
+			.rate-wrap{
+				height: px2rem(30px);
+				color: $lightFontColor;
+				@include font-dpr(11px);
+				display: flex;
+				.rate-item{
+					width: 50%;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					padding: 0 px2rem(10px);
+					min-width: 30%!important;
+				}
+				.rate-item-buy{
+					background: $colorUp;
+				}
+				.rate-item-sell{
+					background: $colorDown;
+				}
+			}
+			.trade-num-wrap{
+				background: $mainColor;
+				height: px2rem(100px);
+				border-bottom: solid px2rem(1px) $itemColor;
+				padding: px2rem(10px) px2rem(10px);
+				color:$defaultFontColor;
+				display: flex;
+				.trade-hand-num{
+					flex: 2;
+					background: $itemColor;
+					display: flex;
+					justify-content: center;
+					border: solid px2rem(1px) rgba(0,0,0,0);
+					.trade-num-item{
+						height: 100%;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+					}
+					.trade-num-content{
+						width: calc(100% - #{px2rem(120px)});
+						display: flex;
+						justify-content: space-between;
+						.content-a{
+							color: $fontGrayColor;
+							@include font-dpr(14px);
+						}
+						.content-b{
+							@include font-dpr(14px);
+						}
+					}
+					.trade-num-btn{
+						width: px2rem(60px);
+						img{
+							width:px2rem(20px);
+						}
+					}
+				}
+				.trade-price-num{
+					flex: 3;
+					background: $itemColor;
+					margin: 0 0 0 px2rem(10px);
+					display: flex;
+					border: solid px2rem(1px) rgba(0,0,0,0);
+					span{
+						color: $fontGrayColor;
+						@include font-dpr(14px);
+						flex: 35;
+						display: flex;
+						align-items: center;
+						justify-content: flex-end;
+					}
+					.price-input{
+						color: $defaultFontColor;
+						@include font-dpr(14px);
+						flex: 53;
+						display: flex;
+						align-items: center;
+						justify-content: flex-start;
+						padding-left: px2rem(10px)!important;
+					}
+				}
+				.trade-active{
+					border: solid px2rem(1px) #1873f2;
+					background: $lightFontColor;
+				}
+				.trade-type-btn{
+					flex:1;
+					background: $itemColor;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					position: relative;
+					color: $defaultFontColor;
+					@include font-dpr(14px);
+					.triangle-icon{
+						position: absolute;
+						width: 0;
+						height: 0;
+						border: solid px2rem(10px) rgba(0,0,0,0);
+						border-bottom-color: $fontGrayColor;
+						transform: rotate(135deg);
+						bottom: px2rem(-1px);
+						right: px2rem(-2px);
+					}
+					.trade-type-option{
+						position: absolute;
+						z-index: 99;
+						width: 100%;
+						background: $itemColor;
+						top: 100%;
+						span{
+							display: block;
+							height: px2rem(80px);
+							line-height: px2rem(80px);
+							text-align: center;
+							border-top: solid px2rem(1px) $mainColor;
+						}
+					}
+				}
+			}
+			.trade-btn-wrap{
+				background: $mainColor;
+				height: px2rem(120px);
+				display: flex;
+				justify-content: space-between;
+				@include font-dpr(14px);
+				color: $lightFontColor;
+				padding: px2rem(10px);
+				.trade-btn{
+					width: 50%;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					flex-direction: column;
+				}
+				.trade-btn-price{
+					border-bottom: solid px2rem(1px) $lightFontColor;
+				}
+				.trade-buy-btn{
+					background: $colorUp;
+					border: solid px2rem(2px) #ff6666;
+					margin-right: px2rem(5px);
+				}
+				.trade-sell-btn{
+					background: $colorDown;
+					border: solid px2rem(2px) #5ce6a1;
+					margin-left: px2rem(5px);
+				}
+			}
+		}
+		.chartPage{
+			height: calc(100% - #{px2rem(80px)});
+			.trade-area{
+				width: 100%;
+				position: absolute;
+				bottom: 0;
+			}
+			.keyboard1{
+				height: px2rem(450px);
+			}
+			.keyboard2{
+				height: px2rem(530px);
+			}
+			.slide-up-enter-active,.slide-up-leave-active{
+				transition: height .3s ease-in-out 0s;
+			}
+			.slide-up-enter,.slide-up-leave-active{
+				height: 0px;
+			}
+			.chart{
+				position: relative;
+				height: calc(100% - #{px2rem(100px)} - #{px2rem(30px)} - #{px2rem(100px)} - #{px2rem(120px)});
+				background: $mainColor;
+			}
+		}
+		.positionPage{
+			height: calc(100% - #{px2rem(80px)});
+			.trade-area{
+				width: 100%;
+				position: absolute;
+				bottom: 0;
+				z-index: 2;
+			}
+			.keyboard1{
+				height: px2rem(450px);
+			}
+			.keyboard2{
+				height: px2rem(530px);
+			}
+			.slide-up-enter-active,.slide-up-leave-active{
+				transition: height .3s ease-in-out 0s;
+			}
+			.slide-up-enter,.slide-up-leave-active{
+				height: 0px;
+			}
+			.tab-btn{
+				height: px2rem(80px);
+				padding: $padding;
+				display: flex;
+				align-items: center;
+				@include font-dpr(14px);
+				font-weight: bold;
+				color:$fontGrayColor;
+				border-bottom: solid px2rem(1px) $itemColor;
+				span{
+					margin-right: px2rem(30px);
+				}
+				.tab-btn-active{
+					color: $defaultFontColor;
+				}
+			}
+			.position-info{
+				height: calc(100% - #{px2rem(80px)} - #{px2rem(100px)} - #{px2rem(30px)} - #{px2rem(100px)} - #{px2rem(120px)});
+				background: $itemColor;
+				.position-info-item{
+					height: 100%;
+				}
+				.info-page-a{
+					position: relative;
+					@include font-dpr(12px);
+					height: 100%;
+					.detail-list-scroll{
+						height: 100%;
+					}
+					.mui-scroll{
+						display: flex;
+						background: $mainColor;
+					}
+					.info-side{
+						flex: 1;
+						ul{
+							padding: $padding;
+							li{
+								display: flex;
+								height: px2rem(55px);
+								justify-content: space-between;
+								align-items: center;
+								.info-side-item{
+									flex: 1;
+								}
+								.info-side-item:nth-child(2){
+									text-align: center;
+								}
+								.info-side-item:last-child{
+									text-align: right;
+								}
+								.info-title{
+									color: $fontGrayColor;
+								}
+								.buy-type{
+									background: $colorUp;
+									color:$lightFontColor;
+									@include font-dpr(9px);
+									padding: px2rem(4px);
+									border-radius: px2rem(4px);
+								}
+								.sell-type{
+									background: $colorDown;
+									color:$lightFontColor;
+									@include font-dpr(9px);
+									padding: px2rem(4px);
+									border-radius: px2rem(4px);
+								}
+							}
+						}
+					}
+					.info-side:first-child{
+						border-right: solid px2rem(1px) $itemColor;
+					}
+				}
+				.info-page-b{
+					.detail-list-scroll{
+						top: px2rem(320px);
+						height: calc(100% - #{px2rem(100px)} - #{px2rem(80px)} - #{px2rem(80px)} - #{px2rem(60px)} - #{px2rem(350px)});
+					}
+					.detail-item{
+						padding: $padding;
+						display: flex;
+						justify-content: space-between;
+						background: $mainColor;
+						height: px2rem(50px);
+						align-items: center;
+						border-bottom: solid px2rem(1px) $itemColor;
+						span{
+							flex:1;
+							text-align: center;
+						}
+						span:first-child{
+							text-align: left;
+						}
+						span:last-child{
+							text-align: right;
+						}
+					}
+					.detail-title{
+						height: px2rem(60px);
+						background: $mainColor;
+					}
+				}
+			}
+		}
+		.tradeCenterPage{
+			height: calc(100% - #{px2rem(80px)});
+			background: $itemColor;
+			.keyboard{
+				position: absolute;
+				bottom: 0;
+				width: 100%;
+				z-index: 10;
+				border-top: solid px2rem(1px) $itemColor;
+			}
+			.keyboard1{
+				height: px2rem(450px);
+			}
+			.keyboard2{
+				height: px2rem(530px);
+			}
+			.slide-up-enter-active,.slide-up-leave-active{
+				transition: height .3s ease-in-out 0s;
+			}
+			.slide-up-enter,.slide-up-leave-active{
+				height: 0px;
+			}
+			.total-info{
+				background: $mainColor;
+				height: px2rem(100px);
+				@include font-dpr(14px);
+				color:$defaultFontColor;
+				align-items: center;
+				display: flex;
+				.total-info-wrap{
+					width: 100%;
+					flex: 8.37;
+					display: flex;
+					justify-content: space-between;
+					padding-left: px2rem(10px);
+					align-items: center;
+					.total-info-box{
+						display: flex;
+						flex-direction: column;
+						.total-info-item{
+							border-right: solid px2rem(1px) $mainColor;
+							display: flex;
+							justify-content: space-between;
+							align-items: center;
+							.money-usd{
+								color: $fontGrayColor;
+								@include font-dpr(10px);
+								font-weight: 500;
+							}
+						}
+						.no-border{
+							border: none;
+						}
+						.total-info-title{
+							color:$grayFontColor;
+							@include font-dpr(12px);
+							margin-right: px2rem(10px);
+						}
+						.total-info-value{
+							@include font-dpr(12px);
+							font-weight: bold;
+						}
+					}
+				}
+				.arrow-icon{
+					flex: 1;
+					height: 100%;
+					position: relative;
+				}
+				.arrow-icon::before{
+					content:'';
+					position: absolute;
+					border: solid px2rem(10px) rgba(0,0,0,0);
+					border-top-color: $defaultFontColor;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%,-50%);
+				}
+			}
+			.layer2{
+				height: px2rem(150px);
+				background: $itemColor;
+				display: flex;
+				border-bottom: solid px2rem(1px) $mainColor;
+				.layer2-side{
+					flex: 1;
+					color: $defaultFontColor;
+				}
+				.layer2-left{
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					border-right: solid px2rem(1px) $mainColor;
+					.layer2-choose-btn{
+						height: px2rem(90px);
+						width: px2rem(320px);
+						background: $mainColor;
+						border: solid px2rem(1px) $mainColor;
+						border-radius: 5px;
+						display: flex;
+						justify-content: space-between;
+						align-items: center;
+						padding: 0 px2rem(30px);
+						.layer2-btn-left{
+							flex: 1;
+							display: flex;
+							flex-direction: column;
+							.layer2-btn-name{
+								white-space: nowrap;
+								@include font-dpr(16px);
+							}
+							.layer2-btn-code{
+								@include font-dpr(12px);
+							}
+						}
+						.layer2-btn-right{
+							flex: 1;
+							position: relative;
+							img{
+								position: absolute;
+								top:50%;
+								right: 0;
+								transform: translateY(-50%);
+								width: px2rem(34px);
+								height: px2rem(34px);
+							}
+						}
+					}
+				}
+				.layer2-right{
+					padding: px2rem(16px) 0;
+					.layer2-right-item{
+						padding: 0 px2rem(30px);
+						.info-title{
+							margin-right: px2rem(20px);
+							color:$grayColor;
+						}
+						.info-right{
+							float:right;
+						}
+					}
+				}
+			}
+			.layer3{
+				height: px2rem(100px);
+				padding: px2rem(10px) px2rem(30px);
+				background: $itemColor;
+				display: flex;
+				justify-content: space-between;
+				color: $defaultFontColor;
+				margin-bottom: px2rem(10px);
+				.layer3-left-box{
+					display: inline-block;
+					width: 80%;
+					height: 100%;
+					.trade-num-box{
+						width: 100%;
+						height: 100%;
+						background: #1b1b26;
+						display: flex;
+						align-items: center;
+						border: solid px2rem(1px) $mainColor;
+						border-radius: 5px;
+						.trade-num-item{
+							height: 100%;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+						}
+						.trade-num-content{
+							width:calc(100% - #{px2rem(100px)} - #{px2rem(100px)});
+							display: flex;
+							justify-content: space-between;
+							padding: 0 px2rem(30px);
+							.content-a{
+								color: $grayColor;
+								@include font-dpr(14px);
+							}
+							.content-b{
+								@include font-dpr(18px);
+							}
+							.content-c{
+								@include font-dpr(12px);
+							}
+						}
+						.trade-num-btn{
+							width: px2rem(100px);
+							img{
+								width:px2rem(20px);
+							}
+						}
+						.trade-num-btn:first-child{
+							border-right: solid px2rem(1px) #12121a;
+						}
+						.trade-num-btn:last-child{
+							border-left: solid px2rem(1px) #12121a;
+						}
+					}
+					.trade-num-box2{
+						display: flex;
+						justify-content: space-between;
+						height: 100%;
+						.trade-box2-item{
+							flex: 1;
+							border-radius: 5px;
+							background: #1b1b26;
+							display: flex;
+							align-items: center;
+							border: solid px2rem(1px) $mainColor;
+							padding: 0 px2rem(10px);
+							@include font-dpr(14px);
+							color: $grayColor;
+							margin-right: px2rem(20px);
+							span{
+								flex: 1;
+							}
+							input{
+								flex: 2;
+								color: $defaultFontColor;
+							}
+						}
+					}
+				}
+				.layer3-right-box{
+					width: 13%;
+					display: inline-block;
+					height: 100%;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					color: $activeColor;
+					background: #1b1b26;
+					border-radius: 5px;
+					border: solid px2rem(1px) $mainColor;
+					@include font-dpr(14px);
+					position: relative;
+					.triangle-icon{
+						position: absolute;
+						width: 0;
+						height: 0;
+						border: solid px2rem(10px) rgba(0,0,0,0);
+						border-bottom-color: $activeColor;
+						transform: rotate(135deg);
+						bottom: px2rem(-1px);
+						right: px2rem(-2px);
+					}
+				}
+			}
+			.layer4{
+				height: px2rem(120px);
+				padding: px2rem(10px) px2rem(30px);
+				display: flex;
+				justify-content: space-between;
+				background: $itemColor;
+				margin-bottom: px2rem(10px);
+				.layer4-btn{
+					height: 100%;
+					width: px2rem(300px);
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					align-items: center;
+					border-radius: 100px;
+					@include font-dpr(14px);
+					color:$defaultFontColor;
+					.border-bottom{
+						display: inline-block;
+						height: 1px;
+						width: px2rem(200px);
+						background: #fff;
+					}
+				}
+				.layer4-buy-btn{
+					background: $colorUp;
+					border: solid px2rem(2px) #ff6666;
+				}
+				.layer4-sell-btn{
+					background: $colorDown;
+					border: solid px2rem(2px) #5ce6a1;
+				}
+			}
+			.layer5{
+				margin-top: px2rem(20px);
+				height: px2rem(80px);
+				background: $mainColor;
+				display: flex;
+				align-items: stretch;
+				color:$fontGrayColor;
+				font-weight: bold;
+				@include font-dpr(14px);
+				border-bottom: solid px2rem(1px) $itemColor!important;
+				.mui-active{
+					color:$defaultFontColor!important;
+					background: none;
+				}
+				.wait-order{
+					position: relative;
+				}
+				.wait-order::before{
+					content:'';
+					position: absolute;
+					border-radius: 50px;
+					width: px2rem(12px);
+					height: px2rem(12px);
+					background: #ff4040;
+					top: px2rem(20px);
+					right: px2rem(50px);
+				}
+				a{
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					flex: 1;
+				}
+			}
+			.layer6{
+				height: calc(100% - #{px2rem(80px)} - #{px2rem(100px)} - #{px2rem(150px)} - #{px2rem(100px)} - #{px2rem(120px)} - #{px2rem(80px)} - #{px2rem(20px)});
+				.tab-item{
+					height: 100%;
+					.mui-scroll{
+						width: initial;
+						min-width: 100%;
+					}
+					.nav-tab{
+						height: px2rem(60px);
+						background: $mainColor;
+						color: $fontGrayColor;
+						@include font-dpr(14px);
+						display: flex;
+						align-items: center;
+						border-bottom: solid px2rem(1px) $itemColor;
+						.mui-scroll{
+							height: 100%;
+						}
+						span{
+							display: inline-block;
+							// min-width: px2rem(170px);
+							text-align: left;
+						}
+						.tab-item{
+							padding: $padding;
+							display: flex;
+							align-items: center;
+						}
+						.list-item{
+							padding: $padding;
+						}
+					}
+					.scroll-list{
+						top: px2rem(60px);
+						height: calc(100% - #{px2rem(60px)});
+						position: relative;
+						.mui-scroll{
+							background: $mainColor;
+						}
+						.list-item{
+							padding: $padding;
+							min-height: px2rem(80px);
+							background: $mainColor;
+							color: $defaultFontColor;
+							@include font-dpr(14px);
+							display: flex;
+							align-items: center;
+							border-bottom: solid px2rem(1px) $itemColor;
+							span{
+								display: inline-block;
+								// min-width: px2rem(170px);
+								// max-width: px2rem(170px);
+								text-align: left;
+								// white-space: nowrap;
+							}
+							span:last-child{
+							}
+						}
+						.option-item{
+							height: px2rem(80px);
+							background: $itemColor;
+							display: flex;
+							position: relative;
+							.option-wrap{
+								width: 100%;
+								height: 100%;
+								display: flex;
+								justify-content: center;
+								padding:px2rem(10px) px2rem(50px);
+								span{
+									display: flex;
+									justify-content: center;
+									align-items: center;
+									background: $mainColor;
+									height: 100%;
+									width: px2rem(130px);
+									border-radius: px2rem(10px);
+									margin:0 px2rem(5px);
+									
+								}
+							}
+						}
+						.select-item{
+							background: $orderSelectColor;
+						}
+					}
+					.scroll-list-small{
+						height: calc(100% - #{px2rem(60px)} - #{px2rem(80px)});
+					}
+				}
+				#tab1{
+					.tab-item1{
+						width: px2rem(197px);
+					}
+					.tab-item2{
+						width: px2rem(80px);
+					}
+					.tab-item3{
+						width: px2rem(80px);
+					}
+					.tab-item4{
+						min-width: px2rem(160px);
+						max-width: px2rem(190px);
+					}
+					.tab-item5{
+						min-width: px2rem(160px);
+						width: px2rem(278px);
+						display: flex;
+						flex-direction: column;
+						.rmb-price{
+							@include font-dpr(12px);
+						}
+					}
+				}
+				#tab2{
+					.tab-item1{
+						width: px2rem(197px);
+					}
+					.tab-item2{
+						width: px2rem(80px);
+					}
+					.tab-item3{
+						width: px2rem(190px);
+					}
+					.tab-item4{
+						width: px2rem(100px);
+					}
+					.tab-item5{
+						width: px2rem(100px);
+					}
+					.tab-item6{
+						width: px2rem(263px);
+						// @include font-dpr(12px);
+					}
+					.tab-item-time{
+						@include font-dpr(14px);
+					}
+				}
+				#tab3{
+					.tab-item1{
+						width: px2rem(197px);
+					}
+					.tab-item2{
+						width: px2rem(190px);
+					}
+					.tab-item3{
+						width: px2rem(80px);
+					}
+					.tab-item4{
+						width: px2rem(100px);
+					}
+					.tab-item5{
+						width: px2rem(100px);
+					}
+					.tab-item6{
+						width: px2rem(110px);
+					}
+					.tab-item7{
+						width: px2rem(100px);
+					}
+					.tab-item8{
+						width: px2rem(263px);
+						@include font-dpr(12px);
+					}
+					.tab-item-time{
+						@include font-dpr(14px);
+					}
+				}
+				#tab4{
+					.tab-item1{
+						width: px2rem(197px);
+					}
+					.tab-item2{
+						width: px2rem(80px);
+					}
+					.tab-item3{
+						width: px2rem(190px);
+					}
+					.tab-item4{
+						width: px2rem(100px);
+					}
+					.tab-item5{
+						width: px2rem(263px);
+						@include font-dpr(12px);
+					}
+					.tab-item-time{
+						@include font-dpr(14px);
+					}
+				}
+			}
+			.layer7{
+				height: px2rem(100px);
+				display: flex;
+				justify-content: center;
+				@include font-dpr(18px);
+				padding: px2rem(10px);
+				background: $mainColor;
+				.btn1{
+					width: 49%;
+					flex: 1;
+					background: $colorUp;
+					color: $lightFontColor;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					margin-right: px2rem(10px);
+					.btn-small{
+						@include font-dpr(14px);
+					}
+				}
+				.btn1-no{
+					background: #f2f2f2;
+					color: #999999;
+				}
+				.btn2{
+					width: 49%;
+					flex: 1;
+					background: $activeColor;
+					color: $lightFontColor;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					margin-left: px2rem(10px);
+				}
+			}
+		}
+	}
+}
+#capitalInfoLayer{
+	.layer-content{
+		height: calc(100% - #{px2rem(100px)});
+		flex-direction: column;
+		align-items: stretch;
+		justify-content: space-between;
+		padding: px2rem(30px);
+		.capital-item{
+			display: flex;
+			align-items: center;
+			flex-direction: column;
+			justify-content: flex-start;
+			.capital-item-box{
+				display: flex;
+				width: 100%;
+				justify-content: flex-start;
+				align-items: center;
+			}
+			.capital-item-icon{
+				height: px2rem(24px);
+				width: px2rem(24px);
+				margin-right: px2rem(10px);
+			}
+			.capital-item-title{
+				flex: 1;
+				display: flex;
+				justify-content: flex-start;
+				align-items: center;
+				color:$fontGrayColor;
+			}
+			.capital-item-value{
+				flex: 2;
+				display: flex;
+				// flex-direction: column;
+				align-items: center;
+				justify-content: flex-start;
+				color: $defaultFontColor;
+				.money-usd{
+					color:$fontGrayColor;
+					font-weight: 500;
+				}
+			}
+		}
+		.capital-type{
+			justify-content: flex-end;
+			align-items: center;
+			flex-direction: row;
+			@include font-dpr(12px);
+			span{
+				display: flex;
+			}
+			.radio-box{
+				display: block;
+				background: $lightFontColor;
+				border: solid px2rem(2px) $fontGrayColor;
+				width: px2rem(35px);
+				height: px2rem(35px);
+				margin-right: px2rem(10px);
+				margin-left: px2rem(10px);
+				border-radius: px2rem(10px);
+				position: relative;
+				img{
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%,-50%);
+					width: px2rem(18px);
+					height: px2rem(12px)
+				}
+			}
+			
+			.radio-box-active{
+				background: #1873f2;
+				border: none;
+			}
+		}
+	}
+}
+#balanceInfoLayer{
+	.layer-content{
+		flex-direction: column;
+		.layer-tips{
+			color:$fontGrayColor;
+			@include font-dpr(12px);
+		}
+	}
+}
+#changeOrderLayer{
+	.layer-content{
+		display: flex;
+		padding: px2rem(30px);
+		flex-direction: column;
+		justify-content:space-between;
+		.change-order-item{
+			background: $mainColor;
+			display: flex;
+			height: 45%;
+			align-items: center;
+			padding: 0 px2rem(20px);
+			border-radius: px2rem(10px);
+			span{
+				flex: 1;
+			}
+			input{
+				flex: 2;
+				padding:0 px2rem(30px) 0 0;
+				background: $itemColor!important;
+			}
+		}
+	}
+}
+#topPopover{
+	width: px2rem(160px);
+	.mui-scroll-wrapper{
+		overflow: inherit;
+		margin: 0;
+	}
+	.mui-popover-arrow:after{
+		background: $itemColor;
+	}
+	.hidden-menu-list{
+		border: solid px2rem(1px) $mainColor;
+		border-bottom: none;
+		background: $itemColor;
+		border-radius: 5px;
+		overflow: hidden;
+		@include font-dpr(14px);
+		.hidden-menu-item{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: px2rem(80px);
+			color: $defaultFontColor;
+			border-bottom: solid px2rem(1px) $mainColor;
+		}
+	}
+}
+
+#redLayer{
+	.layer-content{
+		flex-direction: column;
+		padding: $padding;
+		.red-box{
+			margin-top: px2rem(10px);
+			width: 100%;
+			height: px2rem(150px);
+			background: #ff4c5b;
+			border-radius: px2rem(20px);
+			box-shadow: inset 0px 20px 21px -13px #bb3a44;
+			position: relative;
+			overflow: hidden;
+			display: flex;
+			.red-content{
+				flex: 1;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				color: #fff;
+				@include font-dpr(13px);
+				.red-price{
+					@include font-dpr(30px);
+				}
+			}
+			.circle{
+				display: block;
+				width: px2rem(24px);
+				height: px2rem(24px);
+				background: #fff;
+				border-radius: 40px;
+				position: absolute;
+				left: 50%;
+				transform: translateX(-50%);
+			}
+			.circle1{
+				top: px2rem(-12px);
+			}
+			.circle2{
+				bottom: px2rem(-12px);
+			}
+			.line{
+				display: block;
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				height: 80%;
+				transform: translate(-50%,-50%);
+			}
+		}
+	}
+}
+#tradeLoginLayer2{
+	.layer-content{
+		flex-direction: column;
+		span{
+			line-height: 1;
+		}
+		span:last-child{
+			color: $fontGrayColor;
+			@include font-dpr(12px);
+		}
+	}
+}
+#stopProfitLossLayer{
+	.tab-item{
+		height: px2rem(80px)!important;
+		.item-flex{
+			padding: px2rem(5px) px2rem(10px);
+			.option-box{
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: px2rem(100px);
+				height: 90%;
+				background: $itemColor!important;
+				border-radius: 5px;
+				position: relative;
+				text-align: center;
+				margin-right: px2rem(10px)!important;
+				select{
+					background: inherit;
+					width: 100%;
+					text-align: center;
+					text-align-last: center;
+				}
+			}
+			.triangle{
+				position: relative;
+			}
+			.triangle::before{
+				content:'';
+				position: absolute;
+				bottom: 0;
+				right: 0;
+				border: solid px2rem(10px) rgba(0,0,0,0);
+				border-top-color: $fontGrayColor;
+				transform: rotate(-45deg);
+			}
+			.no-background{
+				background: none!important;
+			}
+			input{
+				@include font-dpr(14px);
+			}
+		}
+		.item-between{
+			justify-content: flex-start!important;
+		}
+	}
+}
+.no-margin{
+	margin: none!important;
+}
+.no-padding{
+	padding: 0;
+}
+.layer-box{
+	.layer-tabs{
+		display: block;
+		padding: 0 0;
+		height: calc(100% - #{px2rem(100px)});
+		.layer-header-tab{
+			color: $fontGrayColor;
+			height: px2rem(100px);
+			display: flex;
+			align-items: stretch;
+			border-bottom: solid px2rem(1px) $itemColor;
+			@include font-dpr(16px);
+			font-weight: bold;
+			span{
+				flex: 1;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+		}
+		.layer-header-tab-active{
+			color:$defaultFontColor;
+			position: relative;
+		}
+		.layer-header-tab-active::before{
+			content:'';
+			position: absolute;
+			bottom: px2rem(10px);
+			width: px2rem(35px);
+			height: px2rem(6px);
+			background: $activeColor;
+		}
+		.layer-tab-item{
+			height: calc(100% - #{px2rem(100px)});
+			.tab-item{
+				display: flex;
+				height: 33.3333333333%;
+				border-bottom: solid px2rem(1px) $itemColor;
+				.item-title{
+					width: px2rem(90px);
+					padding: 0!important;
+				}
+				.border-right{
+					border-right: solid px2rem(1px) $itemColor;
+				}
+				.item-flex{
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					height: 100%;
+				}
+				.input-box{
+					width: px2rem(200px);
+					height: 100%;
+					padding-right: 0!important;
+					padding-left: 0 !important;
+					border: none;
+					input{
+						border:none;
+						margin-right: 0!important;
+						width: 100%;
+						height: 100%;
+						background: $itemColor!important;
+						border-radius: 5px;
+						text-align: center;
+					}
+				}
+				.handNum-box{
+					margin-left: px2rem(10px);
+					border-left: solid px2rem(1px) $itemColor;
+				}
+				.no-border{
+					border-bottom:none;
+				}
+				.item-flex-right{
+					display: flex;
+					justify-content: space-around;
+				}
+				.item-flex-1{
+					flex: 1;
+				}
+				.item-flex-2{
+					flex: 2;
+				}
+				.item-flex-3{
+					flex:3;
+				}
+				.item-flex-4{
+					flex:4;
+				}
+				.item-flex-5{
+					flex: 5;
+				}
+				.input-wrap{
+					width: px2rem(150px);
+					height: 90%;
+					background: #1b1b26!important;
+					border-radius: 2.7174px;
+					border: px2rem(1px) solid #14151d!important;
+					margin: 0!important;
+					@include font-dpr(14px);
+					text-align: center; 
+					padding-top: 0;
+					padding-bottom: 0;
+				}
+				.margin-right{
+					margin-right:px2rem(20px)!important;
+				}
+			}
+		}
+	}
+}

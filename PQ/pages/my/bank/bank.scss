@@ -1,0 +1,135 @@
+@import "../../../css/common.scss";
+
+#bank {
+  .bank-content {
+    position: relative;
+    height: 100%;
+
+    .bank-head {
+      background-color: $mainColor;
+
+      > label {
+        height: px2rem(100px);
+        display: flex;
+        padding: 0 px2rem(30px);
+        align-items: center;
+        color: $defaultFontColor;
+        font-weight: bold;
+        @include font-dpr(15px);
+      }
+
+      > label:before {
+        display: inline-block;
+        content: "";
+        width: px2rem(6px);
+        height: px2rem(26px);
+        margin-right: px2rem(10px);
+        background-color: $activeColor;
+      }
+
+      .bank-list {
+        li {
+          width: 100%;
+          height: px2rem(120px);
+          padding: 0 px2rem(30px);
+          display: flex;
+          align-items: center;
+          border-top: px2rem(1px) solid $itemColor;
+
+          .bank-name {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            color: $defaultFontColor;
+            @include font-dpr(16px);
+            font-weight: bold;
+            letter-spacing: px2rem(2px);
+
+            .bank-number {
+              padding-top: px2rem(10px);
+              color: $fontGrayColor;
+              @include font-dpr(13px);
+            }
+          }
+
+          label {
+            width: px2rem(80px);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            img {
+              width: px2rem(40px);
+              height: px2rem(40px);
+            }
+          }
+        }
+      }
+    }
+
+    .bank-add {
+      background-color: $mainColor;
+      margin-top: px2rem(20px);
+
+      div {
+        position: relative;
+        width: 100%;
+        height: px2rem(100px);
+        padding: 0 px2rem(30px);
+        line-height: px2rem(100px);
+        border-bottom: px2rem(2px) solid $itemColor;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        label:first-child {
+          min-width: px2rem(160px);
+          color: $grayFontColor;
+          @include font-dpr(15px);
+        }
+
+        label:nth-child(2) {
+          flex: 1;
+          display: flex;
+          height: 100%;
+          align-items: center;
+
+          input {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            color: $defaultFontColor;
+            @include font-dpr(15px);
+            padding-left: px2rem(30px) !important;
+          }
+        }
+      }
+
+      div.select:after{
+        width: 0;
+        height: 0;
+        content: "";
+        bottom: px2rem(10px);
+        right: px2rem(10px);
+        border-width: px2rem(10px) px2rem(10px) 0 0;
+        border-style: solid;
+        border-color: transparent $fontGrayColor transparent transparent;
+        position: absolute;
+      }
+
+    }
+
+    .bank-add-btn {
+      margin: px2rem(20px) px2rem(30px);
+      flex: 1;
+      display: flex;
+      height: px2rem(80px);
+      align-items: center;
+      justify-content: center;
+      color: $mainColor;
+      background-color: $activeColor;
+      @include font-dpr(18px);
+    }
+  }
+}

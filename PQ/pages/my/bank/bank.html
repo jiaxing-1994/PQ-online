@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <title>绑定银行卡</title>
+    <script src="/PQ/static/js/flexible.js"></script>
+    <script src="/PQ/static/js/mui.js"></script>
+    <link href="/PQ/static/css/mui.min.css" rel="stylesheet"/>
+    <link href="/PQ/static/css/mui.picker.css" rel="stylesheet"/>
+    <link href="/PQ/static/css/mui.poppicker.css" rel="stylesheet"/>
+    <link href="/PQ/static/js/layui/css/layui.css" rel="stylesheet"/>
+</head>
+<body class="layer-mask">
+<div id="bank" class="header-content" v-cloak>
+    <header class="header-nav mui-bar mui-bar-nav">
+        <a class="header-right-icon mui-pull-left" @tap="back">
+            <img class="header-icon" src="/PQ/static/img/discover/back.png" alt=""/>
+        </a>
+        <h1 class="mui-title">
+            绑定银行卡
+        </h1>
+        <a class="header-right-icon mui-pull-right" @tap="showService">
+            <img class="header-icon" src="/PQ/static/img/custom.png" alt=""/>
+        </a>
+    </header>
+
+    <div class="bank-content">
+        <div class="mui-scroll-wrapper">
+            <div class="mui-scroll">
+                <div class="bank-head">
+                    <label>选择银行卡</label>
+                    <ul class="bank-list">
+                        <li v-for="(i,k) in bankList" :key="k">
+                           <span class="bank-name">
+                               {{i.bankName}}
+                               <span class="bank-number">
+                                   {{i.cardNum.substr(0,4)}}***********{{i.cardNum.substr(i.cardNum.length-4,i.cardNum.length)}}
+                               </span>
+                           </span>
+                            <label @tap="deleteBank(i,k)"><img src="/PQ/static/img/my/delete.png" alt=""></label>
+                            <label @tap="setDef(i,k)"><img
+                                    :src="i.defaulted == '020'?'/PQ/static/img/my/checked.png':'/PQ/static/img/my/check.png'"
+                                    alt=""></label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bank-add">
+                    <div>
+                        <label>开户姓名</label>
+                        <label>
+                            <input type="text" readonly v-model="form.realName">
+                        </label>
+                    </div>
+                    <div class="select">
+                        <label>开户银行</label>
+                        <label @tap="selectBank">
+                            <input readonly v-model="bankName">
+                        </label>
+                    </div>
+                    <div class="select">
+                        <label>开户所在省</label>
+                        <label @tap="selectProvince">
+                            <input readonly v-model="provinceName">
+                        </label>
+                    </div>
+                    <div class="select">
+                        <label>开户所在市</label>
+                        <label @tap="selectCity">
+                            <input readonly v-model="cityName">
+                        </label>
+                    </div>
+                    <div>
+                        <label>支行全称</label>
+                        <label>
+                            <input type="text" v-model="form.address">
+                        </label>
+                    </div>
+                    <div>
+                        <label>银行卡号</label>
+                        <label>
+                            <input type="number" v-model="form.cardNum">
+                        </label>
+                    </div>
+                </div>
+                <label class="bank-add-btn" @tap="addBank">添加银行卡</label>
+            </div>
+        </div>
+    </div>
+    <div id="wxLayer" class="layer-box">
+        <div class="layer-header">请任意选择一种添加微信</div>
+        <div class="layer-content">
+            <div class="wx-add">
+                <span class="title">1、扫描二维码</span>
+                <img :src="wxPic">
+                <span class="notice">*请截屏后在微信中扫描二维码</span>
+                <span class="title">2、复制微信号</span>
+                <input :value="wxUrl" id="wxUrl" readonly>
+                <label @tap="openWX" class="open-wx">复制并打开微信</label>
+            </div>
+        </div>
+        <div class="layer-btn">
+            <span @tap="hideWX">取消</span>
+        </div>
+    </div>
+    <div id="customLayer" class="layer-box">
+        <div @tap="customService(i)" class="custom-item" v-for="(i,k) in customContact">
+            <img :src="i.imgUrl"/>
+            <span>{{i.customerName}}</span>
+        </div>
+    </div>
+</div>
+<script src="/PQ/static/js/jquery-1.11.3.js"></script>
+<!-- 压缩版vue -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+<!-- 开发版vue -->
+<script src="/PQ/static/js/vue.js"></script>
+<!-- 引入vux -->
+<script src="/PQ/static/js/vuex.js"></script>
+<script src="/PQ/static/js/layui/layui.js"></script>
+<script src="/PQ/static/js/axios.min.js"></script>
+<script src="/PQ/static/js/mui.picker.js"></script>
+<script src="/PQ/static/js/mui.poppicker.js"></script>
+<!-- <script src="/PQ/WPJS/bankWP.js"></script> -->
+</body>
+</html>
